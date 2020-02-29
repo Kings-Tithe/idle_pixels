@@ -3,7 +3,7 @@ let config = {
     type: Phaser.AUTO,
     width: 720,
     height: 480,
-    scene: [BootScene,LoadingScene,HomeScreenScene,gameScene],
+    scene: [Boot,Loading,HomeScreen,MainGame],
     title: 'Idle Pixels',
     pixelArt: false,
     backgroundColor: 'ffffff'

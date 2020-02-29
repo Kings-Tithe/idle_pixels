@@ -1,0 +1,28 @@
+{
+  "name": "idle_pixels",
+  "version": "0.0.1",
+  "description": "A idle clicker in which you kill monsters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "browser-sync start -s -f . --no-notify --host $LOCAL_IP --port 9000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremyglebe/idle_pixels.git"
+  },
+  "keywords": [
+    "idle",
+    "heroes",
+    "clicker",
+    "fight",
+    "monsters",
+    "rpg",
+    "slay"
+  ],
+  "author": "Jeremy Glebe, Gracie Glebe, Zach Kingcade",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremyglebe/idle_pixels/issues"
+  },
+  "homepage": "https://github.com/jeremyglebe/idle_pixels#readme"
+}

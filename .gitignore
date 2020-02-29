@@ -1,0 +1,5 @@
+# Individual asset files, not in a sprite sheet
+assets/individuals/*
+
+# Typescript definitions for IntelliSense
+defs/*

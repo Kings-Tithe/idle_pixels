@@ -25,4 +25,9 @@ MainGame.create = function (){
         this.coins += 5;
         console.log("you coins are now: " + this.coins);
     },this)
+
+    $.getJSON("./js/json/monsters/Shark.json", (sharkfile) => {
+        console.log(sharkfile);
+    });
+
 }

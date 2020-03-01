@@ -47,9 +47,15 @@ MainGame.createUpgradeShop = function () {
     // Add the example item to the list
     list.appendChild(this.addUpgradeShopItem({
         key: "hero",
-        title: "Hero (that's you)",
-        description: "Make your clicks do more damage. Be the <b>Ultimate Hero</b>!</p>",
+        title: "  Hero (that's you)",
+        description: "Make your clicks do more damage. Be the <b>Ultimate Hero</b>!",
         image: "./assets/images/heroes/hero.png"
+    }));
+    list.appendChild(this.addUpgradeShopItem({
+        key: "wizard",
+        title: "  Wizard",
+        description: "Through a variety of powerful magic <b>hexes</b>, the Wizard can deal passive damage to foes!",
+        image: "./assets/images/heroes/wizard.png"
     }));
 
 }

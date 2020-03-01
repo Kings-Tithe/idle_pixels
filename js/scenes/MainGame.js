@@ -10,12 +10,13 @@ MainGame.preload = function (){
 
 MainGame.create = function (){
     //create background image
-    let bg = this.add.image(0,0,"bg-forest");
-    bg.setOrigin(0,0);
-    bg.setScale(.7,.7)
+    let bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'world-gothic')
+    let scaleX = this.cameras.main.width / bg.width
+    let scaleY = this.cameras.main.height / bg.height
+    let scale = Math.min(scaleX, scaleY)
+    bg.setScale(scale).setScrollFactor(0)
 
-
-    //add test ooze enemy
+    //add test shark enemy
     let shark = this.add.sprite(360,240,"shark", 0);
     shark.setInteractive();
     shark.setScale(.3,.3);

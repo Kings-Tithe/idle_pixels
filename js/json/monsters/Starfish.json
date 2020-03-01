@@ -1,5 +1,5 @@
 {
-    "Name": "Starfish",
-    "Health": "100",
-    "SpriteSheet": "./assets/images/enemies/Starfish.png"
+    "name": "Starfish",
+    "health": "100",
+    "spriteSheet": "./assets/images/enemies/Starfish.png"
 }

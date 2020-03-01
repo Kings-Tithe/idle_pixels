@@ -1,10 +1,11 @@
 {
     "name": "Gothic Castle",
     "background": "./assets/images/worlds/gothic.png",
-    "monsters": [
+    "monsters_path": [
         "./js/json/monsters/Bat.json",
         "./js/json/monsters/Witch.json",
         "./js/json/monsters/Skelly.json"
     ],
+    "monsters" : [],
     "boss": " "
 }

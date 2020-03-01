@@ -3,6 +3,7 @@ let MainGame = new Phaser.Scene('Game');
 
 MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
+    this.level = 0;
 }
 
 MainGame.preload = function () {
@@ -13,7 +14,7 @@ MainGame.create = function () {
     this.createUpgradeShop();
     this.toggleUpgradeShop();
     //create background image
-    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'world-gothic');
+    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, this.game.levels[this.level].name + "Background");
     bg.setScale(this.game.globals.scale_screen);
     // Create the first monster
     this.createMonster();
@@ -37,11 +38,12 @@ MainGame.create = function () {
 
 MainGame.createMonster = function () {
     //pick a random moster from our list
-    this.currentOriginal = this.game.Monsters[Math.trunc(Math.random() * this.game.Monsters.length)];
+    this.currentOriginal = this.game.levels[this.level].monsters[Math.trunc(Math.random() * this.game.levels[this.level].monsters.length)];
+    console.log(this.game.levels[this.level]);
     this.currentMonster = jQuery.extend(true, {}, this.currentOriginal);
-    console.log(Math.random() * this.game.Monsters.length);
+    console.log(Math.random() * this.game.levels[this.level].monsters.length);
     //add the sprite to the gamescreen
-    this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX, this.game.globals.centerY, this.currentMonster.Name, 1);
+    this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX, this.game.globals.centerY, this.currentMonster.name, 1);
     // set the sprite's origin to its center
     this.currentMonster.sprite.setOrigin(.5, .5);
     //set sprite scale
@@ -156,7 +158,7 @@ MainGame.updateHealthBar = function () {
         0xb84225,
     ]
     //health percentage
-    let percentage = this.currentMonster.Health / this.currentOriginal.Health;
+    let percentage = this.currentMonster.health / this.currentOriginal.health;
     //clear graghics of old health bar
     this.currentMonster.healthBar.clear();
     //redraw and change bar size/color
@@ -170,10 +172,10 @@ MainGame.updateCoinCounter = function () {
 
 MainGame.currentMonsterHit = function () {
     this.coins += 100;
-    this.currentMonster.Health -= 5;
+    this.currentMonster.health -= 5;
     this.updateHealthBar();
     this.updateCoinCounter();
-    if (this.currentMonster.Health <= 0) {
+    if (this.currentMonster.health <= 0) {
         this.killMonster();
         return;
     }

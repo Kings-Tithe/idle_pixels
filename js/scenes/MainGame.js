@@ -178,7 +178,7 @@ MainGame.introText = function () {
 
 MainGame.updateHealthBar = function () {
     //health percentage
-    let percentage = this.currentMonster.health / this.currentOriginal.health;
+    let percentage = this.currentMonster.health / this.currentMonster.maxHealth;
 
     // Ensures health bar value does not go below 0
     if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {

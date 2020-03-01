@@ -213,6 +213,8 @@ MainGame.updateHealthBar = function () {
         //redraw and change bar size/color
         this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
         this.currentMonster.healthBar.fillRect(250, 150, Math.trunc(percentage * 150), 30);
+    } else {
+        this.currentMonster.healthBar.clear();
     }
 }
 

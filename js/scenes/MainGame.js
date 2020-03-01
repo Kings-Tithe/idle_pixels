@@ -8,9 +8,6 @@ MainGame.init = function () {
     console.log("Loaded Level: ", this.level);
 }
 
-MainGame.preload = function () {
-}
-
 MainGame.create = function () {
     // Create shop menu
     this.createUpgradeShop();

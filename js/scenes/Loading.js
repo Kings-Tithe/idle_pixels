@@ -3,13 +3,12 @@ let Loading = new Phaser.Scene('Loading');
 
 // load asset files for our game
 Loading.preload = function () {
-    //load our assets for use in the game
-    //load in our testing image
-    this.load.image("bg-forest", "./assets/free-use/forest.png");
-    //load monsters sprites
+    // load monsters spritesheets
     for (monster of this.game.Monsters) {
         this.load.spritesheet(monster.Name, monster.SpriteSheet, { frameWidth: 32, frameHeight: 32 });
     }
+    // load test world
+    this.load.image("world-gothic","./assets/images/worlds/gothic.png");
 }
 
 Loading.create = function () {

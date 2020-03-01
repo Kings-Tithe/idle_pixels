@@ -1,20 +1,18 @@
 // create a new scene
 let MainGame = new Phaser.Scene('Game');
 
-MainGame.init = function(){
+MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
 }
 
-MainGame.preload = function (){
+MainGame.preload = function () {
 }
 
-MainGame.create = function (){
+MainGame.create = function () {
     //create background image
-    let bg = this.add.image(0,0,"bg-forest");
-    bg.setOrigin(0,0);
-    bg.setScale(.7,.7)
-
-
+    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'world-gothic');
+    bg.setScale(this.game.globals.scale_screen);
+    // Create the first monster
     this.createMonster();
 }
 
@@ -24,10 +22,12 @@ MainGame.createMonster = function(){
     this.currentMonster = jQuery.extend(true,{},ref);
     console.log(Math.random() * this.game.Monsters.length)
     //add the sprite to the gamescreen
-    this.currentMonster.sprite = this.add.sprite(360,240,this.currentMonster.Name,1);
+    this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX,this.game.globals.centerY,this.currentMonster.Name,1);
     console.log(this.currentMonster, ref);
+    // set the sprite's origin to its center
+    this.currentMonster.sprite.setOrigin(.5, .5);
     //set sprite scale
-    this.currentMonster.sprite.setScale(2,2);
+    this.currentMonster.sprite.setScale(this.game.globals.scale_monster);
     //set sprite to be interactive
     this.currentMonster.sprite.setInteractive();
     //set the actions to happen when the sprite is clicked on

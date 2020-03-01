@@ -1,10 +1,8 @@
 
 MainGame.createUpgradeShop = function () {
-    /** Get the shop panel 
-     * @type {HTMLElement} */
+    // Get the shop panel
     let shop = document.getElementById('upgrade-shop');
-    /** Get the shop content panel 
-     * @type {HTMLElement} */
+    // Get the shop content panel
     let shopContent = document.getElementById('ushop-content');
 
     // Creates the close button for the shop
@@ -44,6 +42,13 @@ MainGame.createUpgradeShop = function () {
         image: "./assets/images/heroes/wizard.png"
     }));
 
+    // Create an image in the game window to click to toggle menu
+    let shopIcon = this.add.image(.92 * this.game.globals.width, .93 * this.game.globals.height, 'shop');
+    shopIcon.setScale(this.game.globals.scale_ui);
+    shopIcon.setInteractive();
+    shopIcon.on("pointerdown", function () {
+        this.toggleUpgradeShop();
+    }, this);
 }
 
 MainGame.toggleUpgradeShop = function () {

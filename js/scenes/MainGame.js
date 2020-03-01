@@ -22,11 +22,6 @@ MainGame.init = function (level_data) {
 }
 
 MainGame.create = function () {
-    // Create shop menu (but only once!)
-    if (this.stageNum == 1) {
-        this.createUpgradeShop();
-        this.toggleUpgradeShop();
-    }
     //create background image
     let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'bg_' + this.level.key);
     bg.setScale(this.game.globals.scale_screen);
@@ -39,6 +34,11 @@ MainGame.create = function () {
     this.createCoinCounter();
     //splash text
     MainGame.introText();
+    // Create shop menu (but only once!)
+    if (this.stageNum == 1) {
+        this.createUpgradeShop();
+        this.toggleUpgradeShop();
+    }
 }
 
 //----------------------------------------Additional Functions----------------------------------------

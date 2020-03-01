@@ -50,6 +50,8 @@ MainGame.createMonster = function () {
     this.currentMonster.sprite.setInteractive();
     //set tween for getting hit
     this.addTweens();
+    //start idle animation
+    this.currentMonster.sprite.play(this.currentMonster.Name + "Idle");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
 
@@ -65,7 +67,7 @@ MainGame.createHealthBar = function () {
     //create health bar
     this.currentMonster.healthBar = this.add.graphics();
     this.currentMonster.healthBar.fillStyle(0x32a848, 1);
-    this.currentMonster.healthBar.fillRect(250, 160, 150, 30);
+    this.currentMonster.healthBar.fillRect(250, 130, 150, 30);
 }
 
 MainGame.createCoinCounter = function () {
@@ -85,12 +87,12 @@ MainGame.addTweens = function () {
     this.currentMonster.sprite.hitAngle = -45;
     this.currentMonster.sprite.hitTween = this.tweens.add({
         targets: this.currentMonster.sprite,
-        scaleY: this.currentMonster.sprite.scaleY * 1.75,
-        angle: { value: () => { return this.currentMonster.sprite.hitAngle; } },
+
+        scaleY: this.currentMonster.sprite.scaleY * 1.5,
+        angle: {value: () => { return this.currentMonster.sprite.hitAngle; }},
         duration: 100,
         paused: true,
         yoyo: true,
-        num: 0,
         ease: 'Quad.easeInOut',
         callbackScope: this,
         onUpdate: function (tween) {
@@ -104,7 +106,25 @@ MainGame.addTweens = function () {
             this.currentMonster.sprite.clearTint();
         }
     });
+
     //tween for taking damage END----------
+    this.currentMonster.sprite.dieTween = this.tweens.add({
+        targets: this.currentMonster.sprite,
+        scaleY: 0,
+        scaleX: 0,
+        angle: 1440,
+        duration: 1100,
+        paused: true,
+        yoyo: false,
+        ease: 'Quad.easeInOut',
+        callbackScope: this,
+        onComplete: function (tween) {
+            this.currentMonster.sprite.destroy();
+            this.createMonster();
+        }
+    });
+    //tween for dying
+
 }
 
 
@@ -136,7 +156,7 @@ MainGame.updateHealthBar = function () {
     this.currentMonster.healthBar.clear();
     //redraw and change bar size/color
     this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-    this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
+    this.currentMonster.healthBar.fillRect(250, 130, Math.trunc(percentage * 150), 30);
 }
 
 MainGame.updateCoinCounter = function () {
@@ -176,7 +196,7 @@ MainGame.playHitTween = function () {
 
 
 MainGame.killMonster = function () {
-    this.currentMonster.sprite.destroy();
-    this.createMonster();
+    //plays an animation then destroy the old sprite and creates a new enenmy
+    this.currentMonster.sprite.dieTween.play();
 }
 

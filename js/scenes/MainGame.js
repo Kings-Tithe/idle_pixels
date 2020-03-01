@@ -50,6 +50,8 @@ MainGame.createMonster = function () {
     this.currentMonster.sprite.setInteractive();
     //set tween for getting hit
     this.addTweens();
+    //start idle animation
+    this.currentMonster.sprite.play(this.currentMonster.Name + "Idle");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
 

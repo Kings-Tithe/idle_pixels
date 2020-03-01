@@ -34,6 +34,14 @@ Loading.create = function () {
         repeat: -1
     });
 
+    for(monster of this.game.Monsters){
+        this.anims.create({
+        key: monster.Name + "Idle",
+        frames: this.anims.generateFrameNames(monster.Name, {frames: [0, 1]}),
+        frameRate: 2,
+        repeat: -1})
+    }
+
     //go onto the homescreen scene
     this.scene.start("Home");
 }

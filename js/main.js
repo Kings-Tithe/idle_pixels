@@ -5,7 +5,7 @@ let config = {
     height: 480,
     scene: [Boot,Loading,HomeScreen,MainGame],
     title: 'Idle Pixels',
-    pixelArt: false,
+    pixelArt: true,
     backgroundColor: 'ffffff'
   };
   

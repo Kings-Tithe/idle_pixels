@@ -22,7 +22,7 @@ MainGame.createMonster = function(){
     //pick a random moster from our list
     let ref = this.game.Monsters[Math. trunc(Math.random() * this.game.Monsters.length)];
     this.currentMonster = jQuery.extend(true,{},ref);
-    console.log(Math.random() * this.game.Monsters.length)
+    console.log(Math.random() * this.game.Monsters.length);
     //add the sprite to the gamescreen
     this.currentMonster.sprite = this.add.sprite(360,240,this.currentMonster.Name,1);
     console.log(this.currentMonster, ref);
@@ -30,6 +30,10 @@ MainGame.createMonster = function(){
     this.currentMonster.sprite.setScale(2,2);
     //set sprite to be interactive
     this.currentMonster.sprite.setInteractive();
+    //create health bar
+    this.currentMonster.healthBar = this.add.graphics();
+    this.currentMonster.healthBar.fillStyle(0x32a848, 1);
+    this.currentMonster.healthBar.fillRect(300, 160, 100, 20);
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown",function (){
         this.coins += 5;

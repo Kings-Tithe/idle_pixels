@@ -1,0 +1,94 @@
+#upgrade-shop {
+    visibility: hidden;
+    position: absolute;
+    padding: 1%;
+    top: 10%;
+    bottom: 10%;
+    left: 15%;
+    right: 15%;
+    background-color: burlywood;
+    background-image: url(../free-use/PaperUIKit/SettingsBackground.png);
+    background-size: 98%;
+    background-repeat: no-repeat;
+    background-position: top left;
+    z-index: 1000;
+    overflow-y: scroll;
+    box-shadow: -1px 2px 15px -1px #000;
+}
+
+#ushop-content h3 {
+    display: inline;
+}
+
+#ushop-content ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+#ushop-content li {
+    background-color: rgba(222, 184, 135, 0.5);
+    border-radius: 10px;
+    margin-bottom: 0px;
+}
+
+#ushop-content li:nth-child(odd) {
+    background-color: rgba(245, 222, 179, 0.5);
+}
+
+#ushop-content p {
+    text-align: left;
+}
+
+#ushop-content p img {
+    float: left;
+    width: 60px;
+    height: auto;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+}
+
+#ushop-content ul button {
+    background-color: #2ecc71;
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 15px 15px;
+}
+
+.close {
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    overflow: hidden;
+    right: 0%;
+    top: 0%;
+}
+
+.close img {
+    position: absolute;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    -ms-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.close button {
+    font-size: larger;
+    font-weight: bolder;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    -ms-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+}

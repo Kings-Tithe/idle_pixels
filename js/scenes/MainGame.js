@@ -5,7 +5,6 @@ MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
     // Pick a random level
     this.level = this.game.levelList[randInt(0, this.game.levelList.length)];
-    console.log("Loaded Level: ", this.level);
 }
 
 MainGame.preload = function () {
@@ -25,6 +24,8 @@ MainGame.create = function () {
     this.coin.play("coinSpin");
     //create the coin counter
     this.createCoinCounter();
+    //splash text
+    MainGame.introText();
 }
 
 //----------------------------------------Additional Functions----------------------------------------
@@ -136,6 +137,22 @@ MainGame.addTweens = function () {
     });
     //tween for dying END----------
 
+}
+
+MainGame.introText = function(){
+    this.splashText = this.add.text(330,200,"Welcome to " + this.level.name + "!",
+    { font: "50px Arial", fill: "#5bf2fc"});
+    this.splashText.setOrigin(.5,.5)
+    this.splashText.setScale(0);
+    this.splashText.splashIntroText  = this.tweens.add({
+        targets : this.splashText,
+        scaleX: 1,
+        scaleY: 1,
+        duration : 500,
+        yoyo : true,
+        hold : 3000,
+        repeat : 0,
+      });
 }
 
 

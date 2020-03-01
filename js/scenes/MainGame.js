@@ -295,7 +295,7 @@ MainGame.passiveActions = function () {
     // Deal the wizard's damage
     this.currentMonster.health -= (this.upgrades.wizard.lvl) * 1;
     this.updateHealthBar();
-    if (this.currentMonster.health <= 0) {
+    if (this.currentMonster.health <= 0 && !this.currentMonster.sprite.dieTween.isPlaying()) {
         this.killMonster();
         return;
     }

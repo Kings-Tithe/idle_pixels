@@ -18,32 +18,61 @@ MainGame.create = function () {
 
 MainGame.createMonster = function(){
     //pick a random moster from our list
-    let ref = this.game.Monsters[Math. trunc(Math.random() * this.game.Monsters.length)];
-    this.currentMonster = jQuery.extend(true,{},ref);
+    this.currentOriginal = this.game.Monsters[Math.trunc(Math.random() * this.game.Monsters.length)];
+    this.currentMonster = jQuery.extend(true,{},this.currentOriginal);
     console.log(Math.random() * this.game.Monsters.length);
     //add the sprite to the gamescreen
     this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX,this.game.globals.centerY,this.currentMonster.Name,1);
-    console.log(this.currentMonster, ref);
     // set the sprite's origin to its center
     this.currentMonster.sprite.setOrigin(.5, .5);
     //set sprite scale
     this.currentMonster.sprite.setScale(this.game.globals.scale_monster);
     //set sprite to be interactive
     this.currentMonster.sprite.setInteractive();
-    //create health bar
-    this.currentMonster.healthBar = this.add.graphics();
-    this.currentMonster.healthBar.fillStyle(0x32a848, 1);
-    this.currentMonster.healthBar.fillRect(300, 160, 100, 20);
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown",function (){
         this.coins += 5;
         this.currentMonster.Health -= 5;
+        this.updateHealthBar();
         console.log("you coins are now: " + this.coins, this.currentMonster.Health);
         if (this.currentMonster.Health <= 0){this.killMonster();}
     },this)
+
+    //create monster's health bar
+    this.createHealthBar();
 }
 
 MainGame.killMonster = function(){
     this.currentMonster.sprite.destroy();
     this.createMonster();
+}
+
+MainGame.createHealthBar = function(){
+    //create health bar
+    this.currentMonster.healthBar = this.add.graphics();
+    this.currentMonster.healthBar.fillStyle(0x32a848, 1);
+    this.currentMonster.healthBar.fillRect(250, 160, 150, 30);
+}
+
+MainGame.updateHealthBar = function(){
+    //health bar color codes
+    colors = [
+        0x42f598 ,
+        0x42f578 ,
+        0x42f54b ,
+        0x69f542 ,
+        0xb8a425 ,
+        0xb88c25 ,
+        0xb87625 ,
+        0xb86a25 ,
+        0xb85625 ,
+        0xb84225 ,
+    ]
+    //health percentage
+    let percentage = this.currentMonster.Health / this.currentOriginal.Health;
+    //clear graghics of old health bar
+    this.currentMonster.healthBar.clear();
+    //redraw and change bar size/color
+    this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
+    this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
 }

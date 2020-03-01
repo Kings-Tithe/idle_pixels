@@ -14,7 +14,14 @@ MainGame.create = function () {
     bg.setScale(this.game.globals.scale_screen);
     // Create the first monster
     this.createMonster();
+    //add spinning coin
+    this.coin = this.add.sprite(35, 50, "gold1").setScale(.1,.1)
+    this.coin.play("coinSpin");
+    //create the coin counter
+    this.createCoinCounter();
 }
+
+//----------------------------------------Additional Functions----------------------------------------
 
 MainGame.createMonster = function(){
     //pick a random moster from our list
@@ -31,10 +38,10 @@ MainGame.createMonster = function(){
     this.currentMonster.sprite.setInteractive();
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown",function (){
-        this.coins += 5;
+        this.coins += 100;
         this.currentMonster.Health -= 5;
         this.updateHealthBar();
-        console.log("you coins are now: " + this.coins, this.currentMonster.Health);
+        this.updateCoinCounter();
         if (this.currentMonster.Health <= 0){this.killMonster();}
     },this)
 
@@ -75,4 +82,20 @@ MainGame.updateHealthBar = function(){
     //redraw and change bar size/color
     this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
     this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
+}
+
+MainGame.createCoinCounter = function(){
+    //create string object and style it
+    this.coinText = this.add.text(75,0, "0",{
+        font: "100px Ariel", 
+        fill: '#ffed70'
+    });
+    this.coinText.align = "right";
+    this.coinText.fontWeight = 'bold';
+    //for gold outline "#FFDF00"
+    this.coinText.setStroke("#a69a47", 8);
+}
+
+MainGame.updateCoinCounter = function(){
+    this.coinText.setText(this.coins.toLocaleString());
 }

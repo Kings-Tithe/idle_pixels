@@ -7,10 +7,10 @@
     left: 15%;
     right: 15%;
     background-color: burlywood;
-    background-image: url(../free-use/PaperUIKit/SettingsBackground.png);
-    background-size: 98%;
-    background-repeat: no-repeat;
-    background-position: top left;
+    /* background-image: url(../free-use/PaperUIKit/SettingsBackground.png); */
+    /* background-size: 99%; */
+    /* background-repeat: no-repeat; */
+    /* background-position: top left; */
     z-index: 1000;
     overflow-y: scroll;
     box-shadow: -1px 2px 15px -1px #000;
@@ -26,35 +26,45 @@
 }
 
 #ushop-content li {
-    background-color: rgba(222, 184, 135, 0.5);
+    background-color: #b19a69;
     border-radius: 10px;
-    margin-bottom: 0px;
 }
 
 #ushop-content li:nth-child(odd) {
-    background-color: rgba(245, 222, 179, 0.5);
+    background-color: wheat;
 }
 
 #ushop-content p {
     text-align: left;
 }
 
-#ushop-content p img {
-    float: left;
-    width: 60px;
+#ushop-content img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 10%;
     height: auto;
     padding-left: 1%;
     padding-right: 1%;
     padding-bottom: 1%;
 }
 
+#ushop-content div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60%;
+    margin-left: 3%;
+}
+
 #ushop-content ul button {
+    display: inline-block;
+    vertical-align: middle;
     background-color: #2ecc71;
     color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid black;
     font-size: 1em;
     font-weight: bold;
-    padding: 15px 15px;
+    padding: 3% 3%;
+    margin: 2%;
 }
 
 .close {

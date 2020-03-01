@@ -2,7 +2,6 @@
 let MainGame = new Phaser.Scene('Game');
 
 
-
 MainGame.init = function (level_data) {
     console.log("Passed in level data: ", level_data);
     // Tracks how many levels we've gone through
@@ -15,14 +14,13 @@ MainGame.init = function (level_data) {
         this.level_index = randInt(0, this.game.levelList.length);
     this.level = this.game.levelList[this.level_index];
     console.log("Loaded Level: ", this.level);
+    // The upgrades which the user has earned
+    this.upgrades = level_data.upgrades;
     // Tracks number of enemies slain this level
     this.slain = 0;
 }
 
 MainGame.create = function () {
-    // Create shop menu
-    this.createUpgradeShop();
-    this.toggleUpgradeShop();
     //create background image
     let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'bg_' + this.level.key);
     bg.setScale(this.game.globals.scale_screen);
@@ -38,6 +36,22 @@ MainGame.create = function () {
     this.createCoinCounter();
     //splash text
     MainGame.introText();
+    // Create shop menu (but only once!)
+    if (this.stageNum == 1) {
+        this.createUpgradeShop();
+    }
+    // Create an image in the game window to click to toggle menu
+    let shopIcon = this.add.image(.92 * this.game.globals.width, .93 * this.game.globals.height, 'shop');
+    shopIcon.setScale(this.game.globals.scale_ui);
+    shopIcon.setInteractive();
+    shopIcon.on("pointerdown", function () {
+        this.toggleUpgradeShop();
+    }, this);
+    let that = this;
+    // Execute the passive actions of any heroes!
+    setInterval(function () {
+        that.passiveActions();
+    }, 1000);
 }
 
 //----------------------------------------Additional Functions----------------------------------------
@@ -54,10 +68,12 @@ MainGame.create = function () {
 MainGame.createMonster = function () {
     // Pick a random moster from our list (not the last one b/c its the boss)
     let monsterKey = this.level.monsters[randInt(0, this.level.monsters.length - 1)];
-    this.currentOriginal = this.game.monsters[monsterKey];
-
+    let original = this.game.monsters[monsterKey];
     // Make a true copy of the monster from the list for the battle
-    this.currentMonster = jQuery.extend(true, {}, this.currentOriginal);
+    this.currentMonster = jQuery.extend(true, {}, original);
+    // Update the monster's health based on the stage number
+    this.currentMonster.maxHealth = Math.ceil((original.health * this.stageNum) + ((this.stageNum - 1) * 10))
+    this.currentMonster.health = this.currentMonster.maxHealth;
     console.log("Current Monster: ", this.currentMonster);
 
     //add the sprite to the gamescreen
@@ -93,7 +109,7 @@ MainGame.createHealthBar = function () {
 
 MainGame.createCoinCounter = function () {
     //create string object and style it
-    this.coinText = this.add.text(75, 0, "0", {
+    this.coinText = this.add.text(75, 0, this.coins, {
         font: "100px Ariel",
         fill: '#ffed70'
     });
@@ -144,41 +160,26 @@ MainGame.addTweens = function () {
         callbackScope: this,
         onActive: function () {
         },
-        onComplete: function (tween) {
-            this.currentMonster.sprite.destroy();
-            // Check if the final monster has been killed
-            if (this.slain >= 10) {
-                // Change levels
-                this.backgroundMusic.stop();
-                this.scene.start('Game', {
-                    stageNum: this.stageNum + 1,
-                    coins: this.coins,
-                    prev_index: this.level_index
-                });
-            } else {
-                // Create the next monster
-                this.createMonster();
-            }
-        }
+        onComplete: MainGame.onMonsterDeath
     });
     //tween for dying END----------
 
 }
 
-MainGame.introText = function(){
-    this.splashText = this.add.text(330,125,"Welcome to " + this.level.name + "!",
-    { font: "50px Arial", fill: "#5bf2fc"});
-    this.splashText.setOrigin(.5,.5)
+MainGame.introText = function () {
+    this.splashText = this.add.text(330, 125, "Welcome to " + this.level.name + "!",
+        { font: "50px Arial", fill: "#5bf2fc" });
+    this.splashText.setOrigin(.5, .5)
     this.splashText.setScale(0);
-    this.splashText.splashIntroText  = this.tweens.add({
-        targets : this.splashText,
+    this.splashText.splashIntroText = this.tweens.add({
+        targets: this.splashText,
         scaleX: 1,
         scaleY: 1,
-        duration : 500,
-        yoyo : true,
-        hold : 3000,
-        repeat : 0,
-      });
+        duration: 500,
+        yoyo: true,
+        hold: 3000,
+        repeat: 0,
+    });
 }
 
 
@@ -192,9 +193,10 @@ MainGame.introText = function(){
 
 MainGame.updateHealthBar = function () {
     //health percentage
-    let percentage = this.currentMonster.health / this.currentOriginal.health;
+    let percentage = this.currentMonster.health / this.currentMonster.maxHealth;
 
-    if(10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0){
+    // Ensures health bar value does not go below 0
+    if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {
         //health bar color codes
         colors = [
             0x42f598,
@@ -223,8 +225,7 @@ MainGame.updateCoinCounter = function () {
 }
 
 MainGame.currentMonsterHit = function () {
-    this.coins += 100;
-    this.currentMonster.health -= 5;
+    this.currentMonster.health -= (this.upgrades.hero.lvl) * 1;
     this.updateHealthBar();
     this.updateCoinCounter();
         this.currentMonster.hitSound.play();
@@ -260,11 +261,42 @@ MainGame.killMonster = function () {
     this.currentMonster.sprite.disableInteractive();
     //play slap sound once
     this.sound.play("slap");
-    // Increment the number of monsters slain
-    this.slain++;
     //end idle animation/play death animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_death")
     //plays an animation then destroy the old sprite and creates a new enenmy
     this.currentMonster.sprite.dieTween.play();
 }
 
+MainGame.onMonsterDeath = function () {
+    // Destory the sprite
+    this.currentMonster.sprite.destroy();
+    // Increment the number of monsters slain
+    this.slain++;
+    // Earn some coins based on the stage # and the monster's health
+    this.coins += Math.ceil(this.stageNum * (.2 * this.currentMonster.maxHealth));
+    this.updateCoinCounter();
+    // Check if the final monster has been killed
+    if (this.slain >= 10) {
+        this.backgroundMusic.stop();
+        // Change levels
+        this.scene.start('Game', {
+            stageNum: this.stageNum + 1,
+            coins: this.coins,
+            prev_index: this.level_index,
+            upgrades: this.upgrades
+        });
+    } else {
+        // Create the next monster
+        this.createMonster();
+    }
+}
+
+MainGame.passiveActions = function () {
+    // Deal the wizard's damage
+    this.currentMonster.health -= (this.upgrades.wizard.lvl) * 1;
+    this.updateHealthBar();
+    if (this.currentMonster.health <= 0) {
+        this.killMonster();
+        return;
+    }
+}

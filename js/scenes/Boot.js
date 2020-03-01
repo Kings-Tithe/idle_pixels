@@ -20,7 +20,8 @@ Boot.create = async function () {
         centerX: this.cameras.main.width / 2,
         centerY: this.cameras.main.height / 2,
         scale_screen: scale,
-        scale_monster: scale * .3
+        scale_monster: scale * .3,
+        scale_ui: scale * .15
     };
 
     // Go to the main asset loading scene

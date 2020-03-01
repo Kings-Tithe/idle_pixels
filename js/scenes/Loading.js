@@ -15,6 +15,10 @@ Loading.preload = function () {
     for (let i = 1; i < 11; i++) {
         this.load.image("gold" + i, "./assets/free-use/coin/Gold_" + i + ".png");
     }
+  
+    // Load shop icon
+    this.load.image("shop", "./assets/images/shop.png");
+
     //loud sound effects
     this.load.audio("punch","./assets/sounds/dull_punch.mp3");
     this.load.audio("slap","./assets/sounds/slap.mp3");
@@ -60,7 +64,7 @@ Loading.create = function () {
             repeat: -1
         })
     }
-    
+
 
     //go onto the homescreen scene
     this.scene.start("Home");

@@ -23,6 +23,15 @@ MainGame.create = function () {
 
 //----------------------------------------Additional Functions----------------------------------------
 
+//                                 #####                                    
+//                                #     # #####  ######   ##   ##### ###### 
+//                                #       #    # #       #  #    #   #      
+//                                #       #    # #####  #    #   #   #####  
+//                                #       #####  #      ######   #   #      
+//                                #     # #   #  #      #    #   #   #      
+//                                 #####  #    # ###### #    #   #   ###### 
+                                           
+
 MainGame.createMonster = function () {
     //pick a random moster from our list
     this.currentOriginal = this.game.Monsters[Math.trunc(Math.random() * this.game.Monsters.length)];
@@ -48,39 +57,11 @@ MainGame.createMonster = function () {
     this.createHealthBar();
 }
 
-MainGame.killMonster = function () {
-    this.currentMonster.sprite.destroy();
-    this.createMonster();
-}
-
 MainGame.createHealthBar = function () {
     //create health bar
     this.currentMonster.healthBar = this.add.graphics();
     this.currentMonster.healthBar.fillStyle(0x32a848, 1);
     this.currentMonster.healthBar.fillRect(250, 160, 150, 30);
-}
-
-MainGame.updateHealthBar = function () {
-    //health bar color codes
-    colors = [
-        0x42f598,
-        0x42f578,
-        0x42f54b,
-        0x69f542,
-        0xb8a425,
-        0xb88c25,
-        0xb87625,
-        0xb86a25,
-        0xb85625,
-        0xb84225,
-    ]
-    //health percentage
-    let percentage = this.currentMonster.Health / this.currentOriginal.Health;
-    //clear graghics of old health bar
-    this.currentMonster.healthBar.clear();
-    //redraw and change bar size/color
-    this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-    this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
 }
 
 MainGame.createCoinCounter = function () {
@@ -93,22 +74,6 @@ MainGame.createCoinCounter = function () {
     this.coinText.fontWeight = 'bold';
     //for gold outline "#FFDF00"
     this.coinText.setStroke("#a69a47", 8);
-}
-
-MainGame.updateCoinCounter = function () {
-    this.coinText.setText(this.coins.toLocaleString());
-}
-
-MainGame.currentMonsterHit = function(){
-    this.coins += 100;
-    this.currentMonster.Health -= 5;
-    this.updateHealthBar();
-    this.updateCoinCounter();
-    if (this.currentMonster.Health <= 0) {
-        this.killMonster();
-        return;
-    }
-
 }
 
 MainGame.addTweens = function(){
@@ -138,6 +103,53 @@ MainGame.addTweens = function(){
     //tween for taking damage END----------
 }
 
+
+                                          
+//                                        #    # #####  #####    ##   ##### ###### 
+//                                        #    # #    # #    #  #  #    #   #      
+//                                        #    # #    # #    # #    #   #   #####  
+//                                        #    # #####  #    # ######   #   #      
+//                                        #    # #      #    # #    #   #   #      
+//                                         ####  #      #####  #    #   #   ###### 
+
+MainGame.updateHealthBar = function () {
+    //health bar color codes
+    colors = [
+        0x42f598,
+        0x42f578,
+        0x42f54b,
+        0x69f542,
+        0xb8a425,
+        0xb88c25,
+        0xb87625,
+        0xb86a25,
+        0xb85625,
+        0xb84225,
+    ]
+    //health percentage
+    let percentage = this.currentMonster.Health / this.currentOriginal.Health;
+    //clear graghics of old health bar
+    this.currentMonster.healthBar.clear();
+    //redraw and change bar size/color
+    this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
+    this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
+}
+
+MainGame.updateCoinCounter = function () {
+    this.coinText.setText(this.coins.toLocaleString());
+}
+
+MainGame.currentMonsterHit = function(){
+    this.coins += 100;
+    this.currentMonster.Health -= 5;
+    this.updateHealthBar();
+    this.updateCoinCounter();
+    if (this.currentMonster.Health <= 0) {
+        this.killMonster();
+        return;
+    }
+}
+
 MainGame.playHitTween = function(){
     let angle = Math.trunc(Math.random() * 45)
     angle = Math.random() < .5 ? angle : angle * -1;
@@ -148,3 +160,18 @@ MainGame.playHitTween = function(){
         this.currentMonster.sprite.hitTween.play();
     }
 }
+
+
+//                                       ######                                          
+//                                       #     # ######  ####  ##### #####   ####  #   # 
+//                                       #     # #      #        #   #    # #    #  # #  
+//                                       #     # #####   ####    #   #    # #    #   #   
+//                                       #     # #           #   #   #####  #    #   #   
+//                                       #     # #      #    #   #   #   #  #    #   #   
+//                                       ######  ######  ####    #   #    #  ####    #   
+                                                                                    
+
+MainGame.killMonster = function () {
+    this.currentMonster.sprite.destroy();
+    this.createMonster();
+}                                                                               

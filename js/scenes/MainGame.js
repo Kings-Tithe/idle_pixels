@@ -24,6 +24,9 @@ MainGame.create = function () {
     //create background image
     let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'bg_' + this.level.key);
     bg.setScale(this.game.globals.scale_screen);
+    //start playing background music
+    this.backgroundMusic = this.sound.add("music_" + this.level.name);
+    this.backgroundMusic.play();
     // Create the first monster
     this.createMonster();
     //add spinning coin
@@ -85,6 +88,8 @@ MainGame.createMonster = function () {
     this.addTweens();
     //start idle animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_idle");
+    //add sound to play when being attack
+    this.currentMonster.hitSound = this.sound.add("punch");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
         this.currentMonsterHit();
@@ -210,6 +215,8 @@ MainGame.updateHealthBar = function () {
         //redraw and change bar size/color
         this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
         this.currentMonster.healthBar.fillRect(250, 150, Math.trunc(percentage * 150), 30);
+    } else {
+        this.currentMonster.healthBar.clear();
     }
 }
 
@@ -220,6 +227,8 @@ MainGame.updateCoinCounter = function () {
 MainGame.currentMonsterHit = function () {
     this.currentMonster.health -= (this.upgrades.hero.lvl) * 1;
     this.updateHealthBar();
+    this.updateCoinCounter();
+        this.currentMonster.hitSound.play();
     if (this.currentMonster.health <= 0) {
         this.killMonster();
         return;
@@ -250,6 +259,8 @@ MainGame.playHitTween = function () {
 MainGame.killMonster = function () {
     //set current monster to no longer be clickable
     this.currentMonster.sprite.disableInteractive();
+    //play slap sound once
+    this.sound.play("slap");
     //end idle animation/play death animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_death")
     //plays an animation then destroy the old sprite and creates a new enenmy
@@ -266,6 +277,7 @@ MainGame.onMonsterDeath = function () {
     this.updateCoinCounter();
     // Check if the final monster has been killed
     if (this.slain >= 10) {
+        this.backgroundMusic.stop();
         // Change levels
         this.scene.start('Game', {
             stageNum: this.stageNum + 1,

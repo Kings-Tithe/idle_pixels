@@ -15,9 +15,18 @@ Loading.preload = function () {
     for (let i = 1; i < 11; i++) {
         this.load.image("gold" + i, "./assets/free-use/coin/Gold_" + i + ".png");
     }
-
+  
     // Load shop icon
     this.load.image("shop", "./assets/images/shop.png");
+
+    //loud sound effects
+    this.load.audio("punch","./assets/sounds/dull_punch.mp3");
+    this.load.audio("slap","./assets/sounds/slap.mp3");
+
+    //load background music
+    for(level of this.game.levelList){
+        this.load.audio("music_" + level.name, level.backgroundMusic);
+    }
 }
 
 Loading.create = function () {

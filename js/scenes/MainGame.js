@@ -69,6 +69,8 @@ MainGame.createMonster = function () {
     this.addTweens();
     //start idle animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_idle");
+    //add sound to play when being attack
+    this.currentMonster.hitSound = this.sound.add("punch");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
         this.currentMonsterHit();
@@ -219,6 +221,7 @@ MainGame.currentMonsterHit = function () {
     this.currentMonster.health -= 5;
     this.updateHealthBar();
     this.updateCoinCounter();
+        this.currentMonster.hitSound.play();
     if (this.currentMonster.health <= 0) {
         this.killMonster();
         return;
@@ -249,6 +252,8 @@ MainGame.playHitTween = function () {
 MainGame.killMonster = function () {
     //set current monster to no longer be clickable
     this.currentMonster.sprite.disableInteractive();
+    //play slap sound once
+    this.sound.play("slap");
     // Increment the number of monsters slain
     this.slain++;
     //end idle animation/play death animation

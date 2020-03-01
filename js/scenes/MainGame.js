@@ -3,7 +3,9 @@ let MainGame = new Phaser.Scene('Game');
 
 MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
-    this.level = 0;
+    // Pick a random level
+    this.level = vlist(this.game.levels)[0, vlist(this.game.levels).length];
+    console.log(this.level);
 }
 
 MainGame.preload = function () {
@@ -37,6 +39,9 @@ MainGame.create = function () {
 
 
 MainGame.createMonster = function () {
+
+    // Pick a random monster from all monsters
+    
     //pick a random moster from our list
     this.currentOriginal = this.game.levels[this.level].monsters[Math.trunc(Math.random() * this.game.levels[this.level].monsters.length)];
     console.log(this.game.levels[this.level]);
@@ -56,7 +61,6 @@ MainGame.createMonster = function () {
     this.currentMonster.sprite.play(this.currentMonster.Name + "Idle");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
-
         this.currentMonsterHit();
         this.playHitTween();
     }, this)

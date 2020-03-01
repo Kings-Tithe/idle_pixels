@@ -1,6 +1,8 @@
 // create a new scene
 let MainGame = new Phaser.Scene('Game');
 
+
+
 MainGame.init = function (level_data) {
     console.log("Passed in level data: ", level_data);
     // Tracks how many levels we've gone through
@@ -31,6 +33,8 @@ MainGame.create = function () {
     this.coin.play("coinSpin");
     //create the coin counter
     this.createCoinCounter();
+    //splash text
+    MainGame.introText();
 }
 
 //----------------------------------------Additional Functions----------------------------------------
@@ -153,6 +157,22 @@ MainGame.addTweens = function () {
     });
     //tween for dying END----------
 
+}
+
+MainGame.introText = function(){
+    this.splashText = this.add.text(330,200,"Welcome to " + this.level.name + "!",
+    { font: "50px Arial", fill: "#5bf2fc"});
+    this.splashText.setOrigin(.5,.5)
+    this.splashText.setScale(0);
+    this.splashText.splashIntroText  = this.tweens.add({
+        targets : this.splashText,
+        scaleX: 1,
+        scaleY: 1,
+        duration : 500,
+        yoyo : true,
+        hold : 3000,
+        repeat : 0,
+      });
 }
 
 

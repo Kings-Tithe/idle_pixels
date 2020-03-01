@@ -184,7 +184,7 @@ MainGame.updateCoinCounter = function () {
 }
 
 MainGame.currentMonsterHit = function () {
-    this.currentMonster.health -= (this.upgrades.hero) * 1;
+    this.currentMonster.health -= (this.upgrades.hero.lvl) * 1;
     this.updateHealthBar();
     if (this.currentMonster.health <= 0) {
         this.killMonster();

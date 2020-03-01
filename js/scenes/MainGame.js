@@ -2,7 +2,6 @@
 let MainGame = new Phaser.Scene('Game');
 
 
-
 MainGame.init = function (level_data) {
     console.log("Passed in level data: ", level_data);
     // Tracks how many levels we've gone through
@@ -37,8 +36,19 @@ MainGame.create = function () {
     // Create shop menu (but only once!)
     if (this.stageNum == 1) {
         this.createUpgradeShop();
-        this.toggleUpgradeShop();
     }
+    // Create an image in the game window to click to toggle menu
+    let shopIcon = this.add.image(.92 * this.game.globals.width, .93 * this.game.globals.height, 'shop');
+    shopIcon.setScale(this.game.globals.scale_ui);
+    shopIcon.setInteractive();
+    shopIcon.on("pointerdown", function () {
+        this.toggleUpgradeShop();
+    }, this);
+    let that = this;
+    // Execute the passive actions of any heroes!
+    setInterval(function () {
+        that.passiveActions();
+    }, 1000);
 }
 
 //----------------------------------------Additional Functions----------------------------------------
@@ -59,7 +69,7 @@ MainGame.createMonster = function () {
     // Make a true copy of the monster from the list for the battle
     this.currentMonster = jQuery.extend(true, {}, original);
     // Update the monster's health based on the stage number
-    this.currentMonster.maxHealth = Math.ceil((original.health * this.stageNum * .35) + this.stageNum)
+    this.currentMonster.maxHealth = Math.ceil((original.health * this.stageNum) + ((this.stageNum - 1) * 10))
     this.currentMonster.health = this.currentMonster.maxHealth;
     console.log("Current Monster: ", this.currentMonster);
 
@@ -266,5 +276,15 @@ MainGame.onMonsterDeath = function () {
     } else {
         // Create the next monster
         this.createMonster();
+    }
+}
+
+MainGame.passiveActions = function () {
+    // Deal the wizard's damage
+    this.currentMonster.health -= (this.upgrades.wizard.lvl) * 1;
+    this.updateHealthBar();
+    if (this.currentMonster.health <= 0) {
+        this.killMonster();
+        return;
     }
 }

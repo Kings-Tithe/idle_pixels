@@ -41,14 +41,6 @@ MainGame.createUpgradeShop = function () {
             + "<br>deal passive damage to foes!",
         image: "./assets/images/heroes/wizard.png"
     }));
-
-    // Create an image in the game window to click to toggle menu
-    let shopIcon = this.add.image(.92 * this.game.globals.width, .93 * this.game.globals.height, 'shop');
-    shopIcon.setScale(this.game.globals.scale_ui);
-    shopIcon.setInteractive();
-    shopIcon.on("pointerdown", function () {
-        this.toggleUpgradeShop();
-    }, this);
 }
 
 MainGame.toggleUpgradeShop = function () {
@@ -70,7 +62,7 @@ MainGame.addUpgradeShopItem = function (upgrade) {
     let button = document.createElement('button');
 
     // Configure HTML elements
-    title.innerHTML = upgrade.title;
+    title.innerHTML = upgrade.title + ' Lvl [' + this.upgrades[upgrade.key].lvl + ']';
     description.innerHTML = upgrade.description;
     image.src = upgrade.image;
     button.id = upgrade.key;
@@ -86,7 +78,9 @@ MainGame.addUpgradeShopItem = function (upgrade) {
             that.upgrades[button.id].lvl++;
             that.upgrades[button.id].cost = Math.ceil(that.upgrades[button.id].cost * that.upgrades[button.id].inc);
             // Update cost text
-            this.innerText = that.upgrades[button.id].cost + 'g';
+            button.innerText = that.upgrades[button.id].cost + 'g';
+            // Update title with lvl
+            title.innerHTML = title.innerHTML.replace(/Lvl \[[0-9]*\]/g, 'Lvl [' + that.upgrades[button.id].lvl) + ']';
         }
     }
 

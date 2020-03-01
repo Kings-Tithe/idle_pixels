@@ -10,16 +10,14 @@ MainGame.preload = function (){
 
 MainGame.create = function (){
     //create background image
-    let bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'world-gothic')
-    let scaleX = this.cameras.main.width / bg.width
-    let scaleY = this.cameras.main.height / bg.height
-    let scale = Math.min(scaleX, scaleY)
-    bg.setScale(scale).setScrollFactor(0)
+    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'world-gothic');
+    bg.setScale(this.game.globals.scale_screen);
 
     //add test shark enemy
-    let shark = this.add.sprite(360,240,"shark", 0);
+    let shark = this.add.sprite(this.game.globals.centerX,this.game.globals.centerY,"shark", 0);
+    shark.setOrigin(.5,.5);
     shark.setInteractive();
-    shark.setScale(.3,.3);
+    shark.setScale(this.game.globals.scale_monster);
     //set test ooze enemy to add coins when being clicked.
     shark.on("pointerdown",function (){
         this.coins += 5;

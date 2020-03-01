@@ -26,6 +26,9 @@ MainGame.create = function () {
     //create background image
     let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'bg_' + this.level.key);
     bg.setScale(this.game.globals.scale_screen);
+    //start playing background music
+    this.backgroundMusic = this.sound.add("music_" + this.level.name);
+    this.backgroundMusic.play();
     // Create the first monster
     this.createMonster();
     //add spinning coin
@@ -146,6 +149,7 @@ MainGame.addTweens = function () {
             // Check if the final monster has been killed
             if (this.slain >= 10) {
                 // Change levels
+                this.backgroundMusic.stop();
                 this.scene.start('Game', {
                     stageNum: this.stageNum + 1,
                     coins: this.coins,

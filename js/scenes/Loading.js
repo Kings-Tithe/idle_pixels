@@ -18,6 +18,11 @@ Loading.preload = function () {
     //loud sound effects
     this.load.audio("punch","./assets/sounds/dull_punch.mp3");
     this.load.audio("slap","./assets/sounds/slap.mp3");
+
+    //load background music
+    for(level of this.game.levelList){
+        this.load.audio("music_" + level.name, level.backgroundMusic);
+    }
 }
 
 Loading.create = function () {

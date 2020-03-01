@@ -93,7 +93,6 @@ MainGame.addTweens = function () {
         duration: 100,
         paused: true,
         yoyo: true,
-        num: 0,
         ease: 'Quad.easeInOut',
         callbackScope: this,
         onUpdate: function (tween) {
@@ -107,7 +106,25 @@ MainGame.addTweens = function () {
             this.currentMonster.sprite.clearTint();
         }
     });
+
     //tween for taking damage END----------
+    this.currentMonster.sprite.dieTween = this.tweens.add({
+        targets: this.currentMonster.sprite,
+        scaleY: 0,
+        scaleX: 0,
+        angle: 1440,
+        duration: 1100,
+        paused: true,
+        yoyo: false,
+        ease: 'Quad.easeInOut',
+        callbackScope: this,
+        onComplete: function (tween) {
+            this.currentMonster.sprite.destroy();
+            this.createMonster();
+        }
+    });
+    //tween for dying
+
 }
 
 
@@ -179,7 +196,7 @@ MainGame.playHitTween = function () {
 
 
 MainGame.killMonster = function () {
-    this.currentMonster.sprite.destroy();
-    this.createMonster();
+    //plays an animation then destroy the old sprite and creates a new enenmy
+    this.currentMonster.sprite.dieTween.play();
 }
 

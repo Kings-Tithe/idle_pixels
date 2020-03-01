@@ -61,7 +61,7 @@ MainGame.createHealthBar = function () {
     //create health bar
     this.currentMonster.healthBar = this.add.graphics();
     this.currentMonster.healthBar.fillStyle(0x32a848, 1);
-    this.currentMonster.healthBar.fillRect(250, 160, 150, 30);
+    this.currentMonster.healthBar.fillRect(250, 130, 150, 30);
 }
 
 MainGame.createCoinCounter = function () {
@@ -81,7 +81,7 @@ MainGame.addTweens = function(){
     this.currentMonster.sprite.hitAngle = -45;
     this.currentMonster.sprite.hitTween = this.tweens.add({
         targets: this.currentMonster.sprite,
-        scaleY: this.currentMonster.sprite.scaleY * 1.75,
+        scaleY: this.currentMonster.sprite.scaleY * 1.5,
         angle: {value: () => { return this.currentMonster.sprite.hitAngle; }},
         duration: 100,
         paused: true,
@@ -132,7 +132,7 @@ MainGame.updateHealthBar = function () {
     this.currentMonster.healthBar.clear();
     //redraw and change bar size/color
     this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-    this.currentMonster.healthBar.fillRect(250, 160, Math.trunc(percentage * 150), 30);
+    this.currentMonster.healthBar.fillRect(250, 130, Math.trunc(percentage * 150), 30);
 }
 
 MainGame.updateCoinCounter = function () {

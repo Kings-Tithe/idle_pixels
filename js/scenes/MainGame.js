@@ -10,23 +10,19 @@ MainGame.preload = function (){
 
 MainGame.create = function (){
     //create background image
-    let bg = this.add.image(0,0,"bg-forest");
-    bg.setOrigin(0,0);
-    bg.setScale(.7,.7)
+    // let bg = this.add.image(0,0,"bg-forest");
+    // bg.setOrigin(0,0);
+    // bg.setScale(.7,.7)
 
 
     //add test ooze enemy
-    let shark = this.add.sprite(360,240,"shark", 0);
-    shark.setInteractive();
-    shark.setScale(.3,.3);
+    this.game.Monsters[0].sprite = this.add.sprite(360,240,"Shark",1).setScale(2,2);
+    this.game.Monsters[0].sprite.setInteractive();
+    console.log(this.game.Monsters[0].sprite);
     //set test ooze enemy to add coins when being clicked.
-    shark.on("pointerdown",function (){
+    this.game.Monsters[0].sprite.on("pointerdown",function (){
         this.coins += 5;
         console.log("you coins are now: " + this.coins);
+        //console.log()
     },this)
-
-    $.getJSON("./js/json/monsters/Shark.json", (sharkfile) => {
-        console.log(sharkfile);
-    });
-
 }

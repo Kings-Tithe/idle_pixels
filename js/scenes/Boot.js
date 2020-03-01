@@ -10,10 +10,11 @@ Boot.create = async function() {
     this.game.levels[2] = await $.getJSON("./js/json/levels/Gothic.json")
     //load monster's json for each level
     for (level of this.game.levels){
-        for(monster of level.monsters){
-            monsters.push(await $.getJSON(monster_path));
+        for(monster_path of level.monsters_path){
+            level.monsters.push(await $.getJSON(monster_path));
         }
     }
+    
   
     // Get general scale from 32x32 graphics to screen size
     let scale = Math.min(this.cameras.main.width / 32, this.cameras.main.height / 32);

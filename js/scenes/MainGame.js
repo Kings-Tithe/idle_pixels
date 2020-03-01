@@ -3,7 +3,7 @@ let MainGame = new Phaser.Scene('Game');
 
 MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
-    this.level = 0;
+    this.level = 1;
 }
 
 MainGame.preload = function () {
@@ -39,9 +39,8 @@ MainGame.create = function () {
 MainGame.createMonster = function () {
     //pick a random moster from our list
     this.currentOriginal = this.game.levels[this.level].monsters[Math.trunc(Math.random() * this.game.levels[this.level].monsters.length)];
-    console.log(this.game.levels[this.level]);
+
     this.currentMonster = jQuery.extend(true, {}, this.currentOriginal);
-    console.log(Math.random() * this.game.levels[this.level].monsters.length);
     //add the sprite to the gamescreen
     this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX, this.game.globals.centerY, this.currentMonster.name, 1);
     // set the sprite's origin to its center
@@ -53,7 +52,7 @@ MainGame.createMonster = function () {
     //set tween for getting hit
     this.addTweens();
     //start idle animation
-    this.currentMonster.sprite.play(this.currentMonster.Name + "Idle");
+    this.currentMonster.sprite.play(this.currentMonster.name + "Idle");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
 
@@ -204,7 +203,7 @@ MainGame.playHitTween = function () {
 
 MainGame.killMonster = function () {
     //end idle animation/play death animation
-    this.currentMonster.sprite.play(this.currentMonster.Name + "Death")
+    this.currentMonster.sprite.play(this.currentMonster.name + "Death")
     //plays an animation then destroy the old sprite and creates a new enenmy
     this.currentMonster.sprite.dieTween.play();
 }

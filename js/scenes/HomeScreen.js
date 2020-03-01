@@ -5,6 +5,10 @@ HomeScreen.create = function(){
     this.scene.start("Game", {
         stageNum: 1,
         coins: 0,
-        prev_index: -1
+        prev_index: -1,
+        upgrades: {
+            hero: 1,
+            wizard: 0
+        }
     });
 }

@@ -39,7 +39,6 @@ MainGame.create = function () {
 
 
 MainGame.createMonster = function () {
-
     // Pick a random moster from our list (not the last one b/c its the boss)
     let monsterKey = this.level.monsters[randInt(0, this.level.monsters.length - 1)];
     this.currentOriginal = this.game.monsters[monsterKey];

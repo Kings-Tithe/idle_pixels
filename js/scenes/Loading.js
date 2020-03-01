@@ -52,6 +52,7 @@ Loading.create = function () {
             repeat: -1
         })
     }
+    
 
     //go onto the homescreen scene
     this.scene.start("Home");

@@ -40,6 +40,12 @@ Loading.create = function () {
         frames: this.anims.generateFrameNames(monster.Name, {frames: [0, 1]}),
         frameRate: 2,
         repeat: -1})
+
+        this.anims.create({
+            key: monster.Name + "Death",
+            frames: this.anims.generateFrameNames(monster.Name, {frames: [2]}),
+            frameRate: 0,
+            repeat: -1})
     }
 
     //go onto the homescreen scene

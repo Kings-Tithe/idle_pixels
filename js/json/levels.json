@@ -3,6 +3,7 @@
         "key": "gothic",
         "name": "Gothic Castle",
         "background": "./assets/images/worlds/gothic.png",
+        "backgroundMusic": "./assets/sounds/Gothic_Music.mp3",
         "monsters": [
             "bat",
             "skelly",
@@ -13,6 +14,7 @@
         "key": "slime",
         "name": "Slime Ranch",
         "background": "./assets/images/worlds/slime.png",
+        "backgroundMusic": "./assets/sounds/Slime_Music.mp3",
         "monsters": [
             "blue",
             "green",
@@ -24,6 +26,7 @@
         "key": "water",
         "name": "Ocean Side",
         "background": "./assets/images/worlds/water.png",
+        "backgroundMusic": "./assets/sounds/Ocean_Music.mp3",
         "monsters": [
             "jellyfish",
             "shark",

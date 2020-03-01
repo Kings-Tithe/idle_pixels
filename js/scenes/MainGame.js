@@ -1,6 +1,8 @@
 // create a new scene
 let MainGame = new Phaser.Scene('Game');
 
+
+
 MainGame.init = function (level_data) {
     console.log("Passed in level data: ", level_data);
     // Tracks how many levels we've gone through
@@ -35,6 +37,8 @@ MainGame.create = function () {
     this.coin.play("coinSpin");
     //create the coin counter
     this.createCoinCounter();
+    //splash text
+    MainGame.introText();
 }
 
 //----------------------------------------Additional Functions----------------------------------------
@@ -85,7 +89,7 @@ MainGame.createHealthBar = function () {
     //create health bar
     this.currentMonster.healthBar = this.add.graphics();
     this.currentMonster.healthBar.fillStyle(0x32a848, 1);
-    this.currentMonster.healthBar.fillRect(250, 130, 150, 30);
+    this.currentMonster.healthBar.fillRect(250, 150, 150, 30);
 }
 
 MainGame.createCoinCounter = function () {
@@ -147,6 +151,22 @@ MainGame.addTweens = function () {
 
 }
 
+MainGame.introText = function () {
+    this.splashText = this.add.text(330, 125, "Welcome to " + this.level.name + "!",
+        { font: "50px Arial", fill: "#5bf2fc" });
+    this.splashText.setOrigin(.5, .5)
+    this.splashText.setScale(0);
+    this.splashText.splashIntroText = this.tweens.add({
+        targets: this.splashText,
+        scaleX: 1,
+        scaleY: 1,
+        duration: 500,
+        yoyo: true,
+        hold: 3000,
+        repeat: 0,
+    });
+}
+
 
 
 //                                        #    # #####  #####    ##   ##### ###### 
@@ -157,26 +177,30 @@ MainGame.addTweens = function () {
 //                                         ####  #      #####  #    #   #   ###### 
 
 MainGame.updateHealthBar = function () {
-    //health bar color codes
-    colors = [
-        0x42f598,
-        0x42f578,
-        0x42f54b,
-        0x69f542,
-        0xb8a425,
-        0xb88c25,
-        0xb87625,
-        0xb86a25,
-        0xb85625,
-        0xb84225,
-    ]
     //health percentage
-    let percentage = this.currentMonster.health / this.currentMonster.maxHealth;
-    //clear graghics of old health bar
-    this.currentMonster.healthBar.clear();
-    //redraw and change bar size/color
-    this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-    this.currentMonster.healthBar.fillRect(250, 130, Math.trunc(percentage * 150), 30);
+    let percentage = this.currentMonster.health / this.currentOriginal.health;
+
+    // Ensures health bar value does not go below 0
+    if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {
+        //health bar color codes
+        colors = [
+            0x42f598,
+            0x42f578,
+            0x42f54b,
+            0x69f542,
+            0xb8a425,
+            0xb88c25,
+            0xb87625,
+            0xb86a25,
+            0xb85625,
+            0xb84225,
+        ]
+        //clear graghics of old health bar
+        this.currentMonster.healthBar.clear();
+        //redraw and change bar size/color
+        this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
+        this.currentMonster.healthBar.fillRect(250, 150, Math.trunc(percentage * 150), 30);
+    }
 }
 
 MainGame.updateCoinCounter = function () {
@@ -214,6 +238,8 @@ MainGame.playHitTween = function () {
 
 
 MainGame.killMonster = function () {
+    //set current monster to no longer be clickable
+    this.currentMonster.sprite.disableInteractive();
     //end idle animation/play death animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_death")
     //plays an animation then destroy the old sprite and creates a new enenmy

@@ -1,0 +1,10 @@
+{
+    "name": "Ocean Side",
+    "background": "./assets/images/worlds/gothic.png",
+    "monsters": [
+        "./js/json/monsters/Shark.json",
+        "./js/json/monsters/Jellyfish.json",
+        "./js/json/monsters/Starfish.json"
+    ],
+    "boss": " "
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Slime Ranch",
+    "background": "./assets/images/worlds/gothic.png",
+    "monsters": [
+        "./js/json/monsters/Blue.json",
+        "./js/json/monsters/Green.json",
+        "./js/json/monsters/Pink.json",
+        "./js/json/monsters/Red.json"
+    ],
+    "boss": " "
+}

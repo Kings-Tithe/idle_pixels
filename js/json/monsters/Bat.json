@@ -1,0 +1,5 @@
+{
+    "Name": "Bat",
+    "Health": "100",
+    "SpriteSheet": "./assets/images/enemies/bat.png"
+}

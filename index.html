@@ -2,38 +2,32 @@
 <html lang="en">
 
 <head>
+  <!--Metadata-->
   <meta charset="UTF-8" />
   <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+  <!--Lib-->
   <script src="js/lib/jquery-3.4.1.min.js"></script>
   <script src="js/lib/phaser.min.js"></script>
-  <style>
-    body {
-      background: black;
-    }
-
-    canvas {
-      background: white;
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      max-height: 100%;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
-
-    #game {
-      max-height: 98%;
-    }
-  </style>
-</head>
-
-<body>
+  <!--Scenes-->
   <script src="./js/scenes/Boot.js"></script>
   <script src="./js/scenes/Loading.js"></script>
   <script src="./js/scenes/HomeScreen.js"></script>
   <script src="./js/scenes/MainGame.js"></script>
+  <script src="./js/scenes/MainGameUshop.js"></script>
+  <!--Main-->
   <script src="./js/main.js"></script>
-  <div id="game"></div>
+  <!--CSS-->
+  <link rel="stylesheet" href="./assets/styles/main.css" type="text/css"/>
+  <link rel="stylesheet" href="./assets/styles/ushop.css" type="text/css"/>
+</head>
+
+<body>
+  <div id="game">
+    <!-- Upgrade Shop -->
+    <div id="upgrade-shop">
+      <div id="ushop-content"></div>
+    </div>
+  </div>
 </body>
 
 </html>

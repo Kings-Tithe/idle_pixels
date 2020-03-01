@@ -9,6 +9,9 @@ MainGame.preload = function () {
 }
 
 MainGame.create = function () {
+    // Create shop menu
+    this.createUpgradeShop();
+    this.toggleUpgradeShop();
     //create background image
     let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'world-gothic');
     bg.setScale(this.game.globals.scale_screen);
@@ -30,7 +33,7 @@ MainGame.create = function () {
 //                                #       #####  #      ######   #   #      
 //                                #     # #   #  #      #    #   #   #      
 //                                 #####  #    # ###### #    #   #   ###### 
-                                           
+
 
 MainGame.createMonster = function () {
     //pick a random moster from our list
@@ -49,6 +52,7 @@ MainGame.createMonster = function () {
     this.addTweens();
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
+
         this.currentMonsterHit();
         this.playHitTween();
     }, this)
@@ -76,11 +80,12 @@ MainGame.createCoinCounter = function () {
     this.coinText.setStroke("#a69a47", 8);
 }
 
-MainGame.addTweens = function(){
+MainGame.addTweens = function () {
     //tween for taking damage----------
     this.currentMonster.sprite.hitAngle = -45;
     this.currentMonster.sprite.hitTween = this.tweens.add({
         targets: this.currentMonster.sprite,
+
         scaleY: this.currentMonster.sprite.scaleY * 1.5,
         angle: {value: () => { return this.currentMonster.sprite.hitAngle; }},
         duration: 100,
@@ -104,7 +109,7 @@ MainGame.addTweens = function(){
 }
 
 
-                                          
+
 //                                        #    # #####  #####    ##   ##### ###### 
 //                                        #    # #    # #    #  #  #    #   #      
 //                                        #    # #    # #    # #    #   #   #####  
@@ -139,7 +144,7 @@ MainGame.updateCoinCounter = function () {
     this.coinText.setText(this.coins.toLocaleString());
 }
 
-MainGame.currentMonsterHit = function(){
+MainGame.currentMonsterHit = function () {
     this.coins += 100;
     this.currentMonster.Health -= 5;
     this.updateHealthBar();
@@ -150,7 +155,7 @@ MainGame.currentMonsterHit = function(){
     }
 }
 
-MainGame.playHitTween = function(){
+MainGame.playHitTween = function () {
     let angle = Math.trunc(Math.random() * 45)
     angle = Math.random() < .5 ? angle : angle * -1;
     this.currentMonster.sprite.hitAngle = angle;
@@ -169,9 +174,10 @@ MainGame.playHitTween = function(){
 //                                       #     # #           #   #   #####  #    #   #   
 //                                       #     # #      #    #   #   #   #  #    #   #   
 //                                       ######  ######  ####    #   #    #  ####    #   
-                                                                                    
+
 
 MainGame.killMonster = function () {
     this.currentMonster.sprite.destroy();
     this.createMonster();
-}                                                                               
+}
+

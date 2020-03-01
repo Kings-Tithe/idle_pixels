@@ -1,0 +1,5 @@
+{
+    "name": "Jellyfish",
+    "health": "100",
+    "spriteSheet": "./assets/images/enemies/jellyfish.png"
+}

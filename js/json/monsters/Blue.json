@@ -1,0 +1,5 @@
+{
+    "name": "Blue",
+    "health": "100",
+    "spriteSheet": "./assets/images/enemies/blue.png"
+}

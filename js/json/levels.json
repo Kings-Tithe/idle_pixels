@@ -1,0 +1,33 @@
+{
+    "gothic": {
+        "key": "gothic",
+        "name": "Gothic Castle",
+        "background": "./assets/images/worlds/gothic.png",
+        "monsters": [
+            "bat",
+            "skelly",
+            "witch"
+        ]
+    },
+    "slime": {
+        "key": "slime",
+        "name": "Slime Ranch",
+        "background": "./assets/images/worlds/gothic.png",
+        "monsters": [
+            "blue",
+            "green",
+            "red",
+            "pink"
+        ]
+    },
+    "water": {
+        "key": "water",
+        "name": "Ocean Side",
+        "background": "./assets/images/worlds/gothic.png",
+        "monsters": [
+            "jellyfish",
+            "shark",
+            "starfish"
+        ]
+    }
+}

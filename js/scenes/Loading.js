@@ -4,14 +4,16 @@ let Loading = new Phaser.Scene('Loading');
 // load asset files for our game
 Loading.preload = function () {
     // load monsters spritesheets
-    for (monster of this.game.Monsters) {
-        this.load.spritesheet(monster.Name, monster.SpriteSheet, { frameWidth: 32, frameHeight: 32 });
+    for (monster of this.game.monsterList) {
+        this.load.spritesheet(monster.key, monster.spriteSheet, { frameWidth: 32, frameHeight: 32 });
     }
-    // load test world
-    this.load.image("world-gothic","./assets/images/worlds/gothic.png");
+    // level backgrounds
+    for (level of this.game.levelList) {
+        this.load.image('bg_' + level.key, level.background)
+    }
     //load coin sprites
-    for (let i = 1; i < 11; i++){
-        this.load.image("gold"+ i, "./assets/free-use/coin/Gold_" + i + ".png");
+    for (let i = 1; i < 11; i++) {
+        this.load.image("gold" + i, "./assets/free-use/coin/Gold_" + i + ".png");
     }
 }
 
@@ -28,25 +30,29 @@ Loading.create = function () {
             { key: 'gold6' },
             { key: 'gold7' },
             { key: 'gold8' },
-            { key: 'gold9' , duration: 10 },
+            { key: 'gold9', duration: 10 },
         ],
         frameRate: 25,
         repeat: -1
     });
 
-    for(monster of this.game.Monsters){
+    for (monster of this.game.monsterList) {
+        //idle character animation
         this.anims.create({
-        key: monster.Name + "Idle",
-        frames: this.anims.generateFrameNames(monster.Name, {frames: [0, 1]}),
-        frameRate: 2,
-        repeat: -1})
-
+            key: monster.key + "_idle",
+            frames: this.anims.generateFrameNames(monster.key, { frames: [0, 1] }),
+            frameRate: 2,
+            repeat: -1
+        })
+        //death character animation
         this.anims.create({
-            key: monster.Name + "Death",
-            frames: this.anims.generateFrameNames(monster.Name, {frames: [2]}),
+            key: monster.key + "_death",
+            frames: this.anims.generateFrameNames(monster.key, { frames: [2] }),
             frameRate: 0,
-            repeat: -1})
+            repeat: -1
+        })
     }
+    
 
     //go onto the homescreen scene
     this.scene.start("Home");

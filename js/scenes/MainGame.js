@@ -3,6 +3,9 @@ let MainGame = new Phaser.Scene('Game');
 
 MainGame.init = function () {
     this.coins = 0;     //used to keep track of how many coins we've collected
+    // Pick a random level
+    this.level = this.game.levelList[randInt(0, this.game.levelList.length)];
+    console.log("Loaded Level: ", this.level);
 }
 
 MainGame.preload = function () {
@@ -13,7 +16,7 @@ MainGame.create = function () {
     this.createUpgradeShop();
     this.toggleUpgradeShop();
     //create background image
-    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'world-gothic');
+    let bg = this.add.image(this.game.globals.centerX, this.game.globals.centerY, 'bg_' + this.level.key);
     bg.setScale(this.game.globals.scale_screen);
     // Create the first monster
     this.createMonster();
@@ -36,12 +39,16 @@ MainGame.create = function () {
 
 
 MainGame.createMonster = function () {
-    //pick a random moster from our list
-    this.currentOriginal = this.game.Monsters[Math.trunc(Math.random() * this.game.Monsters.length)];
+    // Pick a random moster from our list (not the last one b/c its the boss)
+    let monsterKey = this.level.monsters[randInt(0, this.level.monsters.length - 1)];
+    this.currentOriginal = this.game.monsters[monsterKey];
+
+    // Make a true copy of the monster from the list for the battle
     this.currentMonster = jQuery.extend(true, {}, this.currentOriginal);
-    console.log(Math.random() * this.game.Monsters.length);
+    console.log("Current Monster: ", this.currentMonster);
+
     //add the sprite to the gamescreen
-    this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX, this.game.globals.centerY, this.currentMonster.Name, 1);
+    this.currentMonster.sprite = this.add.sprite(this.game.globals.centerX, this.game.globals.centerY, this.currentMonster.key, 0);
     // set the sprite's origin to its center
     this.currentMonster.sprite.setOrigin(.5, .5);
     //set sprite scale
@@ -51,10 +58,9 @@ MainGame.createMonster = function () {
     //set tween for getting hit
     this.addTweens();
     //start idle animation
-    this.currentMonster.sprite.play(this.currentMonster.Name + "Idle");
+    this.currentMonster.sprite.play(this.currentMonster.key + "_idle");
     //set the actions to happen when the sprite is clicked on
     this.currentMonster.sprite.on("pointerdown", function () {
-
         this.currentMonsterHit();
         this.playHitTween();
     }, this)
@@ -156,7 +162,7 @@ MainGame.updateHealthBar = function () {
         0xb84225,
     ]
     //health percentage
-    let percentage = this.currentMonster.Health / this.currentOriginal.Health;
+    let percentage = this.currentMonster.health / this.currentOriginal.health;
     //clear graghics of old health bar
     this.currentMonster.healthBar.clear();
     //redraw and change bar size/color
@@ -170,10 +176,10 @@ MainGame.updateCoinCounter = function () {
 
 MainGame.currentMonsterHit = function () {
     this.coins += 100;
-    this.currentMonster.Health -= 5;
+    this.currentMonster.health -= 5;
     this.updateHealthBar();
     this.updateCoinCounter();
-    if (this.currentMonster.Health <= 0) {
+    if (this.currentMonster.health <= 0) {
         this.killMonster();
         return;
     }
@@ -202,7 +208,7 @@ MainGame.playHitTween = function () {
 
 MainGame.killMonster = function () {
     //end idle animation/play death animation
-    this.currentMonster.sprite.play(this.currentMonster.Name + "Death")
+    this.currentMonster.sprite.play(this.currentMonster.key + "_death")
     //plays an animation then destroy the old sprite and creates a new enenmy
     this.currentMonster.sprite.dieTween.play();
 }

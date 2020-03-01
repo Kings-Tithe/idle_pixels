@@ -1,12 +1,16 @@
 let Boot = new Phaser.Scene('Boot');
 
-Boot.create = async function() {
-    // Bring in files which need to be retrieved asyncronously (and thus can't be during preload)
-    // Sprites found in the JSONs will be loaded in the next scene
-    this.game.Monsters = [];
-    this.game.Monsters[0] = await $.getJSON("./js/json/monsters/Shark.json");
-    this.game.Monsters[1] = await $.getJSON("./js/json/monsters/Skelly.json");
-  
+Boot.create = async function () {
+    // Read in the levels and monsters
+    // Lists are for iteration, objects for lookup
+    this.game.monsters = {};
+    this.game.levels = {};
+    this.game.monsters = await $.getJSON("./js/json/monsters.json");
+    this.game.levels = await $.getJSON("./js/json/levels.json");
+    // Create list equivalents to get values from
+    this.game.monsterList = vList(this.game.monsters);
+    this.game.levelList = vList(this.game.levels);
+
     // Get general scale from 32x32 graphics to screen size
     let scale = Math.min(this.cameras.main.width / 32, this.cameras.main.height / 32);
     // Create a global object
@@ -18,7 +22,7 @@ Boot.create = async function() {
         scale_screen: scale,
         scale_monster: scale * .3
     };
-  
+
     // Go to the main asset loading scene
     this.scene.start("Loading");
 }

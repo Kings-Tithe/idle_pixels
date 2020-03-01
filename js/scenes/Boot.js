@@ -2,10 +2,14 @@ let Boot = new Phaser.Scene('Boot');
 
 Boot.create = async function () {
     // Read in the levels and monsters
+    // Lists are for iteration, objects for lookup
     this.game.monsters = {};
     this.game.levels = {};
     this.game.monsters = await $.getJSON("./js/json/monsters.json");
     this.game.levels = await $.getJSON("./js/json/levels.json");
+    // Create list equivalents to get values from
+    this.game.monsterList = vList(this.game.monsters);
+    this.game.levelList = vList(this.game.levels);
 
     // Get general scale from 32x32 graphics to screen size
     let scale = Math.min(this.cameras.main.width / 32, this.cameras.main.height / 32);

@@ -3,14 +3,12 @@ let Loading = new Phaser.Scene('Loading');
 
 // load asset files for our game
 Loading.preload = function () {
-    console.log(this.game.levels)
     // load monsters spritesheets
-    for (monster of vList(this.game.monsters)) {
-        console.log(monster);
-        this.load.spritesheet(monster.name, monster.spriteSheet, { frameWidth: 32, frameHeight: 32 });
+    for (monster of this.game.monsterList) {
+        this.load.spritesheet(monster.key, monster.spriteSheet, { frameWidth: 32, frameHeight: 32 });
     }
     // level backgrounds
-    for (level of vList(this.game.levels)) {
+    for (level of this.game.levelList) {
         this.load.image('bg_' + level.key, level.background)
     }
     //load coin sprites
@@ -38,18 +36,18 @@ Loading.create = function () {
         repeat: -1
     });
 
-    for (monster of vList(this.game.monsters)) {
+    for (monster of this.game.monsterList) {
         //idle character animation
         this.anims.create({
             key: monster.key + "_idle",
-            frames: this.anims.generateFrameNames(monster.name, { frames: [0, 1] }),
+            frames: this.anims.generateFrameNames(monster.key, { frames: [0, 1] }),
             frameRate: 2,
             repeat: -1
         })
         //death character animation
         this.anims.create({
             key: monster.key + "_death",
-            frames: this.anims.generateFrameNames(monster.name, { frames: [2] }),
+            frames: this.anims.generateFrameNames(monster.key, { frames: [2] }),
             frameRate: 0,
             repeat: -1
         })

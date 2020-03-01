@@ -1,13 +1,22 @@
 // create a new scene
 let MainGame = new Phaser.Scene('Game');
 
-MainGame.init = function () {
-    this.coins = 0;     //used to keep track of how many coins we've collected
-    // Pick a random level
-    this.level = this.game.levelList[randInt(0, this.game.levelList.length)];
-}
 
-MainGame.preload = function () {
+
+MainGame.init = function (level_data) {
+    console.log("Passed in level data: ", level_data);
+    // Tracks how many levels we've gone through
+    this.stageNum = level_data.stageNum;
+    // Player's current coin count
+    this.coins = level_data.coins;
+    // Pick a random level, but do not pick the same level as the previous
+    this.level_index = level_data.prev_index;
+    while (this.level_index == level_data.prev_index)
+        this.level_index = randInt(0, this.game.levelList.length);
+    this.level = this.game.levelList[this.level_index];
+    console.log("Loaded Level: ", this.level);
+    // Tracks number of enemies slain this level
+    this.slain = 0;
 }
 
 MainGame.create = function () {
@@ -96,7 +105,7 @@ MainGame.addTweens = function () {
         targets: this.currentMonster.sprite,
 
         scaleY: this.currentMonster.sprite.scaleY * 1.5,
-        angle: {value: () => { return this.currentMonster.sprite.hitAngle; }},
+        angle: { value: () => { return this.currentMonster.sprite.hitAngle; } },
         duration: 80,
         paused: true,
         yoyo: true,
@@ -128,11 +137,22 @@ MainGame.addTweens = function () {
         yoyo: false,
         ease: 'Quad.easeInOut',
         callbackScope: this,
-        onActive: function(){
+        onActive: function () {
         },
         onComplete: function (tween) {
             this.currentMonster.sprite.destroy();
-            this.createMonster();
+            // Check if the final monster has been killed
+            if (this.slain >= 10) {
+                // Change levels
+                this.scene.start('Game', {
+                    stageNum: this.stageNum + 1,
+                    coins: this.coins,
+                    prev_index: this.level_index
+                });
+            } else {
+                // Create the next monster
+                this.createMonster();
+            }
         }
     });
     //tween for dying END----------
@@ -224,6 +244,8 @@ MainGame.playHitTween = function () {
 
 
 MainGame.killMonster = function () {
+    // Increment the number of monsters slain
+    this.slain++;
     //end idle animation/play death animation
     this.currentMonster.sprite.play(this.currentMonster.key + "_death")
     //plays an animation then destroy the old sprite and creates a new enenmy

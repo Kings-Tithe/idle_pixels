@@ -1,21 +1,18 @@
 /**Handles initial startup of game. Loads absolutely basic resources such as
  * loading bar graphics. (for display when loading OTHER resources) Manages
  * any configurations needed when Phaser starts. Also creates global variables
- * during construction by accessing the JavaScript 'window' object.
- */
+ * during construction by accessing the JavaScript 'window' object. */
 class Boot extends Phaser.Scene {
 
     constructor() {
-        super({
-            key: 'Boot'
-        });
+        super('Boot');
     }
 
     create() {
         // Declare any globals to be used in our game
         this.declareGlobals();
-        // Launch the next scene (LoadAssets)
-        this.game.scene.start('LoadScripts');
+        // Start the next scene
+        this.scene.start('LoadScripts');
     }
 
     declareGlobals() {
@@ -27,7 +24,7 @@ class Boot extends Phaser.Scene {
         /**DUMMY_FILES marks whether we should load in additional dummy files. 
          * This is helpful when testing progress-dependent UI elements, such as
          * loading bars. */
-        window.DUMMY_FILES = true;
+        window.DUMMY_FILES = false;
     }
 
 }

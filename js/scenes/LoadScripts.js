@@ -1,14 +1,12 @@
 /**Loads additional scripts using jQuery. Loading of large amounts of scripts
  * (levels, monsters, etc) is performed here to prevent crowding in
  * 'index.html' This does not use Phaser's loader and thus cannot be done in
- * the preload() method, but instead in create()
- */
+ * the preload() method, but instead in create() */
 class LoadScripts extends Phaser.Scene {
 
+    /**Creates instance of Scene */
     constructor() {
-        super({
-            key: 'LoadScripts'
-        });
+        super('LoadScripts');
         /**List of all script files which need to be loaded
          * Scripts that were not added in 'index.html' MUST be added here
          * for loading */
@@ -23,38 +21,73 @@ class LoadScripts extends Phaser.Scene {
         ]
     }
 
+    /**Phaser.Scene method which represents the start of the Scene's behavior.
+     * It runs after init() and preload() have completed */
     async create() {
         // Add dummy scripts to test progress bar
-        if (window.DUMMY_FILES) for (let i = 0; i < 1000; i++)
+        if (window.DUMMY_FILES) for (let i = 0; i < 250; i++)
             this.files.push('./js/tools/DoNothing.js');
-
-        // Total number of files and number processed for tracking progess
-        let total = this.files.length;
-        let processed = 0;
-
-        // Progess bars to track loading
-        let progressBox = this.add.graphics();
-        let progressBar = this.add.graphics();
-        // Draw progress bar background
-        progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(160, 295, 320, 50);
 
         // Log list of additional scripts
         if (window.LOGGING) console.log("Loading additional scripts: ", this.files);
 
+        // Create visual trackers to display script loading progress
+        this.createProgressTrackers();
+
         // Load and wait on various scripts
         for (let file of this.files) {
+            // Update loading file text
+            this.scriptText.setText(file);
+            // Get the script
             await $.getScript(file);
             // Update number of files processed
-            processed++;
-            // Update the progess bar
-            progressBar.clear();
-            progressBar.fillStyle(0x777777, 1);
-            progressBar.fillRect(170, 305, 300 * (processed / total), 30);
+            this.updateProgress();
         }
 
-        // Launch the next scene (LoadAssets)
-        this.game.scene.start('LoadAssets');
+        // Star the next scene
+        this.scene.start('LoadAssets');
+    }
+
+    /**Creates several visual elements to assist in tracking the current
+     * progress of scripts being loaded. */
+    createProgressTrackers() {
+        // Total number of files and number processed for tracking progess
+        this.total = this.files.length;
+        this.processed = 0;
+        // Progess bars to track loading
+        this.progressBox = this.add.graphics();
+        this.progressBar = this.add.graphics();
+        // Draw progress bar background
+        this.progressBox.fillStyle(0x222222, 0.8);
+        this.progressBox.fillRect(160, 295, 320, 50);
+        // Create loading texts
+        this.loadingText = this.add.text(320, 270, 'Loading Scripts...', {
+            font: '20px monospace',
+            fill: '#ffffff'
+        });
+        this.loadingText.setOrigin(0.5, 0.5);
+        this.percentText = this.add.text(320, 320, '0%', {
+            font: '18px monospace',
+            fill: '#ffffff'
+        });
+        this.percentText.setOrigin(0.5, 0.5);
+        this.scriptText = this.add.text(320, 370, '', {
+            font: '18px monospace',
+            fill: '#ffffff'
+        });
+        this.scriptText.setOrigin(0.5, 0.5);
+    }
+
+    /**Updates the number of loaded scripts and the visual representations
+     * of our current progress. */
+    updateProgress() {
+        this.processed++;
+        // Update the progess bar
+        this.progressBar.clear();
+        this.progressBar.fillStyle(0x777777, 1);
+        this.progressBar.fillRect(170, 305, 300 * (this.processed / this.total), 30);
+        // Update progress percentage
+        this.percentText.setText(parseInt((this.processed / this.total) * 100) + '%');
     }
 
 }

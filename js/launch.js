@@ -5,8 +5,8 @@ let config = {
   // Primary scene objects, more will be added in LoadScripts
   scene: [
     Boot,
-    LoadScripts
-    //LoadAssets,
+    LoadScripts,
+    LoadAssets,
     //Splash,
     //Home,
     //Play

@@ -7,7 +7,7 @@ let config = {
     Boot,
     LoadScripts,
     LoadAssets,
-    //Splash,
+    Splash,
     //Home,
     //Play
   ],

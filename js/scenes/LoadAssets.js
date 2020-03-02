@@ -2,6 +2,7 @@
  * assigning each one a unique key and sending it to Phaser's loader. */
 class LoadAssets extends Phaser.Scene {
 
+    /**Creates instance of Scene */
     constructor() {
         super('LoadAssets');
         /**List of all asset files which need to be loaded */

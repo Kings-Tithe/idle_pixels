@@ -4,6 +4,7 @@
  * during construction by accessing the JavaScript 'window' object. */
 class Boot extends Phaser.Scene {
 
+    /**Creates instance of Scene */
     constructor() {
         super('Boot');
     }

@@ -3,13 +3,20 @@ let config = {
   // Automatically determine how to render
   type: Phaser.AUTO,
   // Primary scene objects, more will be added in LoadScripts
-  scene: [Boot, Loading, HomeScreen, MainGame],
+  scene: [
+    Boot,
+    LoadScripts
+    //LoadAssets,
+    //Splash,
+    //Home,
+    //Play
+  ],
   // Title to display on the game
   title: 'Idle Pixels',
   // Prevents anti-aliasing
   pixelArt: true,
   // Black background when nothing else is being displayed over it
-  backgroundColor: 'ffffff',
+  backgroundColor: '000000',
   /* Game (canvas) attaches to the div with id 'game'.
    * The game's world is 640x640, but it will scale as needed. */
   scale: {

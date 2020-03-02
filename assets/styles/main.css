@@ -10,7 +10,6 @@ body {
  * The square game will remain square on rectangular screens.
  */
 canvas {
-    background: white;
     margin: 0;
     position: absolute;
     top: 50%;

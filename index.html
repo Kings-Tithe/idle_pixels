@@ -2,33 +2,37 @@
 <html lang="en">
 
 <head>
-  <!--Metadata-->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
-  <!--Lib-->
-  <script src="js/lib/jquery-3.4.1.min.js"></script>
-  <script src="js/lib/phaser.min.js"></script>
-  <!--Scenes-->
-  <script src="./js/Util.js"></script>
-  <script src="./js/scenes/Boot.js"></script>
-  <script src="./js/scenes/Loading.js"></script>
-  <script src="./js/scenes/HomeScreen.js"></script>
-  <script src="./js/scenes/MainGame.js"></script>
-  <script src="./js/scenes/MainGameUshop.js"></script>
-  <!--Main-->
-  <script src="./js/main.js"></script>
-  <!--CSS-->
-  <link rel="stylesheet" href="./assets/styles/main.css" type="text/css"/>
-  <link rel="stylesheet" href="./assets/styles/ushop.css" type="text/css"/>
+    <!--Metadata-->
+    <meta charset="UTF-8" />
+    <!--Prevents certain browser functionality such as double tap to zoom-->
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1,
+    maximum-scale=1, user-scalable=no, minimal-ui" />
+
+    <!--CSS-->
+    <link rel="stylesheet" href="./assets/styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="./assets/styles/ushop.css" type="text/css" />
+
+    <!--Scripts: not an exhaustive list as many are loaded using jQuery-->
+    <!--Lib-->
+    <script src="js/lib/jquery-3.4.1.min.js"></script>
+    <script src="js/lib/phaser.min.js"></script>
+    <!--Scenes: not an exhaustive list as many are loaded using jQuery-->
+    <script src="./js/scenes/Boot.js"></script>
+    <script src="./js/scenes/Splash.js"></script>
+    <script src="./js/scenes/LoadScripts.js"></script>
+    <script src="./js/scenes/LoadAssets.js"></script>
+    <script src="./js/scenes/Home.js"></script>
+    <script src="./js/scenes/Game.js"></script>
+    <!--Launching file which starts the game-->
+    <script src="./js/launch.js"></script>
 </head>
 
 <body>
-  <div id="game">
-    <!-- Upgrade Shop -->
-    <div id="upgrade-shop">
-      <div id="ushop-content"></div>
+    <div id="game">
+        <div id="upgrade-shop">
+            <div id="ushop-content"></div>
+        </div>
     </div>
-  </div>
 </body>
 
 </html>

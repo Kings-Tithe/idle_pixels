@@ -8,8 +8,12 @@ class LoadAssets extends Phaser.Scene {
         /**List of all asset files which need to be loaded */
         this.files = {
             // Images
-            'play': 'I./assets/images/play.png',
-            'shop': 'I./assets/images/shop.png',
+            // Images: UI
+            'credits': 'I./assets/images/ui/credits.png',
+            'options': 'I./assets/images/ui/options.png',
+            'play': 'I./assets/images/ui/play.png',
+            'shop': 'I./assets/images/ui/shop.png',
+            'title': 'I./assets/images/ui/title.png',
             // Images: Free Use
             'close': 'I./assets/images/free-use/CloseButton.png',
             'closePressed': 'I./assets/images/free-use/CloseButtonPressed.png',

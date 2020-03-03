@@ -34,8 +34,7 @@ let config = {
         LoadScripts,
         LoadAssets,
         Splash,
-        //Home,
-        //Play
+        Home
     ],
     // Title to display on the game
     title: 'Idle Pixels',

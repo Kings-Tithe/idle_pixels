@@ -18,24 +18,24 @@ class Splash extends Phaser.Scene {
      * It runs after init() and preload() have completed */
     create() {
         // Create the splash screen visuals
-        let logo = this.add.sprite(this.p.x(52), this.p.y(46), 'hero')
+        let logo = this.add.sprite(this.p.x(50), this.p.y(50) - 15, 'hero')
             .setOrigin(0.5, 0.5)
             .setScale(10)
             .setAlpha(0);
-        let text = this.add.text(this.p.x(50), this.p.y(46) + 165, 'Idle Pixels', {
+        let text = this.add.text(this.p.x(50), this.p.y(50) + 150, 'Idle Pixels', {
             fontFamily: "Lucida Console, Monaco, monospace",
             fontSize: '32px'
         })
             .setOrigin(0.5, 0.5)
             .setAlpha(0);
-        // Fade in and out 3 times
+        // Fade in and out 2 times
         let fade = this.add.tween({
             targets: [logo, text],
             alpha: 1,
             duration: 500,
             ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: 2,
+            repeat: 1,
             callbackScope: this,
             onComplete: (tween, targets) => {
                 this.scene.start('Home');

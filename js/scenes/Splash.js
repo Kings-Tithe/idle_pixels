@@ -1,3 +1,4 @@
+/**Creates and animates a splash screen before launching into the main game */
 class Splash extends Phaser.Scene {
 
     /**Creates instance of Scene */
@@ -19,39 +20,18 @@ class Splash extends Phaser.Scene {
         })
             .setOrigin(0.5, 0.5)
             .setAlpha(0);
-        // Fade in tween makes the splash screen visible
-        let fadeIn = this.add.tween({
+        // Fade in and out 3 times
+        let fade = this.add.tween({
             targets: [logo, text],
             alpha: 1,
             duration: 500,
             ease: 'Sine.easeInOut',
-            paused: true,
+            yoyo: true,
+            repeat: 2,
             callbackScope: this,
             onComplete: (tween, targets) => {
-                // This animation is .5s and is called every 1s
-                // By calling fadeOut here we ensure it is also
-                // called every second, but at a .5s offset from
-                // fadeIn.
-                fadeOut.play();
+                this.scene.start('Home');
             }
         });
-        // Fade out tween makes the splash screen disappear
-        let fadeOut = this.add.tween({
-            targets: [logo, text],
-            alpha: 0,
-            duration: 500,
-            ease: 'Sine.easeInOut',
-            paused: true,
-            callbackScope: this
-        });
-        // Fade in every second for half a second
-        fadeIn.play();
-        setInterval(() => {
-            fadeIn.play();
-        }, 1000);
-        // After a total of 3 seconds, start the next scene
-        setTimeout(() => {
-            this.scene.start('Home');
-        }, 3000);
     }
 }

@@ -1,15 +1,15 @@
 /* Background pieces which do not contain game elements (typically regions
  * which were leftover from screen ratio not matching game ratio) are simply
- * filled in black.
+ * filled in white.
  */
 body {
-    background: black;
+    background: white;
 }
 
 /* Canvas (games display) is centered (regardless of size) and scaled.
  * The square game will remain square on rectangular screens.
  */
-canvas {
+/* canvas {
     margin: 0;
     position: absolute;
     top: 50%;
@@ -18,7 +18,7 @@ canvas {
     max-width: 100%;
     -ms-transform: translateY(-50%) translateX(-50%);
     transform: translateY(-50%) translateX(-50%);
-}
+} */
 
 /* The only rule with the game object is that is should not be taller
  * than the viewport

@@ -1,10 +1,10 @@
 // our game's configuration
 let config = {
   type: Phaser.AUTO,
-  scene: [Boot, Loading, HomeScreen, MainGame],
+  scene: [Boot, Loading, HomeScreen, Credits, MainGame],
   title: 'Idle Pixels',
   pixelArt: true,
-  backgroundColor: 'ffffff',
+  backgroundColor: '000000',
   scale: {
     parent: 'game',
     mode: Phaser.Scale.FIT,

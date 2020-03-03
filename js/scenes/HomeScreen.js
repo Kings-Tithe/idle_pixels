@@ -11,9 +11,9 @@ HomeScreen.create = function () {
     this.playButton.setInteractive();
     this.playButton.introTween = this.tweens.add({
         targets: this.playButton,
-        x : 330,
+        x : 334,
         y : 250,
-        scaleX: 6,
+        scaleX: 6.97,
         scaleY: 6,
         duration: 500,
         paused: false,
@@ -40,4 +40,38 @@ HomeScreen.create = function () {
             }
         });
     }, this)
+
+    //add the options button
+    this.optionsButton = this.add.sprite(160,430,"optionsButton").setScale(0);
+    this.optionsButton.setInteractive();
+    this.optionsButton.introTween = this.tweens.add({
+        targets: this.optionsButton,
+        x : 330,
+        y : 360,
+        scaleX: 6.7,
+        scaleY: 6,
+        duration: 500,
+        paused: false,
+        yoyo: false,
+        repeat: false,
+    });
+
+    //add the credits button
+    this.creditsButton = this.add.sprite(160,430,"creditsButton").setScale(0);
+    this.creditsButton.setInteractive();
+    this.creditsButton.introTween = this.tweens.add({
+        targets: this.creditsButton,
+        x : 323,
+        y : 465,
+        scaleX: 6.28,
+        scaleY: 6,
+        duration: 500,
+        paused: false,
+        yoyo: false,
+        repeat: false,
+    });
+    //set it to move to Credits scene when clicked
+    this.creditsButton.on("pointerdown",function(){
+        this.scene.start("Credits");
+    },this);
 }

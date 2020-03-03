@@ -17,7 +17,8 @@ class LoadScripts extends Phaser.Scene {
             // Scenes
             // Scenes: Levels
             // Tools
-            "./js/tools/Rnd.js"
+            "./js/tools/Rnd.js",
+            "./js/tools/PercentCoords.js"
         ]
     }
 
@@ -44,7 +45,7 @@ class LoadScripts extends Phaser.Scene {
             this.updateProgress();
         }
 
-        // Star the next scene
+        // Start the next scene
         this.scene.start('LoadAssets');
     }
 
@@ -59,22 +60,29 @@ class LoadScripts extends Phaser.Scene {
         this.progressBar = this.add.graphics();
         // Draw progress bar background
         this.progressBox.fillStyle(0x222222, 0.8);
-        this.progressBox.fillRect(160, 295, 320, 50);
+        this.progressBox.fillRect(window.CENTER.x / 2, window.CENTER.y - 25,
+            window.CENTER.x, 50);
         // Create loading texts
-        this.loadingText = this.add.text(320, 270, 'Loading Scripts...', {
-            font: '20px monospace',
-            fill: '#ffffff'
-        });
+        this.loadingText = this.add.text(window.CENTER.x, window.CENTER.y - 50,
+            'Loading Scripts...',
+            {
+                font: '20px monospace',
+                fill: '#ffffff'
+            });
         this.loadingText.setOrigin(0.5, 0.5);
-        this.percentText = this.add.text(320, 320, '0%', {
-            font: '18px monospace',
-            fill: '#ffffff'
-        });
+        this.percentText = this.add.text(window.CENTER.x, window.CENTER.y,
+            '0%',
+            {
+                font: '18px monospace',
+                fill: '#ffffff'
+            });
         this.percentText.setOrigin(0.5, 0.5);
-        this.scriptText = this.add.text(320, 370, '', {
-            font: '18px monospace',
-            fill: '#ffffff'
-        });
+        this.scriptText = this.add.text(window.CENTER.x, window.CENTER.y + 50,
+            '',
+            {
+                font: '18px monospace',
+                fill: '#ffffff'
+            });
         this.scriptText.setOrigin(0.5, 0.5);
     }
 
@@ -85,7 +93,8 @@ class LoadScripts extends Phaser.Scene {
         // Update the progess bar
         this.progressBar.clear();
         this.progressBar.fillStyle(0x777777, 1);
-        this.progressBar.fillRect(170, 305, 300 * (this.processed / this.total), 30);
+        this.progressBar.fillRect(window.CENTER.x / 2 + 10, window.CENTER.y - 15,
+            (window.CENTER.x - 20) * (this.processed / this.total), 30);
         // Update progress percentage
         this.percentText.setText(parseInt((this.processed / this.total) * 100) + '%');
     }

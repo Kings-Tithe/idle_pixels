@@ -28,7 +28,7 @@ class Boot extends Phaser.Scene {
         /**DUMMY_FILES marks whether we should load in additional dummy files. 
          * This is helpful when testing progress-dependent UI elements, such as
          * loading bars. */
-        window.DUMMY_FILES = false;
+        window.DUMMY_FILES = true;
         /**WHRATIO is the ratio of width to height. It can be used to scale
          * the width to the height by width*WHRATIO, or to scale the height
          * to the width with height/WHRATIO */
@@ -38,7 +38,13 @@ class Boot extends Phaser.Scene {
         /**VERTICAL determines if the game screen is vertical. This doesn't
          * exactly check if we're on mobile, but it does help to accomplish
          * competent scaling for mobile devices. */
-        window.VERTICAL = window.RATIO < 1 ? true : false;
+        window.VERTICAL = window.WHRATIO < 1 ? true : false;
+        /**CENTER marks the logical center of the screen and is helpful for
+         * positioning objects. */
+        window.CENTER = {
+            x: this.game.scale.width / 2,
+            y: this.game.scale.height / 2
+        };
     }
 
 }

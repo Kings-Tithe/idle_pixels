@@ -40,6 +40,14 @@ class LoadAssets extends Phaser.Scene {
         }
     }
 
+    /**Init is a Phaser Scene method that runs before any of the others. It can
+     * be thought of like a sort of follow-up constructor that runs only once
+     * the scene is actually being launched (instead of just being added to the
+     * game object) */
+    init() {
+        this.p = PercentCoords;
+    }
+
     /**Phaser.Scene method which allows for loading of assets with the Phaser
      * loader. Runs after init() and before create()*/
     preload() {
@@ -81,22 +89,28 @@ class LoadAssets extends Phaser.Scene {
         this.progressBar = this.add.graphics();
         // Draw progress bar background
         this.progressBox.fillStyle(0x222222, 0.8);
-        this.progressBox.fillRect(160, 295, 320, 50);
+        this.progressBox.fillRect(this.p.x(25), this.p.y(50) - 20, this.p.x(50), 50);
         // Create loading texts
-        this.loadingText = this.add.text(320, 270, 'Loading Assets...', {
-            font: '20px monospace',
-            fill: '#ffffff'
-        });
+        this.loadingText = this.add.text(this.p.x(50), this.p.y(50) - 50,
+            'Loading Assets...',
+            {
+                font: '20px monospace',
+                fill: '#ffffff'
+            });
         this.loadingText.setOrigin(0.5, 0.5);
-        this.percentText = this.add.text(320, 320, '0%', {
-            font: '18px monospace',
-            fill: '#ffffff'
-        });
+        this.percentText = this.add.text(this.p.x(50), this.p.y(50),
+            '0%',
+            {
+                font: '18px monospace',
+                fill: '#ffffff'
+            });
         this.percentText.setOrigin(0.5, 0.5);
-        this.assetText = this.add.text(320, 370, '', {
-            font: '18px monospace',
-            fill: '#ffffff'
-        });
+        this.assetText = this.add.text(this.p.x(50), this.p.y(50) + 50,
+            '',
+            {
+                font: '18px monospace',
+                fill: '#ffffff'
+            });
         this.assetText.setOrigin(0.5, 0.5);
     }
 
@@ -106,7 +120,8 @@ class LoadAssets extends Phaser.Scene {
     onProgress(value) {
         this.progressBar.clear();
         this.progressBar.fillStyle(0x777777, 1);
-        this.progressBar.fillRect(170, 305, 300 * value, 30);
+        this.progressBar.fillRect(this.p.x(25) + 10, this.p.y(50) - 15,
+            (this.p.x(50) - 20) * value, 30);
         this.percentText.setText(parseInt(value * 100) + '%');
     }
 

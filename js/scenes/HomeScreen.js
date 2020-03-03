@@ -72,6 +72,6 @@ HomeScreen.create = function () {
     });
     //set it to move to Credits scene when clicked
     this.creditsButton.on("pointerdown",function(){
-        this.scene.start("Credits")
+        this.scene.start("Credits");
     },this);
 }

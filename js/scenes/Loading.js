@@ -23,6 +23,7 @@ Loading.preload = function () {
     this.load.image("playButton","./assets/images/user_interface/play_button.png");
     this.load.image("optionsButton","./assets/images/user_interface/options_button.png");
     this.load.image("creditsButton","./assets/images/user_interface/credits_button.png");
+    this.load.image("backButton","./assets/images/user_interface/back_button.png");
 
     //loud sound effects
     this.load.audio("punch","./assets/sounds/dull_punch.mp3");

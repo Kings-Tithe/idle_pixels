@@ -17,7 +17,10 @@ Loading.preload = function () {
     }
   
     // Load shop icon
-    this.load.image("shop", "./assets/images/shop.png");
+    this.load.image("shop", "./assets/images/user_interface/shop.png");
+
+    //load buttons
+    this.load.image("playButton","./assets/images/user_interface/play_button.png")
 
     //loud sound effects
     this.load.audio("punch","./assets/sounds/dull_punch.mp3");
@@ -27,6 +30,9 @@ Loading.preload = function () {
     for(level of this.game.levelList){
         this.load.audio("music_" + level.name, level.backgroundMusic);
     }
+
+    //load title screen background
+    this.load.image("titleBackground","./assets/images/worlds/title_screen.png");
 }
 
 Loading.create = function () {

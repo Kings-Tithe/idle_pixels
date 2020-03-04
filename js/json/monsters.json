@@ -51,7 +51,7 @@
         "key": "starfish",
         "name": "Starfish",
         "health": 1,
-        "spriteSheet": "./assets/images/enemies/Starfish.png"
+        "spriteSheet": "./assets/images/enemies/starfish.png"
     },
     "witch": {
         "key": "witch",

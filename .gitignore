@@ -3,3 +3,6 @@ assets/individuals/*
 
 # Typescript definitions for IntelliSense
 defs/*
+
+#gitpod configuration files
+.gitpod.yml

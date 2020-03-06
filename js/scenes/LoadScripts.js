@@ -20,6 +20,7 @@ class LoadScripts extends Phaser.Scene {
             // Sprites: Monsters
             // Scenes
             // Scenes: Levels
+            "./js/scenes/levels/SlimeRanch.js",
             // Tools
             "./js/tools/Rnd.js",
             "./js/tools/PercentCoords.js"

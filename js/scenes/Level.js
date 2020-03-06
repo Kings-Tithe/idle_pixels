@@ -66,11 +66,3 @@ class Level extends Phaser.Scene {
     }
 
 }
-// Add the level to the game objects scenes
-// IdlePixels.scene.add(Level);
-// Add the level to the list of possible levels
-// (Add the level's SCENE KEY to the list, defined in the constructor)
-// IdlePixels.levels.push('Level');
-// Because this is an abstract class, we won't actually add this level
-// But we do need to initialize the list of levels.
-IdlePixels.levels = [];

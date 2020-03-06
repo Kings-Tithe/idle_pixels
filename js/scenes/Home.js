@@ -13,6 +13,8 @@ class Home extends Phaser.Scene {
      */
     init() {
         this.p = PercentCoords;
+        // Load all of the level classes into Phaser
+        this.loadLevels();
     }
 
     /**
@@ -77,23 +79,20 @@ class Home extends Phaser.Scene {
 
     }
 
+    loadLevels() {
+        let levels = {
+            "SlimeRanch": SlimeRanch
+        }
+        for (let key of Object.keys(levels)) {
+            window.LEVELS.push(key);
+            this.game.scene.add(levels[key]);
+        }
+    }
+
     onPlay() {
-        this.scene.start("Game", {
-            stageNum: 1,
-            coins: 0,
-            prev_index: -1,
-            upgrades: {
-                hero: {
-                    lvl: 1,
-                    cost: 5,
-                    inc: 1.2
-                },
-                wizard: {
-                    lvl: 0,
-                    cost: 15,
-                    inc: 2.5
-                }
-            }
+        this.scene.start("SlimeRanch", {
+            player: null,
+            stage: 0
         });
     }
 

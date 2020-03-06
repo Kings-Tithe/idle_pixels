@@ -20,6 +20,7 @@ class Boot extends Phaser.Scene {
 
     /**Declare global variables to be used in other parts of the game */
     declareGlobals() {
+        window.LEVELS = [];
         /**LOGGING marks whether we should print out some informational logs to
          * the console. We should still keep logging to a minimum even with
          * this set. Temporary debugging statements are okay, but if the

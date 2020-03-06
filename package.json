@@ -24,5 +24,6 @@
   "bugs": {
     "url": "https://github.com/jeremyglebe/idle_pixels/issues"
   },
-  "homepage": "https://github.com/jeremyglebe/idle_pixels#readme"
+  "homepage": "https://github.com/jeremyglebe/idle_pixels#readme",
+  "dependencies": {}
 }

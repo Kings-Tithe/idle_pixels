@@ -5,16 +5,20 @@ class Home extends Phaser.Scene {
         super('Home');
     }
 
-    /**Init is a Phaser Scene method that runs before any of the others. It can
+    /**
+     * Init is a Phaser Scene method that runs before any of the others. It can
      * be thought of like a sort of follow-up constructor that runs only once
      * the scene is actually being launched (instead of just being added to the
-     * game object) */
+     * game object)
+     */
     init() {
         this.p = PercentCoords;
     }
 
-    /**Phaser.Scene method which represents the start of the Scene's behavior.
-     * It runs after init() and preload() have completed */
+    /**
+     * Phaser.Scene method which represents the start of the Scene's behavior.
+     * It runs after init() and preload() have completed
+     */
     create() {
         // Paint the background
         let background = this.add.image(this.p.x(50), this.p.y(50), "title").setOrigin(.5, .5);

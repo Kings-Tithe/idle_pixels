@@ -1,15 +1,19 @@
-/**Loads additional scripts using jQuery. Loading of large amounts of scripts
+/**
+ * Loads additional scripts using jQuery. Loading of large amounts of scripts
  * (levels, monsters, etc) is performed here to prevent crowding in
  * 'index.html' This does not use Phaser's loader and thus cannot be done in
- * the preload() method, but instead in create() */
+ * the preload() method, but instead in create()
+ */
 class LoadScripts extends Phaser.Scene {
 
     /**Creates instance of Scene */
     constructor() {
         super('LoadScripts');
-        /**List of all script files which need to be loaded
+        /**
+         * List of all script files which need to be loaded
          * Scripts that were not added in 'index.html' MUST be added here
-         * for loading */
+         * for loading
+         */
         this.files = [
             // Sprites
             // Sprites: Heroes
@@ -22,8 +26,10 @@ class LoadScripts extends Phaser.Scene {
         ]
     }
 
-    /**Phaser.Scene method which represents the start of the Scene's behavior.
-     * It runs after init() and preload() have completed */
+    /**
+     * Phaser.Scene method which represents the start of the Scene's behavior.
+     * It runs after init() and preload() have completed
+     */
     async create() {
         // Add dummy scripts to test progress bar
         if (window.DUMMY_FILES) for (let i = 0; i < 250; i++)
@@ -49,8 +55,10 @@ class LoadScripts extends Phaser.Scene {
         this.scene.start('LoadAssets');
     }
 
-    /**Creates several visual elements to assist in tracking the current
-     * progress of scripts being loaded. */
+    /**
+     * Creates several visual elements to assist in tracking the current
+     * progress of scripts being loaded.
+     */
     createProgressTrackers() {
         // Total number of files and number processed for tracking progess
         this.total = this.files.length;
@@ -86,8 +94,10 @@ class LoadScripts extends Phaser.Scene {
         this.scriptText.setOrigin(0.5, 0.5);
     }
 
-    /**Updates the number of loaded scripts and the visual representations
-     * of our current progress. */
+    /**
+     * Updates the number of loaded scripts and the visual representations
+     * of our current progress.
+     */
     updateProgress() {
         this.processed++;
         // Update the progess bar

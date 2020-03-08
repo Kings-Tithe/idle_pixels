@@ -104,7 +104,7 @@ MainGame.createHealthBar = function () {
     //Health bar container, black line that surrounds the
     //health bar
     this.currentMonster.healthContainer = this.add.graphics();
-    this.currentMonster.healthContainer.lineStyle(4, 0x000000, 1);
+    this.currentMonster.healthContainer.lineStyle(4.5, 0x000000, 1);
     this.currentMonster.healthContainer.strokeRoundedRect(250, 150, 150, 30, 15);
     this.currentMonster.healthContainer.depth = 2;
     //Colored health bar
@@ -236,7 +236,7 @@ MainGame.updateHealth = function () {
             this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
         }
         //Make sure the angles don't overlap on the health bar
-        if (percentage < .12){
+        if (percentage < .13){
             this.currentMonster.healthBar.fillRoundedRect(250, 155, Math.trunc(percentage * 150), 20,2);
         } else {
             this.currentMonster.healthBar.fillRoundedRect(250, 150, Math.trunc(percentage * 150), 30,15);

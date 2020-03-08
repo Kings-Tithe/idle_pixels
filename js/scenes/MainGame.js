@@ -101,10 +101,23 @@ MainGame.createMonster = function () {
 }
 
 MainGame.createHealthBar = function () {
-    //create health bar
+    //Health bar container, black line that surrounds the
+    //health bar
+    this.currentMonster.healthContainer = this.add.graphics();
+    this.currentMonster.healthContainer.lineStyle(4, 0x000000, 1);
+    this.currentMonster.healthContainer.strokeRoundedRect(250, 150, 150, 30, 15);
+    this.currentMonster.healthContainer.depth = 2;
+    //Colored health bar
     this.currentMonster.healthBar = this.add.graphics();
     this.currentMonster.healthBar.fillStyle(0x32a848, 1);
-    this.currentMonster.healthBar.fillRect(250, 150, 150, 30);
+    this.currentMonster.healthBar.fillRoundedRect(250, 150, 150, 30, 15);
+    this.currentMonster.healthBar.depth = 0;
+
+    //Add health text
+    this.currentMonster.healthText = this.add.text(330, 165, this.currentMonster.health + "/" +this.currentMonster.maxHealth,
+        { font: "20px Arial", fill: "#000000" });
+    this.currentMonster.healthText.setOrigin(.5, .5);
+    this.currentMonster.healthText.depth = 1;
 }
 
 MainGame.createCoinCounter = function () {
@@ -191,12 +204,17 @@ MainGame.introText = function () {
 //                                        #    # #      #    # #    #   #   #      
 //                                         ####  #      #####  #    #   #   ###### 
 
-MainGame.updateHealthBar = function () {
+MainGame.updateHealth = function () {
+    //update health text
+    this.currentMonster.healthText.setText(this.currentMonster.health + "/" +this.currentMonster.maxHealth);
+
     //health percentage
     let percentage = this.currentMonster.health / this.currentMonster.maxHealth;
-
     // Ensures health bar value does not go below 0
     if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {
+        //clear graghics of old health bar
+        this.currentMonster.healthBar.clear();
+
         //health bar color codes
         colors = [
             0x42f598,
@@ -210,11 +228,20 @@ MainGame.updateHealthBar = function () {
             0xb85625,
             0xb84225,
         ]
-        //clear graghics of old health bar
-        this.currentMonster.healthBar.clear();
-        //redraw and change bar size/color
-        this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-        this.currentMonster.healthBar.fillRect(250, 150, Math.trunc(percentage * 150), 30);
+        //calculate fill color of the bar, make sure it never tries to go beyond the bounds of
+        //the above color array
+        if (10 - (Math.trunc(percentage * 10)) > 9){
+            this.currentMonster.healthBar.fillStyle(colors[9], 1);
+        } else {
+            this.currentMonster.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
+        }
+        //Make sure the angles don't overlap on the health bar
+        if (percentage < .12){
+            this.currentMonster.healthBar.fillRoundedRect(250, 155, Math.trunc(percentage * 150), 20,2);
+        } else {
+            this.currentMonster.healthBar.fillRoundedRect(250, 150, Math.trunc(percentage * 150), 30,15);
+        }
+        console.log(percentage,"< .10","\t",10 - (Math.trunc(percentage * 10)));
     } else {
         this.currentMonster.healthBar.clear();
     }
@@ -226,7 +253,7 @@ MainGame.updateCoinCounter = function () {
 
 MainGame.currentMonsterHit = function () {
     this.currentMonster.health -= (this.upgrades.hero.lvl) * 1;
-    this.updateHealthBar();
+    this.updateHealth();
     this.updateCoinCounter();
         this.currentMonster.hitSound.play();
     if (this.currentMonster.health <= 0) {
@@ -270,6 +297,10 @@ MainGame.killMonster = function () {
 MainGame.onMonsterDeath = function () {
     // Destory the sprite
     this.currentMonster.sprite.destroy();
+    //destroy the health bar, health bar container and health text
+    this.currentMonster.healthContainer.destroy();
+    this.currentMonster.healthBar.destroy();
+    this.currentMonster.healthText.destroy();
     // Increment the number of monsters slain
     this.slain++;
     // Earn some coins based on the stage # and the monster's health
@@ -294,7 +325,7 @@ MainGame.onMonsterDeath = function () {
 MainGame.passiveActions = function () {
     // Deal the wizard's damage
     this.currentMonster.health -= (this.upgrades.wizard.lvl) * 1;
-    this.updateHealthBar();
+    this.updateHealth();
     if (this.currentMonster.health <= 0 && !this.currentMonster.sprite.dieTween.isPlaying()) {
         this.killMonster();
         return;

@@ -54,11 +54,30 @@ class Level extends Phaser.Scene {
         // Create background image
         let bg = this.add.image(this.p.x(50), this.p.y(50), this.bg);
         bg.setScale(20);
-        // Create a random first monster
+        // Create the first monster
+        this.getRandMonster();
+    }
+
+    /**
+     * Creates a random monster from the monster list on the screen.
+     */
+    getRandMonster() {
+        // Create a random monster
         let i = Rnd.int(0, this.monsters.length - 1);
         let MonsterClass = this.monsters[i];
+        /** @type {Monster} */
         let monster = new MonsterClass(this, this.stage);
-        this.children.add(monster);
+        this.add.existing(monster);
+        // Handle the monster's death
+        monster.on('death', this.onMonsterDeath, this);
+    }
+
+    /**
+     * Switches either the monster or the level after a monster dies.
+     */
+    onMonsterDeath() {
+        this.slain++;
+        this.getRandMonster();
     }
 
     /**

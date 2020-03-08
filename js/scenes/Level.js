@@ -1,4 +1,26 @@
 class Level extends Phaser.Scene {
+
+    /**
+     * Name displayed in the level's splash text
+     * @type {String}
+     */
+    name = "";
+    /**
+     * Key of the level's background image
+     * @type {String}
+     */
+    bg = '';
+    /**
+     * Monsters that this level uses
+     * @type {Array.<Class>} array of classes extending Monster
+     */
+    monsters = [];
+    /**
+     * Monster this level uses as its boss.
+     * @type {Class} class extending Monster
+     */
+    boss = null;
+
     /**
      * Creates instance of Level scene
      * @param {String} sceneKey The key that Phaser uses to load this scene.
@@ -7,26 +29,6 @@ class Level extends Phaser.Scene {
         super(sceneKey);
         // Save the scene's key
         this.key = sceneKey;
-        /**
-         * Name displayed in the level's splash text
-         * @type {String}
-         */
-        this.name = "";
-        /**
-         * Key of the level's background image
-         * @type {String}
-         */
-        this.bg = '';
-        /**
-         * Monsters that this level uses
-         * @type {Array.<Class>} array of classes extending Monster
-         */
-        this.monsters = [];
-        /**
-         * Monster this level uses as its boss.
-         * @type {Class} class extending Monster
-         */
-        this.boss = null;
     }
 
     /**
@@ -52,12 +54,20 @@ class Level extends Phaser.Scene {
         // Create background image
         let bg = this.add.image(this.p.x(50), this.p.y(50), this.bg);
         bg.setScale(20);
+        // Create a random first monster
+        let i = Rnd.int(0, this.monsters.length - 1);
+        let MonsterClass = this.monsters[i];
+        let monster = new MonsterClass(this, this.stage);
+        this.children.add(monster);
     }
 
+    /**
+     * Starts the next level (ensuring that it is not the same level again)
+     */
     nextLevel() {
         let key = this.key;
         while (key == this.key) {
-            key = this.levels[Rnd.int(0, this.levels.length - 1)];
+            key = window.LEVELS[Rnd.int(0, this.window.LEVELS.length - 1)];
         }
         this.scene.start(key, {
             player: this.player,

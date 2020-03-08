@@ -21,26 +21,26 @@ class LoadAssets extends Phaser.Scene {
             'hero': 'I./assets/images/heroes/hero.png',
             'wizard': 'I./assets/images/heroes/wizard.png',
             // Images: Monsters
-            'bat': 'I./assets/images/monsters/bat.png',
-            'blue': 'I./assets/images/monsters/blue.png',
-            'green': 'I./assets/images/monsters/green.png',
-            'jellyfish': 'I./assets/images/monsters/jellyfish.png',
-            'pink': 'I./assets/images/monsters/pink.png',
-            'red': 'I./assets/images/monsters/red.png',
-            'shark': 'I./assets/images/monsters/shark.png',
-            'skelly': 'I./assets/images/monsters/skelly.png',
-            'starfish': 'I./assets/images/monsters/starfish.png',
-            'witch': 'I./assets/images/monsters/witch.png',
+            'bat': 'S./assets/images/monsters/bat.png',
+            'blue': 'S./assets/images/monsters/blue.png',
+            'green': 'S./assets/images/monsters/green.png',
+            'jellyfish': 'S./assets/images/monsters/jellyfish.png',
+            'pink': 'S./assets/images/monsters/pink.png',
+            'red': 'S./assets/images/monsters/red.png',
+            'shark': 'S./assets/images/monsters/shark.png',
+            'skelly': 'S./assets/images/monsters/skelly.png',
+            'starfish': 'S./assets/images/monsters/starfish.png',
+            'witch': 'S./assets/images/monsters/witch.png',
             // Images: Worlds
             'gothicBg': 'I./assets/images/worlds/gothic.png',
             'slimeBg': 'I./assets/images/worlds/slime.png',
             'waterBg': 'I./assets/images/worlds/water.png',
             // Sounds
-            'punch': 'S./assets/sounds/dull_punch.mp3',
-            'gothic': 'S./assets/sounds/Gothic_Music.mp3',
-            'ocean': 'S./assets/sounds/Ocean_Music.mp3',
-            'slap': 'S./assets/sounds/slap.mp3',
-            'slime': 'S./assets/sounds/Slime_Music.mp3'
+            'punch': 'A./assets/sounds/dull_punch.mp3',
+            'gothic': 'A./assets/sounds/Gothic_Music.mp3',
+            'ocean': 'A./assets/sounds/Ocean_Music.mp3',
+            'slap': 'A./assets/sounds/slap.mp3',
+            'slime': 'A./assets/sounds/Slime_Music.mp3'
         }
     }
 
@@ -67,9 +67,11 @@ class LoadAssets extends Phaser.Scene {
             /**Check the type of asset, then load the asset. When loading, take
              * a slice that doesn't include the first character. That first
              * character just tells use the type of asset. */
-            if (this.files[key][0] == 'I') {
+            if (this.files[key][0] == 'S') {
+                this.load.spritesheet(key, this.files[key].slice(1), { frameWidth: 32, frameHeight: 32 });
+            } else if (this.files[key][0] == 'I') {
                 this.load.image(key, this.files[key].slice(1));
-            } else if (this.files[key][0] == 'S') {
+            } else if (this.files[key][0] == 'A') {
                 this.load.audio(key, this.files[key].slice(1));
             }
         }

@@ -15,16 +15,18 @@ class LoadScripts extends Phaser.Scene {
          * for loading
          */
         this.files = [
+            // Tools
+            "./js/tools/Rnd.js",
+            "./js/tools/PercentCoords.js",
             // Sprites
+            "./js/sprites/Monster.js",
             // Sprites: Heroes
             // Sprites: Monsters
+            "./js/sprites/monsters/Bat.js",
             // Scenes
             // Scenes: Levels
             // Make sure to also add levels to list in "addLevels()" method
-            "./js/scenes/levels/SlimeRanch.js",
-            // Tools
-            "./js/tools/Rnd.js",
-            "./js/tools/PercentCoords.js"
+            "./js/scenes/levels/SlimeRanch.js"
         ]
     }
 

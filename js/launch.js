@@ -1,9 +1,13 @@
-/**Global game object which manages the entire Phaser engine.
+/**
+ * Global game object which manages the entire Phaser engine.
  * This will automatically start the game in the first Scene (defined as the
  * first item int he scene list above, Boot)
- * @type {Phaser.Game} */
+ * @type {Phaser.Game}
+ */
 var IdlePixels = null;
-/**launchGame creates a game object to store in IdlePixels. This is done at
+
+/**
+ * launchGame creates a game object to store in IdlePixels. This is done at
  * the bottom of the file just for formatting. Size calculation and config
  * creation are handled below before the actual creation (calling launchGame())
  * allowing for neater code at the top of the file.

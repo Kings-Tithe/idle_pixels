@@ -13,8 +13,6 @@ class Home extends Phaser.Scene {
      */
     init() {
         this.p = PercentCoords;
-        // Load all of the level classes into Phaser
-        this.loadLevels();
     }
 
     /**
@@ -79,16 +77,11 @@ class Home extends Phaser.Scene {
 
     }
 
-    loadLevels() {
-        let levels = {
-            "SlimeRanch": SlimeRanch
-        }
-        for (let key of Object.keys(levels)) {
-            window.LEVELS.push(key);
-            this.game.scene.add(levels[key]);
-        }
-    }
-
+    /**
+     * Play button loads previous game save data and relaunches the game
+     * at the correct level/monster OR starts a new game at Slime Ranch.
+     * (Currently, saves are not implemented. It just starts a new game.)
+     */
     onPlay() {
         this.scene.start("SlimeRanch", {
             player: null,

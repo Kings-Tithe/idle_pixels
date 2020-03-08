@@ -20,6 +20,7 @@ class LoadScripts extends Phaser.Scene {
             // Sprites: Monsters
             // Scenes
             // Scenes: Levels
+            // Make sure to also add levels to list in "addLevels()" method
             "./js/scenes/levels/SlimeRanch.js",
             // Tools
             "./js/tools/Rnd.js",
@@ -52,8 +53,28 @@ class LoadScripts extends Phaser.Scene {
             this.updateProgress();
         }
 
+        // Add all the levels that were loaded from scripts above to the game
+        this.addLevels();
+
         // Start the next scene
         this.scene.start('LoadAssets');
+    }
+
+    /**
+     * Adds a set of classes (loaded above from list of scripts) to the game's
+     * scene list and to a list of keys associated with Level scenes.
+     * Levels need to be added to the list below and the script list in the
+     * constructor.
+     */
+    addLevels() {
+        // A list of levels from the above scripts to add to the game
+        let levels = {
+            "SlimeRanch": SlimeRanch
+        }
+        for (let key of Object.keys(levels)) {
+            window.LEVELS.push(key);
+            this.scene.add(key, levels[key]);
+        }
     }
 
     /**

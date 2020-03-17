@@ -1,6 +1,5 @@
-# Individual asset files, not in a sprite sheet
-assets/individuals/*
+# Any folders intended to be ignored
+*/ignore/
 
-# Typescript definitions for IntelliSense
-defs/*
+# Dependencies and other modules
 node_modules

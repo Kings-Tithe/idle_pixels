@@ -4,7 +4,8 @@
   "description": "A idle clicker in which you kill monsters.",
   "main": "index.js",
   "scripts": {
-    "test": "browser-sync start -s -f . --no-notify --host $LOCAL_IP --port 9000"
+    "build": "webpack",
+    "dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/jeremyglebe/idle_pixels#readme",
   "dependencies": {
+    "jquery": "^3.4.1",
     "phaser": "^3.22.0"
   },
   "devDependencies": {

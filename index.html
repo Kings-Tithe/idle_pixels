@@ -1,33 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <title>Idle Pixels</title>
     <!--Metadata-->
-    <meta charset="UTF-8" />
-    <!--Prevents certain browser functionality such as double tap to zoom-->
-    <meta name="viewport" content="initial-scale=1, minimum-scale=1,
-    maximum-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="cleartype" content="on">
 
     <!--CSS-->
     <link rel="stylesheet" href="./styles/main.css" type="text/css" />
     <link rel="stylesheet" href="./styles/ushop.css" type="text/css" />
 
-    <!--Scripts: not an exhaustive list as many are loaded using jQuery-->
-    <!--Lib-->
-    <script src="js/lib/jquery-3.4.1.min.js"></script>
-    <script src="js/lib/phaser.min.js"></script>
-    <!--Scenes: not an exhaustive list as many are loaded using jQuery-->
-    <script src="./js/scenes/Boot.js"></script>
-    <script src="./js/scenes/LoadScripts.js"></script>
-    <script src="./js/scenes/LoadAssets.js"></script>
-    <script src="./js/scenes/Splash.js"></script>
-    <script src="./js/scenes/Home.js"></script>
-    <script src="./js/scenes//Level.js"></script>
-    <!--Launching file which starts the game-->
-    <script src="./js/launch.js"></script>
+    <!-- <style>
+        html,
+        body,
+        canvas {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+    </style> -->
+
 </head>
 
 <body>
+    <!--Scripts-->
+    <script src="vendors.app.js"></script>
+    <script src="app.js"></script>
+
+    <!--Display Elements-->
     <div id="game">
         <div id="upgrade-shop">
             <div id="ushop-content"></div>

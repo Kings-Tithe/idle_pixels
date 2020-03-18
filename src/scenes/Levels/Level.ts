@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { px, py } from '../../tools/PercentCoords';
 
 export abstract class Level extends Scene {
     /**
@@ -43,7 +44,7 @@ export abstract class Level extends Scene {
      */
     create() {
         // Create background image
-        let bg = this.add.image(this.p.x(50), this.p.y(50), this.bg);
+        let bg = this.add.image(px(50), py(50), this.bg);
         bg.setScale(20);
     }
 

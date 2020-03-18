@@ -1,13 +1,9 @@
 import { GAME_WIDTH, GAME_HEIGHT } from './Globals';
 
-export class PercentCoords {
+export function px(percentage) {
+    return percentage / 100 * GAME_WIDTH;
+}
 
-    static x(percentage) {
-        return percentage / 100 * GAME_WIDTH;
-    }
-
-    static y(percentage) {
-        return percentage / 100 * GAME_HEIGHT;
-    }
-
+export function py(percentage) {
+    return percentage / 100 * GAME_HEIGHT;
 }

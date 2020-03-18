@@ -15,7 +15,9 @@ import { SlimeRanch } from './SlimeRanch';
  */
 export var LevelMap: { [key: string]: Class};
 LevelMap[SlimeRanch.key] = SlimeRanch;
+
 /**
+ * Automatically adds all level keys to a list of keys.
  * Keys is a list that just holds the keys of the levels. It is also used for
  * random selection, but is a little more concise when we often only need keys.
  */

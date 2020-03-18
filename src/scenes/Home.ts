@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { px,py } from "../tools/PercentCoords"
+import { px, py } from "../tools/PercentCoords"
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -10,7 +10,6 @@ import { px,py } from "../tools/PercentCoords"
  * they are credited to
  */
 export class Home extends Phaser.Scene {
-
 
     /**Creates instance of Scene */
     constructor() {

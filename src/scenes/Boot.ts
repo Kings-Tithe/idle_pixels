@@ -1,8 +1,7 @@
 /**
  * Handles initial startup of game. Loads absolutely basic resources such as
  * loading bar graphics. (for display when loading OTHER resources) Manages
- * any configurations needed when Phaser starts. Also creates global variables
- * during construction by accessing the JavaScript 'window' object.
+ * any configurations needed when Phaser starts.
  */
 export class Boot extends Phaser.Scene {
 
@@ -17,7 +16,7 @@ export class Boot extends Phaser.Scene {
      */
     create() {
         // Start the next scene
-        this.scene.start('LoadScripts');
+        this.scene.start('LoadAssets');
     }
 
 }

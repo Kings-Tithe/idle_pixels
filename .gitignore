@@ -1,5 +1,8 @@
 # Any folders intended to be ignored
-*/ignore/
+**/ignore/
 
 # Dependencies and other modules
 node_modules
+
+# Built project
+build/

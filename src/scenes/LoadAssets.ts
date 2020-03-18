@@ -1,6 +1,7 @@
 import { Loader, GameObjects, Scene } from 'phaser';
 import { DUMMY_FILES } from '../tools/Globals';
 import { px, py } from '../tools/PercentCoords';
+import { Rnd } from '../tools/Rnd';
 
 /**
  * Loads assets (images, sound, etc) for use by the Phaser Engine. This means
@@ -83,7 +84,7 @@ export class LoadAssets extends Scene {
     preload() {
         // Add dummy assets to test progress bar
         if (DUMMY_FILES) for (let i = 0; i < 1000; i++)
-            this.files[i.toString()] = 'I./assets/images/ui/play.png';
+            this.files[i.toString()] = this.files[Object.keys(this.files)[Rnd.int(0, 9)]];
 
         // Create visual trackers to display script loading progress
         this.createProgressTrackers();

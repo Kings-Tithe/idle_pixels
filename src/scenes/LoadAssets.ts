@@ -113,7 +113,7 @@ export class LoadAssets extends Scene {
      */
     create() {
         // Start the next scene
-        this.scene.start('Splash');
+        this.scene.start('Home');
     }
 
     /**Creates several visual elements to assist in tracking the current

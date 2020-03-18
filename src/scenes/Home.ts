@@ -20,13 +20,13 @@ export class Home extends Phaser.Scene {
 
     //images
     /** stores the background image for the scene */
-    background: Phaser.GameObjects.Image = this.add.image(px(50), py(50), "title");
+    background: Phaser.GameObjects.Image;
     /** stores the image for the play button and has attached on-pointerdown functionality */
-    playButton: Phaser.GameObjects.Image = this.add.sprite(px(50) - 145, py(50) + 110, "play");
+    playButton: Phaser.GameObjects.Image;
     //** Stores the image for the options button and has attached on-pointerdown functionality */
-    optionsButton: Phaser.GameObjects.Image = this.add.sprite(px(50) - 145, py(50) + 110, "options");
+    optionsButton: Phaser.GameObjects.Image;
     //** Stores the image for the credits button and has attached on-pointerdown functionality */
-    creditsButton: Phaser.GameObjects.Image = this.add.sprite(px(50) - 145, py(50) + 110, "credits")
+    creditsButton: Phaser.GameObjects.Image;
 
     //Tweens
     playButtonTween: Phaser.Tweens.Tween;
@@ -39,10 +39,12 @@ export class Home extends Phaser.Scene {
      */
     create() {
         // setup the scene's background
+        this.background = this.add.image(px(50), py(50), "title");
         this.background.setOrigin(.5, .5);
         this.background.setScale(5.72, 5.26);
 
-        // set the play button's properties
+        // setup the play button
+        this.playButton = this.add.sprite(px(50) - 145, py(50) + 110, "play");
         this.playButton.setScale(0);
         this.playButton.setOrigin(0.5, 0.5);
         this.playButton.setInteractive();
@@ -61,7 +63,8 @@ export class Home extends Phaser.Scene {
         //set on-pointerdown to change to maingame scene
         this.playButton.on("pointerdown", this.onPlay, this);
 
-        // set the options button's properties
+        // setup the options button
+        this.optionsButton = this.add.sprite(px(50) - 145, py(50) + 110, "options")
         this.optionsButton.setScale(0);
         this.optionsButton.setOrigin(0.5, 0.5);
         this.optionsButton.setInteractive();
@@ -82,7 +85,8 @@ export class Home extends Phaser.Scene {
             repeat: false,
         });
 
-        // set the credits button's properties
+        // setup the credits button
+        this.creditsButton = this.add.sprite(px(50) - 145, py(50) + 110, "credits");
         this.creditsButton.setScale(0);
         this.creditsButton.setOrigin(0.5, 0.5);
         this.creditsButton.setInteractive();

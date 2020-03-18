@@ -11,5 +11,7 @@ export class SlimeRanch extends Level {
 
     constructor() {
         super(SlimeRanch.key);
+        console.log("Scene Added: ", this);
     }
+
 }

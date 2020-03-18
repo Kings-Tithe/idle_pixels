@@ -13,7 +13,7 @@ import { SlimeRanch } from './SlimeRanch';
  * Add all keys and levels to our map of levels. This map is useful for random
  * selection later.
  */
-export var LevelMap: { [key: string]: Class};
+export var LevelMap: { [key: string]: Class } = {};
 LevelMap[SlimeRanch.key] = SlimeRanch;
 
 /**
@@ -21,7 +21,7 @@ LevelMap[SlimeRanch.key] = SlimeRanch;
  * Keys is a list that just holds the keys of the levels. It is also used for
  * random selection, but is a little more concise when we often only need keys.
  */
-export var Keys: Class[] = Object.keys(LevelMap);
+export var Keys: string[] = Object.keys(LevelMap);
 
 /**
  * Export all level classes for use in other modules.

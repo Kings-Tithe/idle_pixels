@@ -114,11 +114,8 @@ export class Home extends Phaser.Scene {
      * (Currently, saves are not implemented. It just starts a new game.)
      */
     onPlay() {
-        this.scene.start("SlimeRanch", {
-            player: null,
-            stage: 0
-        });
+        this.scene.start("SlimeRanch");
     }
 
-    
+
 }

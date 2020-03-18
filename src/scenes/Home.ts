@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { px, py } from "../tools/PercentCoords"
+import { px, py, scaleTo } from "../tools/PercentCoords"
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -29,8 +29,11 @@ export class Home extends Phaser.Scene {
     creditsButton: Phaser.GameObjects.Image;
 
     //Tweens
+    //** Tween that takes playButton from the wizards staff to it's proper place */
     playButtonTween: Phaser.Tweens.Tween;
+    //** Tween that takes optionsButton from the wizards staff to it's proper place */
     optionsButtonTween: Phaser.Tweens.Tween;
+    //** Tween that takes playButton from the wizards staff to it's proper place */
     creditsButtonTween: Phaser.Tweens.Tween;
 
     /**
@@ -39,9 +42,10 @@ export class Home extends Phaser.Scene {
      */
     create() {
         // setup the scene's background
-        this.background = this.add.image(px(50), py(50), "title");
-        this.background.setOrigin(.5, .5);
-        this.background.setScale(5.72, 5.26);
+        this.background = this.add.image(0, 0, "title");
+        this.background.setOrigin(0, 0);
+        this.background.scaleX = scaleTo(px(100),this.background.width);
+        this.background.scaleY = scaleTo(py(100),this.background.height);
 
         // setup the play button
         this.playButton = this.add.sprite(px(50) - 145, py(50) + 110, "play");
@@ -53,8 +57,8 @@ export class Home extends Phaser.Scene {
             targets: this.playButton,
             x: px(50),
             y: py(40),
-            scaleX: 6,
-            scaleY: 6,
+            scaleX: scaleTo(190,this.playButton.width),
+            scaleY: scaleTo(65,this.playButton.height),
             duration: 500,
             paused: false,
             yoyo: false,
@@ -77,8 +81,8 @@ export class Home extends Phaser.Scene {
             targets: this.optionsButton,
             x: px(50),
             y: py(40) + 90,
-            scaleX: 6.7,
-            scaleY: 6,
+            scaleX: scaleTo(190,this.optionsButton.width),
+            scaleY: scaleTo(65,this.optionsButton.height),
             duration: 500,
             paused: false,
             yoyo: false,
@@ -99,8 +103,8 @@ export class Home extends Phaser.Scene {
             targets: this.creditsButton,
             x: px(50),
             y: py(40) + 180,
-            scaleX: 6.28,
-            scaleY: 6,
+            scaleX: scaleTo(190,this.creditsButton.width),
+            scaleY: scaleTo(65,this.creditsButton.height),
             duration: 500,
             paused: false,
             yoyo: false,

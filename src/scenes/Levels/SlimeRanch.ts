@@ -1,4 +1,6 @@
 import { Level } from './Level';
+// Monsters
+import { Bat } from '../../sprites/monsters/Bat';
 
 export class SlimeRanch extends Level {
 

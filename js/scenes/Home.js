@@ -77,16 +77,4 @@ class Home extends Phaser.Scene {
 
     }
 
-    /**
-     * Play button loads previous game save data and relaunches the game
-     * at the correct level/monster OR starts a new game at Slime Ranch.
-     * (Currently, saves are not implemented. It just starts a new game.)
-     */
-    onPlay() {
-        this.scene.start("SlimeRanch", {
-            player: null,
-            stage: 0
-        });
-    }
-
 }

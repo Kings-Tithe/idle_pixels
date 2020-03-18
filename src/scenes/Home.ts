@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { px,py } from "../tools/PercentCoords"
+import { px, py } from "../tools/PercentCoords"
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -9,9 +9,7 @@ import { px,py } from "../tools/PercentCoords"
  * credits allows the player to view a list of credits detailing all the conponets and who
  * they are credited to
  */
-
 export class Home extends Phaser.Scene {
-
 
     /**Creates instance of Scene */
     constructor() {
@@ -53,7 +51,7 @@ export class Home extends Phaser.Scene {
             yoyo: false,
             repeat: false,
         });
-     this.playButton.on("pointerdown", function(){} ,this);
+        this.playButton.on("pointerdown", function () { }, this);
     }
 
 }

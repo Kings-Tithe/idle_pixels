@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
-import { Boot } from './scenes/Boot';
 import { GAME_WIDTH, GAME_HEIGHT } from './tools/Globals';
+// Scenes
+import { Boot } from './scenes/Boot';
+import { LoadAssets } from './scenes/LoadAssets';
 
 /**Idle Pixels game configuration, including settings such as render type,
  * logical size, anti-aliasing, and more. */
@@ -10,7 +12,8 @@ const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     // Primary scene objects, more will be added in LoadScripts
     scene: [
-        Boot
+        Boot,
+        LoadAssets
     ],
     // Title to display on the game
     title: 'Idle Pixels',

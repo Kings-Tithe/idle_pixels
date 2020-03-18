@@ -18,7 +18,7 @@ export var LOGGING: boolean = true;
  * This is helpful when testing progress-dependent UI elements, such as
  * loading bars.
  */
-export var DUMMY_FILES: boolean = false;
+export var DUMMY_FILES: boolean = true;
 
 /**
  * WHRATIO is the ratio of width to height. It can be used to scale

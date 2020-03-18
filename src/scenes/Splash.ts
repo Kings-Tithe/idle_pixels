@@ -42,7 +42,7 @@ export class Splash extends Phaser.Scene {
             yoyo: true,
             repeat: 1,
             callbackScope: this,
-            onComplete: (tween, targets) => {
+            onComplete: () => {
                 this.scene.start('Home');
             }
         });

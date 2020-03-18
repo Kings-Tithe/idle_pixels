@@ -1,3 +1,5 @@
+import { GAME_WIDTH, GAME_HEIGHT } from './Globals';
+
 export class PercentCoords {
 
     static x(percentage) {

@@ -35,8 +35,7 @@ export abstract class Level extends Scene {
      * @param {{player: Player, stage: number}} levelData Object that contains
      *   data transferred between levels.
      */
-    init() {
-    }
+    init() { }
 
     /**
      * Phaser.Scene method which represents the start of the Scene's behavior.

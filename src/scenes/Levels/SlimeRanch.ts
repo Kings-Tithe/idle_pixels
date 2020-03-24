@@ -1,4 +1,6 @@
 import { Level } from './Level';
+// Monsters
+import { Bat } from '../../sprites/monsters/Bat';
 
 export class SlimeRanch extends Level {
 
@@ -11,5 +13,7 @@ export class SlimeRanch extends Level {
 
     constructor() {
         super(SlimeRanch.key);
+        console.log("Scene Added: ", this);
     }
+
 }

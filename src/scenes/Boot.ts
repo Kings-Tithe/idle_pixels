@@ -1,3 +1,5 @@
+import { Keys, LevelMap } from './Levels';
+
 /**
  * Handles initial startup of game. Loads absolutely basic resources such as
  * loading bar graphics. (for display when loading OTHER resources) Manages
@@ -15,8 +17,18 @@ export class Boot extends Phaser.Scene {
      * It runs after init() and preload() have completed
      */
     create() {
+        // Add level scenes to the game object
+        this.addLevels();
         // Start the next scene
         this.scene.start('LoadAssets');
     }
 
+    /**
+     * Adds all the levels from the Levels module to the phaser game object
+     */
+    addLevels() {
+        for (let key of Keys) {
+            this.scene.add(key, LevelMap[key], false);
+        }
+    }
 }

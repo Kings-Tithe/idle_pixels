@@ -2,21 +2,19 @@ import { Scene } from 'phaser';
 import { px, py } from '../../tools/PercentCoords';
 
 export abstract class Level extends Scene {
-    /**
-     * Name displayed in the level's splash text
-     */
+
+    //Member Varibles
+
+    //strings
+    /** Name displayed in the level's splash text */
     abstract name: string;
-    /**
-     * Key of the level's background image
-     */
+    /** Key of the level's background image */
     abstract bg: string;
-    /**
-     * Monsters that this level uses
-     */
+
+    //monsters
+    /** Monsters that this level uses */
     abstract monsters: Class[];
-    /**
-     * Monster this level uses as its boss.
-     */
+    /** Monster this level uses as its boss */
     abstract boss: Class;
 
     /**
@@ -45,12 +43,14 @@ export abstract class Level extends Scene {
         // Create background image
         let bg = this.add.image(px(50), py(50), this.bg);
         bg.setScale(20);
+        console.log("made it this far");
     }
 
     /**
      * Creates a random monster from the monster list on the screen.
      */
     getRandMonster() {
+
     }
 
     /**

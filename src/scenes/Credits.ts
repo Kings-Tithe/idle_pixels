@@ -62,7 +62,7 @@ export class Credits extends Phaser.Scene {
        this.fontSize = 20;
        this.spacing = this.fontSize/4;
        //calculate text element size
-       this.creditStringHeight = (this.creditString.split('\n').length) * (this.fontSize + this.spacing);
+       this.creditStringHeight = (this.creditString.split('\n').length) * (this.fontSize + this.spacing) + (this.spacing * 2);
    };
 
    /**Phaser.Scene method which represents the start of the Scene's behavior.

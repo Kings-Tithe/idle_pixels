@@ -8,7 +8,7 @@ export class SlimeRanch extends Level {
 
     name = "Slime Ranch";
     bg = 'slimeBg';
-    monsters = [];
+    monsters = [Bat];
     boss = null;
 
     constructor() {

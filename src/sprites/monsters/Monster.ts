@@ -1,5 +1,5 @@
-import { CENTER, LOGGING } from '../tools/Globals';
-import { Rnd } from '../tools/Rnd';
+import { CENTER, LOGGING } from '../../tools/Globals';
+import { Rnd } from '../../tools/Rnd';
 
 export class Monster extends Phaser.GameObjects.Sprite {
 

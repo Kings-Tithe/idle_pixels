@@ -38,6 +38,7 @@ export class LoadAssets extends Scene {
             'play': 'I./assets/images/ui/play.png',
             'shop': 'I./assets/images/ui/shop.png',
             'title': 'I./assets/images/ui/title.png',
+            'back' : 'I./assets/images/ui/back.png',
             // Images: Free Use
             'close': 'I./assets/images/free-use/CloseButton.png',
             'closePressed': 'I./assets/images/free-use/CloseButtonPressed.png',

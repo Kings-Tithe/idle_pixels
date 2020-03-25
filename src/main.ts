@@ -5,6 +5,7 @@ import { Boot } from './scenes/Boot';
 import { LoadAssets } from './scenes/LoadAssets';
 import { Splash } from './scenes/Splash';
 import { Home } from './scenes/Home';
+import { Credits } from "./scenes/Credits"
 
 /**Idle Pixels game configuration, including settings such as render type,
  * logical size, anti-aliasing, and more. */
@@ -17,7 +18,8 @@ const config: Phaser.Types.Core.GameConfig = {
         Boot,
         LoadAssets,
         Splash,
-        Home
+        Home,
+        Credits
     ],
     // Title to display on the game
     title: 'Idle Pixels',

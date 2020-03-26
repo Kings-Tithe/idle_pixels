@@ -31,8 +31,13 @@ export class Monster extends Phaser.GameObjects.Sprite {
     /** Animation that plays when the monster is killed is used to force switch to frame 3 of the sprite sheet */
     death: Phaser.Animations.Animation;
 
-    constructor(scene, sprKey, level) {
+    //graghics
+    healthContainer: Phaser.GameObjects.Graphics;
+    healthBar: Phaser.GameObjects.Graphics;
+
+    constructor(scene, level, sprKey = '') {
         super(scene, CENTER.x, CENTER.y, sprKey, 0);
+        this.scene = scene;
         this.key = sprKey;
         this.level = level;
         // This is the monsters total HP
@@ -64,7 +69,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
             repeat: -1
         });
         // stores the above animation in idle so long as idle is not false;
-        this.idle = idleAnim? idleAnim : null;
+        this.idle = idleAnim ? idleAnim : null;
 
         // Stores a animation object unless the key provided is already been used in which case it returns
         // false
@@ -75,7 +80,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
             repeat: -1
         });
         // stores the above animation in death so long as idle is not false;
-        this.death = deathAnims? deathAnims : null;
+        this.death = deathAnims ? deathAnims : null;
 
         // Monster death animation tween
         this.deathTween = this.scene.tweens.add({
@@ -89,6 +94,26 @@ export class Monster extends Phaser.GameObjects.Sprite {
             yoyo: false,
             ease: 'Quad.easeInOut'
         });
+    }
+
+    createHealthBar() {
+        //Health bar container, black line that surrounds the
+        //health bar
+        this.healthContainer = new Phaser.GameObjects.Graphics(this.scene);
+        this.healthContainer.lineStyle(4.5, 0x000000, 1);
+        this.healthContainer.strokeRoundedRect(250, 150, 150, 30, 15);
+        this.healthContainer.depth = 2;
+        //Colored health bar
+        // this.healthBar = new Phaser.GameObjects.Graphics(this.scene);
+        // this.healthBar.fillStyle(0x32a848, 1);
+        // this.healthBar.fillRoundedRect(250, 150, 150, 30, 15);
+        // this.healthBar.depth = 0;
+
+        // //Add health text
+        // this.healthText = this.add.text(330, 165, this.health + "/" +this.maxHealth,
+        //     { font: "20px Arial", fill: "#000000" });
+        // this.healthText.setOrigin(.5, .5);
+        // this.healthText.depth = 1;
     }
 
     onClick() {

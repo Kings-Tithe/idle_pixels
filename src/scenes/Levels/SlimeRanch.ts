@@ -14,6 +14,8 @@ export class SlimeRanch extends Level {
     constructor() {
         super(SlimeRanch.key);
         console.log("Scene Added: ", this);
+        console.log("JEREMY NEEDS TO SEE THIIIIIIS");
+        console.log(Bat, typeof Bat);
     }
 
 }

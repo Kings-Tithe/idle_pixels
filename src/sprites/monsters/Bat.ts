@@ -8,6 +8,6 @@ export class Bat extends Monster {
     hpBonus = 0;
 
     constructor(scene, level) {
-        super(scene, 'bat', level);
+        super(scene, level, 'bat');
     }
 }

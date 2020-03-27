@@ -74,6 +74,8 @@ export abstract class Level extends Scene {
         //now create an instance of that monster class
         this.currentMonster = new MonsterClass(this, 5);
         this.add.existing(this.currentMonster);
+        console.log(this.currentMonster);
+        console.log(this.currentMonster.healthContainer);
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
         this.currentMonster.on("death", this.onMonsterDeath, this)

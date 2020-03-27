@@ -50,6 +50,8 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.hp = this.maxHp;
         // Monster scaling
         this.setScale(5);
+        // Create a health bar for the monster
+        this.createHealthBar();
         // Create necessary animations
         this.createAnimations();
         this.anims.play(this.idle);

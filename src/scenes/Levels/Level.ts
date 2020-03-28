@@ -5,6 +5,7 @@ import { Monster } from '../../sprites/monsters/Monster';
 import { LOGGING, CENTER } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
+import { Hud } from '../../Hud';
 
 export abstract class Level extends Scene {
 
@@ -37,6 +38,8 @@ export abstract class Level extends Scene {
     /** holds all the passable data about the player */
     player: Player;
 
+    testHud: Hud;
+
     /**
      * Creates instance of Level scene
      * @param {String} sceneKey The key that Phaser uses to load this scene.
@@ -54,13 +57,15 @@ export abstract class Level extends Scene {
      * @param {{player: Player, stage: number}} levelData Object that contains
      *   data transferred between levels.
      */
-    init(player: Player) {
+    init(data) {
         //if logging is on, log the start of this scene
         if (LOGGING){console.log("Scene Started: " + this.name)};
         //grab the passed in player data
-        this.player = player; 
+        this.player = data.player; 
         //set the number of monsters beaten to 0 as a baseline
         this.monsBeaten = 0;
+
+        this.testHud = data.hud;
     }
 
     /**
@@ -77,6 +82,8 @@ export abstract class Level extends Scene {
         this.splashText();
         // generate the first monster for this area
         this.getRandMonster();
+
+        this.testHud.link(this);
     }
 
     /**
@@ -108,7 +115,7 @@ export abstract class Level extends Scene {
             console.log("Number of monsters beaten: " + this.monsBeaten);
         }
         //check if the correct number of monsters are beaten to spawn a boss
-        if (this.monsBeaten < 10){
+        if (this.monsBeaten < 2){
             //not time for the boss generate a random boss from the monsters list
             this.getRandMonster();
         } else {
@@ -162,7 +169,8 @@ export abstract class Level extends Scene {
             nextLevelKey = Keys[Rnd.int(0, Keys.length - 1)];
             console.log(nextLevelKey);
         }
-        this.scene.start(nextLevelKey, this.player);
+        let passableData = {player: this.player, hud: this.testHud}
+        this.scene.start(nextLevelKey, passableData);
     }
 
 }

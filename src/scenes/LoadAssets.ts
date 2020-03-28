@@ -65,7 +65,17 @@ export class LoadAssets extends Scene {
             'gothic': 'A./assets/sounds/Gothic_Music.mp3',
             'ocean': 'A./assets/sounds/Ocean_Music.mp3',
             'slap': 'A./assets/sounds/slap.mp3',
-            'slime': 'A./assets/sounds/Slime_Music.mp3'
+            'slime': 'A./assets/sounds/Slime_Music.mp3',
+            // Images: Free Coin, Only till gracie makes new coin art
+            "gold1" : "I./assets/images/free-use/coin/gold_1.png",
+            "gold2" : "I./assets/images/free-use/coin/gold_2.png",
+            "gold3" : "I./assets/images/free-use/coin/gold_3.png",
+            "gold4" : "I./assets/images/free-use/coin/gold_4.png",
+            "gold5" : "I./assets/images/free-use/coin/gold_5.png",
+            "gold6" : "I./assets/images/free-use/coin/gold_6.png",
+            "gold7" : "I./assets/images/free-use/coin/gold_7.png",
+            "gold8" : "I./assets/images/free-use/coin/gold_8.png",
+            "gold9" : "I./assets/images/free-use/coin/gold_9.png",
         }
 
     }

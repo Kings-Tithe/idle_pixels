@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { px, py, scaleTo } from "../tools/PercentCoords"
 import { Player } from '../Player';
+import { Hud } from '../Hud';
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -121,7 +122,8 @@ export class Home extends Phaser.Scene {
     onPlay() {
         //create a black player to pass to the first scene
         let newPlayer = new Player;
-        this.scene.start("SlimeRanch", newPlayer);
+        let hud = new Hud(this);
+        this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
     }
 
 

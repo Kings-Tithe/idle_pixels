@@ -1,6 +1,8 @@
 import { Level } from './Level';
-// Monsters
-import { Bat } from '../../sprites/monsters/Bat';
+import { Blue } from '../../sprites/monsters/Blue';
+import { Green } from '../../sprites/monsters/Green';
+import { Pink } from '../../sprites/monsters/Pink';
+import { Red } from '../../sprites/monsters/Red';
 
 export class SlimeRanch extends Level {
 
@@ -8,7 +10,7 @@ export class SlimeRanch extends Level {
 
     name = "Slime Ranch";
     bg = 'slimeBg';
-    monsters = [Bat];
+    monsters = [Blue,Green,Pink,Red];
     boss = null;
 
     constructor() {

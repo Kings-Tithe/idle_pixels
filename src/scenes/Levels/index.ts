@@ -8,6 +8,8 @@
  * Import all level classes so that we can export them in one module.
  */
 import { SlimeRanch } from './SlimeRanch';
+import { Castle } from './Castle';
+import { WaterZone } from './WaterZone';
 
 /**
  * Add all keys and levels to our map of levels. This map is useful for random
@@ -15,6 +17,8 @@ import { SlimeRanch } from './SlimeRanch';
  */
 export var LevelMap: { [key: string]: Class } = {};
 LevelMap[SlimeRanch.key] = SlimeRanch;
+LevelMap[Castle.key] = Castle;
+LevelMap[WaterZone.key] = WaterZone;
 
 /**
  * Automatically adds all level keys to a list of keys.
@@ -27,3 +31,5 @@ export var Keys: string[] = Object.keys(LevelMap);
  * Export all level classes for use in other modules.
  */
 export { SlimeRanch } from './SlimeRanch';
+export { Castle } from './Castle';
+export { WaterZone } from './WaterZone';

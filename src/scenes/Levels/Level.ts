@@ -1,9 +1,10 @@
 import { Scene } from 'phaser';
 import { px, py, scaleTo } from '../../tools/PercentCoords';
-import { Rnd } from "../../tools/Rnd"
+import { Rnd } from '../../tools/Rnd';
 import { Monster } from '../../sprites/monsters/Monster';
-import { LOGGING } from '../../tools/Globals';
+import { LOGGING, CENTER } from '../../tools/Globals';
 import { Player } from '../../Player';
+import { Keys, LevelMap } from "./index"
 
 export abstract class Level extends Scene {
 
@@ -14,6 +15,8 @@ export abstract class Level extends Scene {
     abstract name: string;
     /** Key of the level's background image */
     abstract bg: string;
+    /** stores the key of the level, used to pick the next level without repeats */
+    currentKey: string;
 
     //classes
     /** list of monster classes this level uses */
@@ -40,6 +43,7 @@ export abstract class Level extends Scene {
      */
     constructor(sceneKey) {
         super(sceneKey);
+        this.currentKey = sceneKey;
     }
 
     /**
@@ -64,12 +68,14 @@ export abstract class Level extends Scene {
      * It runs after init() and preload() have completed
      */
     create() {
-        // Create background image
         // setup the scene's background
         this.background = this.add.image(0, 0, this.bg);
         this.background.setOrigin(0, 0);
         this.background.scaleX = scaleTo(px(100),this.background.width);
         this.background.scaleY = scaleTo(py(100),this.background.height);
+        // play the intro splash text
+        this.splashText();
+        // generate the first monster for this area
         this.getRandMonster();
     }
 
@@ -101,15 +107,62 @@ export abstract class Level extends Scene {
         if (LOGGING){
             console.log("Number of monsters beaten: " + this.monsBeaten);
         }
+        //check if the correct number of monsters are beaten to spawn a boss
+        if (this.monsBeaten < 10){
+            //not time for the boss generate a random boss from the monsters list
+            this.getRandMonster();
+        } else {
+            //time to spawn the boss
+            this.spawnBoss();
+            if (LOGGING){console.log("Spawning the boss: NOT IMPLEMENTED YET")};
+        }
+    }
 
-        //Genereate a new random monster from the monsters list
-        this.getRandMonster();
+    /** Spawns the boss create for the level and sets up the elements related to him */
+    spawnBoss(){
+        //not properly set up right now so onto the next level
+        this.nextLevel();
+    }
+
+    /**
+     * creates and runs the animation for the opening splash text of the level 
+     * all elements are self contained and auto deleted after this function is over
+    */
+    splashText(){
+        let splashText: Phaser.GameObjects.Text = this.add.text(
+            CENTER.x, 
+            CENTER.y - 180,
+            "Welcome to " + this.name + "!",
+            {
+            font: "50px Arial", 
+            fill: "#5bf2fc" 
+            });
+        splashText.setOrigin(.5, .5)
+        splashText.setScale(0);
+        let splashIntroText: Phaser.Tweens.Tween = this.tweens.add({
+            targets: splashText,
+            scaleX: 1,
+            scaleY: 1,
+            duration: 500,
+            yoyo: true,
+            hold: 3000,
+            repeat: 0,
+        });
     }
 
     /**
      * Starts the next level (ensuring that it is not the same level again)
      */
     nextLevel() {
+        let nextLevelKey: string = this.currentKey;
+        //choose the key for a random level not matching the level we are currently in so 
+        //long as there is more then one level loaded currently
+        while(nextLevelKey == this.currentKey && Keys.length > 1){
+            //try to find a new key not matching the one for the current level
+            nextLevelKey = Keys[Rnd.int(0, Keys.length - 1)];
+            console.log(nextLevelKey);
+        }
+        this.scene.start(nextLevelKey, this.player);
     }
 
 }

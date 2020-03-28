@@ -26,10 +26,10 @@ export class Hud {
      * they will temporarly upon creation be attached to home but not visibly 
      * on screen, before being passed to the first level
      */
-    constructor (scene: Scene){
+    constructor(scene: Scene) {
         //create golden coin counter
-        this.coinText = new Phaser.GameObjects.Text(scene,75, 0, "0", {
-            fontSize: "100px", 
+        this.coinText = new Phaser.GameObjects.Text(scene, 75, 0, "0", {
+            fontSize: "100px",
             fontFamily: "Ariel",
             color: '#ffed70',
             align: "right",
@@ -38,27 +38,28 @@ export class Hud {
         this.coinText.setStroke("#a69a47", 8);
 
         //add spinning coin
-        this.spinningCoin = new Phaser.GameObjects.Image(scene,35, 50, "gold1");
+        this.spinningCoin = new Phaser.GameObjects.Image(scene, 35, 50, "gold1");
         this.spinningCoin.setScale(.1, .1);
         //create animation to make the coin spin
-        this.coinSpinAnim = scene.anims.create({
+        let anim = scene.anims.create({
             key: "coinSpin",
-            frames: [
-                new Phaser.Animations.Animation.("gold1",0,0,true)
-            ],
+            frames: scene.anims.generateFrameNumbers('gold1', { start: 0, end: 0 }),
             frameRate: 25,
             repeat: -1
         });
-        this.spinningCoin.play("coinSpin");
+        this.coinSpinAnim = anim ? anim : null;
+        //this.spinningCoin.play("coinSpin");
+        let test = new Phaser.GameObjects.Sprite(scene, 35, 50, "gold1");
+        test.play('coinSpin');
     }
 
     /** used to link all elements to a new scene when entering the new scene */
-    link(scene: Scene){
+    link(scene: Scene) {
         scene.add.existing(this.coinText)
     }
 
 
-    updateCoinCounter(coins: number){
+    updateCoinCounter(coins: number) {
         this.coinText.setText(coins.toLocaleString());
     }
 }

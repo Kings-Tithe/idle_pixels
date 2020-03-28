@@ -1,5 +1,7 @@
 import { CENTER, LOGGING } from '../../tools/Globals';
 import { Rnd } from '../../tools/Rnd';
+import { Player } from '../../Player';
+import { Level } from '../../scenes/Levels/Level';
 
 export class Monster extends Phaser.GameObjects.Sprite {
 
@@ -21,6 +23,10 @@ export class Monster extends Phaser.GameObjects.Sprite {
     /** Holds the internal key for the sprite image attached to this game object */
     key: string;
 
+    //text
+    /** Text display of hp and max maxHp health */
+    healthText: Phaser.GameObjects.Text;
+
     //tweens
     /** Tween played when the monster is killed spins and shrinks the sprite at the same time down to a scale of 0 */
     deathTween: Phaser.Tweens.Tween;
@@ -35,9 +41,13 @@ export class Monster extends Phaser.GameObjects.Sprite {
     healthContainer: Phaser.GameObjects.Graphics;
     healthBar: Phaser.GameObjects.Graphics;
 
-    constructor(scene, level, sprKey = '') {
+    // World that the monster is occupying
+    world: Level;
+
+    constructor(scene: Level, level, sprKey = '') {
         super(scene, CENTER.x, CENTER.y, sprKey, 0);
         this.scene = scene;
+        this.world = scene;
         this.key = sprKey;
         this.level = level;
         // This is the monsters total HP
@@ -50,12 +60,11 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.hp = this.maxHp;
         // Monster scaling
         this.setScale(5);
-        // Create a health bar for the monster
+        //create the graghics for the health bar
         this.createHealthBar();
         // Create necessary animations
         this.createAnimations();
         this.anims.play(this.idle);
-        console.log(this.idle);
         // Make the monster clickable
         this.setInteractive();
         this.on("pointerdown", this.onClick, this);
@@ -99,28 +108,40 @@ export class Monster extends Phaser.GameObjects.Sprite {
     }
 
     createHealthBar() {
-        //Health bar container, black line that surrounds the
-        //health bar
+        // Health bar container, black line that surrounds the
         this.healthContainer = new Phaser.GameObjects.Graphics(this.scene);
         this.healthContainer.lineStyle(4.5, 0x000000, 1);
-        this.healthContainer.strokeRoundedRect(250, 150, 150, 30, 15);
-        this.healthContainer.depth = 2;
-        //Colored health bar
-        // this.healthBar = new Phaser.GameObjects.Graphics(this.scene);
-        // this.healthBar.fillStyle(0x32a848, 1);
-        // this.healthBar.fillRoundedRect(250, 150, 150, 30, 15);
-        // this.healthBar.depth = 0;
+        this.healthContainer.strokeRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
+        this.healthContainer.depth = 3;
+        this.scene.add.existing(this.healthContainer);
+        // Colored health bar
+        this.healthBar = new Phaser.GameObjects.Graphics(this.scene);
+        this.healthBar.fillStyle(0x32a848, 1);
+        this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
+        this.healthBar.depth = 1;
+        this.scene.add.existing(this.healthBar);
 
-        // //Add health text
-        // this.healthText = this.add.text(330, 165, this.health + "/" +this.maxHealth,
-        //     { font: "20px Arial", fill: "#000000" });
-        // this.healthText.setOrigin(.5, .5);
-        // this.healthText.depth = 1;
+        // Text that displays the current monster's health out of it's original max health
+        this.healthText = new Phaser.GameObjects.Text(this.scene,CENTER.x, CENTER.y - 135, this.hp + "/" +this.maxHp,
+        { fontFamily: "Arial", fontSize: "20px", color: "#000000" });
+        this.healthText.setOrigin(.5, .5);
+        this.healthText.depth = 2;
+        this.scene.add.existing(this.healthText);
     }
 
     onClick() {
-        // For now, just kill the monster on a click
-        this.onDeath();
+        this.onDamage(this.world.player.damage);
+    }
+
+    onDamage(damage: number) {
+        // Deal Damage
+        this.hp -= damage;
+        if (this.hp < 1){
+            this.hp = 0;
+            this.onDeath();
+        } else {
+            this.updateHealthBar();
+        }
     }
 
     onDeath() {
@@ -128,12 +149,57 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.removeInteractive();
         // Play the death animation
         this.anims.play(this.death);
+        // Delete the healthContainer, healthBar and healthText
+        this.healthContainer.destroy();
+        this.healthBar.destroy();
+        this.healthText.destroy();
         // Play the death spiral animation, don't continue until its complete
         this.deathTween.play().on('complete', () => {
-            //if logging is set to true log to the console that the monster has died
-            if (LOGGING) { console.log("The monster has died!\n"); }
             // Signal to any listeners that the monster has died
             this.emit('death');
         }, this);
     }
+
+    updateHealthBar(){
+        // Update health text
+        this.healthText.setText(this.hp + "/" + this.maxHp);
+
+        // Health percentage
+        let percentage = this.hp / this.maxHp;
+        // Ensures health bar value does not go below 0
+        if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {
+            // Clear graghics of old health bar
+            this.healthBar.clear();
+
+            // Health bar color codes
+            let colors = [
+                0x42f598,
+                0x42f578,
+                0x42f54b,
+                0x69f542,
+                0xb8a425,
+                0xb88c25,
+                0xb87625,
+                0xb86a25,
+                0xb85625,
+                0xb84225,
+            ]
+            // Calculate fill color of the bar, make sure it never tries to go beyond the bounds of
+            // the above color array
+            if (10 - (Math.trunc(percentage * 10)) > 9){
+                this.healthBar.fillStyle(colors[9], 1);
+            } else {
+                this.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
+            }
+            // Make sure the angles don't overlap on the health bar
+            if (percentage < .13){
+                this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 145, Math.trunc(percentage * 150), 20,2);
+            } else {
+                this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, Math.trunc(percentage * 150), 30,15);
+            }
+        } else {
+            this.healthBar.clear();
+        }
+    }
+    
 }

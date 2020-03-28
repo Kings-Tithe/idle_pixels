@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { px, py, scaleTo } from "../tools/PercentCoords"
+import { Player } from '../Player';
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -118,7 +119,9 @@ export class Home extends Phaser.Scene {
      * (Currently, saves are not implemented. It just starts a new game.)
      */
     onPlay() {
-        this.scene.start("SlimeRanch");
+        //create a black player to pass to the first scene
+        let newPlayer = new Player;
+        this.scene.start("SlimeRanch", newPlayer);
     }
 
 

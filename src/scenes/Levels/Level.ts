@@ -3,6 +3,7 @@ import { px, py, scaleTo } from '../../tools/PercentCoords';
 import { Rnd } from "../../tools/Rnd"
 import { Monster } from '../../sprites/monsters/Monster';
 import { LOGGING } from '../../tools/Globals';
+import { Player } from '../../Player';
 
 export abstract class Level extends Scene {
 
@@ -29,6 +30,10 @@ export abstract class Level extends Scene {
     /** Used to keep track of how many monsters have been beaten */
     monsBeaten: number;
 
+    //players
+    /** holds all the passable data about the player */
+    player: Player;
+
     /**
      * Creates instance of Level scene
      * @param {String} sceneKey The key that Phaser uses to load this scene.
@@ -45,7 +50,11 @@ export abstract class Level extends Scene {
      * @param {{player: Player, stage: number}} levelData Object that contains
      *   data transferred between levels.
      */
-    init() { 
+    init(player: Player) {
+        //if logging is on, log the start of this scene
+        if (LOGGING){console.log("Scene Started: " + this.name)};
+        //grab the passed in player data
+        this.player = player; 
         //set the number of monsters beaten to 0 as a baseline
         this.monsBeaten = 0;
     }
@@ -72,10 +81,8 @@ export abstract class Level extends Scene {
         let monIndex: number = Rnd.int(0,this.monsters.length - 1);
         let MonsterClass: (typeof Monster) = this.monsters[monIndex];
         //now create an instance of that monster class
-        this.currentMonster = new MonsterClass(this, 5);
+        this.currentMonster = new MonsterClass(this, 1);
         this.add.existing(this.currentMonster);
-        console.log(this.currentMonster);
-        console.log(this.currentMonster.healthContainer);
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
         this.currentMonster.on("death", this.onMonsterDeath, this)
@@ -89,9 +96,10 @@ export abstract class Level extends Scene {
         this.currentMonster.destroy();
         //increment the amount of monsters beaten
         this.monsBeaten++;
+        this.player.totalMonsBeaten++;
         //if logging is on tell the console the number of currrently beaten monsters
         if (LOGGING){
-            console.log("Numbers of monsters beaten: " + this.monsBeaten);
+            console.log("Number of monsters beaten: " + this.monsBeaten);
         }
 
         //Genereate a new random monster from the monsters list

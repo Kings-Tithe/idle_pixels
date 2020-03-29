@@ -12,6 +12,7 @@ export class SlimeRanch extends Level {
     bg = 'slimeBg';
     monsters = [Blue,Green,Pink,Red];
     boss = null;
+    bgMusicKey = "slime";
 
     constructor() {
         super(SlimeRanch.key);

@@ -11,6 +11,7 @@ export class WaterZone extends Level {
     bg = 'waterBg';
     monsters = [JellyFish,Shark,StarFish];
     boss = null;
+    bgMusicKey = "ocean";
 
     constructor() {
         super(WaterZone.key);

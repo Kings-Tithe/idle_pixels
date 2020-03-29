@@ -11,6 +11,7 @@ export class Castle extends Level {
     bg = 'gothicBg';
     monsters = [Bat,Skelly,Witch];
     boss = null;
+    bgMusicKey = "gothic";
 
     constructor() {
         super(Castle.key);

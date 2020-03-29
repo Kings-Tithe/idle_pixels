@@ -6,6 +6,7 @@ import { LOGGING, CENTER } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
+import { UShop } from "../../Ushop"
 
 export abstract class Level extends Scene {
 
@@ -16,6 +17,8 @@ export abstract class Level extends Scene {
     abstract name: string;
     /** Key of the level's background image */
     abstract bg: string;
+    /** Stores the path leading to the background music's file */
+    abstract bgMusicKey: string;
     /** stores the key of the level, used to pick the next level without repeats */
     currentKey: string;
 
@@ -30,15 +33,21 @@ export abstract class Level extends Scene {
     //images
     background: Phaser.GameObjects.Image;
 
+    //sounds
+    bgMusic: Phaser.Sound.BaseSound;
+
     //numbers
     /** Used to keep track of how many monsters have been beaten */
     monsBeaten: number;
 
     //players
-    /** holds all the passable data about the player */
+    /** Holds all the passable data about the player */
     player: Player;
 
-    testHud: Hud;
+    //ui elements
+    /** Stores the passed in hud elements and updates them when related values change */
+    hud: Hud;
+
 
     /**
      * Creates instance of Level scene
@@ -60,12 +69,11 @@ export abstract class Level extends Scene {
     init(data) {
         //if logging is on, log the start of this scene
         if (LOGGING){console.log("Scene Started: " + this.name)};
-        //grab the passed in player data
-        this.player = data.player; 
+        //grab the passed in data
+        this.player = data.player;
+        this.hud = data.hud;
         //set the number of monsters beaten to 0 as a baseline
         this.monsBeaten = 0;
-
-        this.testHud = data.hud;
     }
 
     /**
@@ -73,17 +81,20 @@ export abstract class Level extends Scene {
      * It runs after init() and preload() have completed
      */
     create() {
-        // setup the scene's background
+        // setup the scene's background image
         this.background = this.add.image(0, 0, this.bg);
         this.background.setOrigin(0, 0);
         this.background.scaleX = scaleTo(px(100),this.background.width);
         this.background.scaleY = scaleTo(py(100),this.background.height);
+        // setup the scene's background music
+        this.bgMusic = this.sound.add(this.bgMusicKey);
+        this.bgMusic.play();
         // play the intro splash text
         this.splashText();
+        //link all the hud elements to this scene
+        this.hud.link(this);
         // generate the first monster for this area
         this.getRandMonster();
-
-        this.testHud.link(this);
     }
 
     /**
@@ -110,6 +121,9 @@ export abstract class Level extends Scene {
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
+        //add coins earned and update coin counter
+        this.player.coins += 100;
+        this.hud.updateCoinCounter(this.player.coins);
         //if logging is on tell the console the number of currrently beaten monsters
         if (LOGGING){
             console.log("Number of monsters beaten: " + this.monsBeaten);
@@ -169,8 +183,9 @@ export abstract class Level extends Scene {
             nextLevelKey = Keys[Rnd.int(0, Keys.length - 1)];
             console.log(nextLevelKey);
         }
-        let passableData = {player: this.player, hud: this.testHud}
-        this.scene.start(nextLevelKey, passableData);
+        //stop the current scene's background music
+        this.bgMusic.stop();
+        this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
     }
 
 }

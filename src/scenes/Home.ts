@@ -122,7 +122,7 @@ export class Home extends Phaser.Scene {
     onPlay() {
         //create a black player to pass to the first scene
         let newPlayer = new Player;
-        let hud = new Hud(this);
+        let hud = new Hud(this,);
         this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
     }
 

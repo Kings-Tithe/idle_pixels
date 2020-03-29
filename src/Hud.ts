@@ -70,6 +70,7 @@ export class Hud {
         scene.add.existing(this.coinText)
         scene.add.existing(this.spinningCoin);
         this.spinningCoin.play("coinSpin");
+        this.ushop.link(scene);
     }
 
     updateCoinCounter(coins: number) {

@@ -1,8 +1,12 @@
 import { Level } from './scenes/Levels/Level';
+import { Player } from './Player';
+import { Hud } from './Hud';
 export class UShop {
 
-    scene: Level;
+    level: Level;
     upgrades = {};
+    player: Player;
+    hud: Hud;
 
     constructor(){
         this.upgrades = {
@@ -23,8 +27,18 @@ export class UShop {
      * allows ushop to know what scene it is being initally constructed in
      * must be constructed within a scene or things get kinda fucky
      */
-    creationLink(scene){
-        this.scene = scene;
+    creationLink(level){
+        this.level = level;
+    }
+
+    /** 
+     * Allows the linking to a new scene, the primary purpose of which is
+     * to link to a new payer character
+     */
+    link(level){
+        this.player = level.player;
+        this.hud = level.hud;
+        this.level = level;
     }
 
     createUpgradeShop(){
@@ -92,9 +106,7 @@ export class UShop {
     toggleUpgradeShop() {
         /** @type {HTMLElement} */
         let el = document.getElementById("upgrade-shop");
-        console.log(el.style.visibility);
         el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-        console.log(el.style.visibility);
         window.scrollTo(0, 0);
     }
     
@@ -114,14 +126,13 @@ export class UShop {
         button.id = upgrade.key;
         button.textContent = this.upgrades[upgrade.key].cost + 'g';
         let that = this;
-        let level = this.scene;
+        let hud = this.hud;
         button.onclick = function() {
-            console.log(this);
             // Get current cost (to be updated at various times)
-            if (level.player.coins >= that.upgrades[button.id].cost) {
+            if (that.player.coins >= that.upgrades[button.id].cost) {
                 // Update coins
-                level.player.coins -= that.upgrades[button.id].cost;
-                level.hud.updateCoinCounter(level.player.coins);
+                that.player.coins -= that.upgrades[button.id].cost;
+                that.hud.updateCoinCounter(that.player.coins);
                 // Update upgrade status
                 that.upgrades[button.id].lvl++;
                 that.upgrades[button.id].cost = Math.ceil(that.upgrades[button.id].cost * that.upgrades[button.id].inc);
@@ -132,7 +143,7 @@ export class UShop {
             }
         }
 
-        
+
     
         // Add the elements to HTML
         item.appendChild(image)

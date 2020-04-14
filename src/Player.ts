@@ -30,6 +30,7 @@ export class Player {
         }
     }
 
+    /** Updates a passed in damage source with a passed in value */
     damageUpdate(sourceKey: string, newDamage: number){
         this.damageSources[sourceKey] = newDamage;
     }

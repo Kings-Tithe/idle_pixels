@@ -18,6 +18,8 @@ export class Monster extends Phaser.GameObjects.Sprite {
     maxHp: number;
     /** Holds the monster's current health */
     hp: number;
+    /** Stores the angle to adjust the hitTweens angle to */
+    hitAngle: number = 0;
 
     //bools
     canDamage: boolean = true;
@@ -33,6 +35,8 @@ export class Monster extends Phaser.GameObjects.Sprite {
     //tweens
     /** Tween played when the monster is killed spins and shrinks the sprite at the same time down to a scale of 0 */
     deathTween: Phaser.Tweens.Tween;
+    /** Tween Played when the monster is hit, stretchs monster's scale towards a random point between -45 and 45 */
+    hitTween: Phaser.Tweens.Tween;
 
     //animations
     /** Animation played while the monster is still alive, flips between sprite sheet frames 1 and 2 */
@@ -47,6 +51,9 @@ export class Monster extends Phaser.GameObjects.Sprite {
     // World that the monster is occupying
     world: Level;
 
+    /** 
+     * Constructs a instance of the class setting all the initial values 
+     */
     constructor(scene: Level, level, sprKey = '') {
         super(scene, CENTER.x, CENTER.y, sprKey, 0);
         this.scene = scene;
@@ -77,6 +84,14 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.on("pointerdown", this.onClick, this);
     }
 
+    /**
+     * Creates all the animations and tweens to be attached to the monster
+     * current animations created this way:
+     * -> idleAnim:   Flips between the first and second frame of the monster's spritesheet
+     * -> deathAnims: Sets to the last frame of the monster's spritesheet
+     * -> deathTween: Plays on monster death, twirls from center origin and shrinks scale to 0 over 700 miliseconds
+     * -> HitTween:   Plays when the monster is hit, stretchs monster's scale towards a random point between -45 and 45
+     */
     createAnimations() {
         // Stores a animation object unless the key provided is already been used in which case it returns
         // false
@@ -107,13 +122,25 @@ export class Monster extends Phaser.GameObjects.Sprite {
             scaleY: 0,
             scaleX: 0,
             angle: 1440,
-            duration: 1100,
+            duration: 700,
             paused: true,
             yoyo: false,
             ease: 'Quad.easeInOut'
         });
+
+        // Monster Hit animation tween
+        this.hitTween = this.scene.tweens.add({
+            targets: this,
+            scaleY: this.scaleY * 1.5,
+            angle: { value: () => { return this.hitAngle } },
+            duration: 80,
+            paused: true,
+            yoyo: true,
+            ease: 'Quad.easeInOut',
+        });
     }
 
+    /** Creates all the graphical elements that go with the health bar*/
     createHealthBar() {
         // Health bar container, black line that surrounds the
         this.healthContainer = new Phaser.GameObjects.Graphics(this.scene);
@@ -136,10 +163,18 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this.healthText);
     }
 
+    /** Plays the hit tween and applies the players click damage */
     onClick() {
+        //pick a random angle between -45 and 45
+        this.hitAngle = Math.trunc(Math.random() * 45);
+        this.hitAngle = Math.random() < .5 ?  this.hitAngle :  this.hitAngle * -1;
+        //play tween
+        this.hitTween.play();
+        //apply damage
         this.onDamage(this.world.player.damageSources["hero"]);
     }
 
+    /** Used when damage is done to the monster from any source */
     onDamage(damage: number) {
         if (this.canDamage){
             // Deal Damage
@@ -155,6 +190,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
         }
     }
 
+    /** Used when the Monster is killed */
     onDeath() {
         // Make the Monster non-clickable when dying
         this.removeInteractive();
@@ -171,6 +207,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
         }, this);
     }
 
+    /** Used to update the graphics of the health bar to match the internal values */
     updateHealthBar(){
         // Update health text
         this.healthText.setText(this.hp + "/" + this.maxHp);

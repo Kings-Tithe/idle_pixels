@@ -141,9 +141,12 @@ export abstract class Level extends Scene {
         }
     }
 
+    /**
+     * Function ran a after every set number of miliseconds and deals all
+     * the passive heros damage, at the current version the wizard is the
+     * only passive hero
+     */
     passiveDamage(this){
-        //deals all the heros passive damage, at the current version the wizard is
-        //the only passive hero
         this.currentMonster.onDamage(this.player.damageSources["wizard"]);
         console.log(this.player.damageSources["wizard"]);
     }

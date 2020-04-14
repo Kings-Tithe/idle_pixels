@@ -73,6 +73,7 @@ export class Hud {
         this.ushop.link(scene);
     }
 
+    /** sets the graphical text coinCounter to match internal values */
     updateCoinCounter(coins: number) {
         this.coinText.setText(coins.toLocaleString());
     }

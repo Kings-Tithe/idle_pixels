@@ -7,10 +7,6 @@
     left: 15%;
     right: 15%;
     background-color: burlywood;
-    /* background-image: url(../free-use/PaperUIKit/SettingsBackground.png); */
-    /* background-size: 99%; */
-    /* background-repeat: no-repeat; */
-    /* background-position: top left; */
     z-index: 1000;
     overflow-y: scroll;
     box-shadow: -1px 2px 15px -1px #000;

@@ -1,4 +1,5 @@
 /**
+ * Written by Jeremy Glebe
  * Implements methods for getting random data of various forms. Streamlines the
  * use of Math.random()
  */

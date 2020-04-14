@@ -95,6 +95,8 @@ export abstract class Level extends Scene {
         this.hud.link(this);
         // generate the first monster for this area
         this.getRandMonster();
+        //create a loop to handle passive damage of all non-player heros
+        setInterval(this.passiveDamage.bind(this), 1000);
     }
 
     /**
@@ -105,7 +107,7 @@ export abstract class Level extends Scene {
         let monIndex: number = Rnd.int(0,this.monsters.length - 1);
         let MonsterClass: (typeof Monster) = this.monsters[monIndex];
         //now create an instance of that monster class
-        this.currentMonster = new MonsterClass(this, 1);
+        this.currentMonster = new MonsterClass(this,this.player.level);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
@@ -137,6 +139,13 @@ export abstract class Level extends Scene {
             this.spawnBoss();
             if (LOGGING){console.log("Spawning the boss: NOT IMPLEMENTED YET")};
         }
+    }
+
+    passiveDamage(this){
+        //deals all the heros passive damage, at the current version the wizard is
+        //the only passive hero
+        this.currentMonster.onDamage(this.player.damageSources["wizard"]);
+        console.log(this.player.damageSources["wizard"]);
     }
 
     /** Spawns the boss create for the level and sets up the elements related to him */
@@ -185,6 +194,9 @@ export abstract class Level extends Scene {
         }
         //stop the current scene's background music
         this.bgMusic.stop();
+        //set the player to be one level higher
+        this.player.level++;
+        //start the next scene with all passed in values
         this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
     }
 

@@ -1,7 +1,7 @@
 import { Level } from './Level';
 import { JellyFish } from '../../sprites/monsters/JellyFish';
 import { Shark } from '../../sprites/monsters/Shark';
-import { StarFish } from '../../sprites/monsters/Starfish';
+import { StarFish } from '../../sprites/monsters/StarFish';
 
 export class WaterZone extends Level {
 

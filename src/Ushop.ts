@@ -136,6 +136,8 @@ export class UShop {
                 // Update upgrade status
                 that.upgrades[button.id].lvl++;
                 that.upgrades[button.id].cost = Math.ceil(that.upgrades[button.id].cost * that.upgrades[button.id].inc);
+                // Update the players Stored Damage for that button's associated damage
+                that.player.damageUpdate(button.id, that.upgrades[button.id].lvl);
                 // Update cost text
                 button.innerText = that.upgrades[button.id].cost + 'g';
                 // Update title with lvl

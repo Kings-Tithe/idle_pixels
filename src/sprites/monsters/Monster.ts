@@ -19,6 +19,9 @@ export class Monster extends Phaser.GameObjects.Sprite {
     /** Holds the monster's current health */
     hp: number;
 
+    //bools
+    canDamage: boolean = true;
+
     //strings
     /** Holds the internal key for the sprite image attached to this game object */
     key: string;
@@ -56,6 +59,10 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.maxHp += this.hpBonus * this.level;
         this.maxHp += .15 * this.level * this.maxHp;
         this.maxHp = Math.floor(this.maxHp);
+        //make sure that the monster has at the bare minimum 1 hp
+        if (this.maxHp < 1){ 
+            this.maxHp = 1;
+        }
         // This is the monster's current HP (starts off full)
         this.hp = this.maxHp;
         // Monster scaling
@@ -130,17 +137,21 @@ export class Monster extends Phaser.GameObjects.Sprite {
     }
 
     onClick() {
-        this.onDamage(this.world.player.damage);
+        this.onDamage(this.world.player.damageSources["hero"]);
     }
 
     onDamage(damage: number) {
-        // Deal Damage
-        this.hp -= damage;
-        if (this.hp < 1){
-            this.hp = 0;
-            this.onDeath();
-        } else {
-            this.updateHealthBar();
+        if (this.canDamage){
+            // Deal Damage
+            this.hp -= damage;
+            if (this.hp < 1){
+                this.hp = 0;
+                this.canDamage = false;
+                this.updateHealthBar;
+                this.onDeath();
+            } else {
+                this.updateHealthBar();
+            }
         }
     }
 

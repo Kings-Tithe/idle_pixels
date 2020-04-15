@@ -1,8 +1,9 @@
 # Individual asset files, not in a sprite sheet
-assets/individuals/*
+**ignore**
 
 # Typescript definitions for IntelliSense
 defs/*
 
 #gitpod configuration files
 .gitpod.yml
+node_modules

@@ -2,8 +2,14 @@
 **ignore**
 
 # Typescript definitions for IntelliSense
-defs/*
+defs
 
-#gitpod configuration files
+# Environment files
+.vscode
 .gitpod.yml
+
+# Dependencies and other modules
 node_modules
+
+# Built project
+build

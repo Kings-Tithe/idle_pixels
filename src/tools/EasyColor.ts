@@ -118,7 +118,6 @@ export class EasyColor {
         for (let i = 0; i < 3; i++){
             numbers[i] = Number("0x" + strings[i]);
         }
-        console.log(numbers);
 
         return numbers;
     }

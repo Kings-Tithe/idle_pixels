@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/jeremyglebe/idle_pixels#readme",
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "phaser": "^3.22.0"
   },
   "devDependencies": {

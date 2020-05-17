@@ -2,6 +2,7 @@ import { CENTER, LOGGING } from '../../tools/Globals';
 import { Rnd } from '../../tools/Rnd';
 import { Player } from '../../Player';
 import { Level } from '../../scenes/Levels/Level';
+import { EasyColor } from "../../tools/EasyColor";
 
 export class Monster extends Phaser.GameObjects.Sprite {
 
@@ -150,7 +151,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this.healthContainer);
         // Colored health bar
         this.healthBar = new Phaser.GameObjects.Graphics(this.scene);
-        this.healthBar.fillStyle(0x32a848, 1);
+        this.healthBar.fillStyle(EasyColor.Spring, 1);
         this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
         this.healthBar.depth = 1;
         this.scene.add.existing(this.healthBar);
@@ -219,26 +220,11 @@ export class Monster extends Phaser.GameObjects.Sprite {
             // Clear graghics of old health bar
             this.healthBar.clear();
 
-            // Health bar color codes
-            let colors = [
-                0x42f598,
-                0x42f578,
-                0x42f54b,
-                0x69f542,
-                0xb8a425,
-                0xb88c25,
-                0xb87625,
-                0xb86a25,
-                0xb85625,
-                0xb84225,
-            ]
-            // Calculate fill color of the bar, make sure it never tries to go beyond the bounds of
-            // the above color array
-            if (10 - (Math.trunc(percentage * 10)) > 9){
-                this.healthBar.fillStyle(colors[9], 1);
-            } else {
-                this.healthBar.fillStyle(colors[10 - (Math.trunc(percentage * 10))], 1);
-            }
+            // Calculate fill color of the bar
+            let currentColor = EasyColor.percentTransform(EasyColor.Spring,EasyColor.Red,percentage);
+            console.log(currentColor);
+            this.healthBar.fillStyle(Number(currentColor));
+
             // Make sure the angles don't overlap on the health bar
             if (percentage < .13){
                 this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 145, Math.trunc(percentage * 150), 20,2);

@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
+import { EasyColor } from './tools/EasyColor';
 
 /** 
  * class used to store and handle the Hud elements on screen
@@ -77,4 +78,5 @@ export class Hud {
     updateCoinCounter(coins: number) {
         this.coinText.setText(coins.toLocaleString());
     }
+
 }

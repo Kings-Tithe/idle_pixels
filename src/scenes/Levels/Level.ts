@@ -144,10 +144,11 @@ export abstract class Level extends Scene {
         if (LOGGING){
             console.log("Number of monsters beaten: " + this.monsBeaten);
         }
+        //update the progress bars graghic
+        this.updateProgressBar(this.monsBeaten);
         //check if the correct number of monsters are beaten to spawn a boss
-        if (this.monsBeaten <= 9){
-            //not time for the boss generate a random boss from the monsters list
-            this.updateProgressBar(this.monsBeaten);
+        if (this.monsBeaten < 9){
+            //generate a random boss from the monsters list
             this.getRandMonster();
         } else {
             //time to spawn the boss
@@ -178,11 +179,14 @@ export abstract class Level extends Scene {
     }
 
     onBossDeath(){
-        //delete the current on screen monster
-        this.currentMonster.destroy();
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
+        //update the progress bar so it can color the node signaling the boss has
+        //been defeated
+        this.updateProgressBar(this.monsBeaten);
+        //delete the current on screen monster
+        this.currentMonster.destroy();
         //add coins earned and update coin counter
         this.player.coins += 100;
         this.hud.updateCoinCounter(this.player.coins);
@@ -275,20 +279,21 @@ export abstract class Level extends Scene {
             this.monsterNodes[i].strokeCircle(pos,45,17);
         }
         //handle boss node
-        if(monsKilled == 10){
-        //10th node representing the boss monster
-        pos = (CENTER.x - 120) + ((430/10) * 9);
-        this.monsterNodes[9].fillStyle(EasyColor.Spring,1);
-        this.monsterNodes[9].fillCircle(pos,45,20);
-        this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
-        this.monsterNodes[9].strokeCircle(pos,45,20);
+        if(monsKilled > 9){
+            console.log("coloring boss node");
+            //10th node representing the boss monster
+            pos = (CENTER.x - 120) + ((430/10) * 9);
+            this.monsterNodes[9].fillStyle(EasyColor.Spring,1);
+            this.monsterNodes[9].fillCircle(pos,45,20);
+            this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
+            this.monsterNodes[9].strokeCircle(pos,45,20);
         }
         //clear main progress bar
         this.progressBar.clear();
 
         //draw to new node point
         this.progressBar.fillStyle(EasyColor.Green,1);
-        this.progressBar.fillRoundedRect(CENTER.x - 150, 35, ((415/10) * monsKilled), 20, 15);
+        this.progressBar.fillRoundedRect(CENTER.x - 150, 35, ((415/10) * (monsKilled + 1)), 20, 15);
     }
 
     /**

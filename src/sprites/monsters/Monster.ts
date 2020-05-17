@@ -66,13 +66,9 @@ export class Monster extends Phaser.GameObjects.Sprite {
         // This is the monsters total HP
         // Random roll of hp each level + set bonus each level +15% per level
         this.maxHp = Rnd.int(1, this.hpRoll) * this.level;
-        console.log("equation is: between 1 - " + this.hpRoll + " * " + this.level + " = " + this.maxHp);
         this.maxHp += this.hpBonus * this.level;
-        console.log("then " + this.hpBonus + " * " + this.level + " = " + this.maxHp);
         this.maxHp += .15 * this.level * this.maxHp;
-        console.log("then times 15 percent =" + this.maxHp);
         this.maxHp = Math.floor(this.maxHp);
-        console.log("floor that and you get" + this.maxHp);
         console.log(this);
         //make sure that the monster has at the bare minimum 1 hp
         if (this.maxHp < 1){ 
@@ -229,7 +225,6 @@ export class Monster extends Phaser.GameObjects.Sprite {
 
             // Calculate fill color of the bar
             let currentColor = EasyColor.percentTransform(EasyColor.Spring,EasyColor.Red,percentage);
-            console.log(currentColor);
             this.healthBar.fillStyle(Number(currentColor));
 
             // Make sure the angles don't overlap on the health bar

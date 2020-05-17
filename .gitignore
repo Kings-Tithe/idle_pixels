@@ -3,3 +3,4 @@ assets/individuals/*
 
 # Typescript definitions for IntelliSense
 defs/*
+node_modules

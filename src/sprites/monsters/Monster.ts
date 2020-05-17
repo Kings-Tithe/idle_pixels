@@ -10,9 +10,9 @@ export class Monster extends Phaser.GameObjects.Sprite {
 
     //numbers
     /** Monster gets a random amount of hp each level between one and this */
-    hpRoll: number = 2;
+    hpRoll: number;
     /** Monster gets a guaranteed amount of hp each level equal to this */
-    hpBonus: number = 1;
+    hpBonus: number;
     /** The monster's level for which everything else scales */
     level: number;
     /** Hold the Maximum Health of this monster */
@@ -55,18 +55,25 @@ export class Monster extends Phaser.GameObjects.Sprite {
     /** 
      * Constructs a instance of the class setting all the initial values 
      */
-    constructor(scene: Level, level, sprKey = '') {
+    constructor(scene: Level, level, sprKey = '', hpRoll = 2, hpBonus = 1) {
         super(scene, CENTER.x, CENTER.y, sprKey, 0);
         this.scene = scene;
         this.world = scene;
         this.key = sprKey;
         this.level = level;
+        this.hpBonus = hpBonus;
+        this.hpRoll = hpRoll;
         // This is the monsters total HP
         // Random roll of hp each level + set bonus each level +15% per level
         this.maxHp = Rnd.int(1, this.hpRoll) * this.level;
+        console.log("equation is: between 1 - " + this.hpRoll + " * " + this.level + " = " + this.maxHp);
         this.maxHp += this.hpBonus * this.level;
+        console.log("then " + this.hpBonus + " * " + this.level + " = " + this.maxHp);
         this.maxHp += .15 * this.level * this.maxHp;
+        console.log("then times 15 percent =" + this.maxHp);
         this.maxHp = Math.floor(this.maxHp);
+        console.log("floor that and you get" + this.maxHp);
+        console.log(this);
         //make sure that the monster has at the bare minimum 1 hp
         if (this.maxHp < 1){ 
             this.maxHp = 1;

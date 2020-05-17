@@ -137,7 +137,7 @@ export abstract class Level extends Scene {
         } else {
             //time to spawn the boss
             this.spawnBoss();
-            if (LOGGING){console.log("Spawning the boss: NOT IMPLEMENTED YET")};
+            if (LOGGING){console.log("Spawning the boss: ", this.currentMonster)};
         }
     }
 
@@ -151,9 +151,32 @@ export abstract class Level extends Scene {
         console.log(this.player.damageSources["wizard"]);
     }
 
-    /** Spawns the boss create for the level and sets up the elements related to him */
+    /** Spawns the boss created for the level and sets up the elements related to him */
     spawnBoss(){
-        //not properly set up right now so onto the next level
+        //now create an instance of that monster class
+        this.currentMonster = new this.boss(this,this.player.level);
+        this.add.existing(this.currentMonster);
+        this.add.existing(this.currentMonster.healthContainer);
+        //listener to handle the death of the current onscreen monster
+        this.currentMonster.on("death", this.onBossDeath, this)
+        // //not properly set up right now so onto the next level
+        // this.nextLevel();
+    }
+
+    onBossDeath(){
+        //delete the current on screen monster
+        this.currentMonster.destroy();
+        //increment the amount of monsters beaten
+        this.monsBeaten++;
+        this.player.totalMonsBeaten++;
+        //add coins earned and update coin counter
+        this.player.coins += 100;
+        this.hud.updateCoinCounter(this.player.coins);
+        //if logging is on tell the console the number of currrently beaten monsters
+        if (LOGGING){
+            console.log("The boss has been beaten! Preparing to move to next level");
+        }
+        //move onto the next level
         this.nextLevel();
     }
 

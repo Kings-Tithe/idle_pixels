@@ -57,6 +57,9 @@ export class LoadAssets extends Scene {
             'skelly': 'S./assets/images/monsters/skelly.png',
             'starfish': 'S./assets/images/monsters/starfish.png',
             'witch': 'S./assets/images/monsters/witch.png',
+            'mermaid': 'S./assets/images/monsters/boss_mermaid.png',
+            'slimeking': 'S./assets/images/monsters/boss_slime.png',
+            'vampire': 'S./assets/images/monsters/boss_vampire.png',
             // Images: Worlds
             'gothicBg': 'I./assets/images/worlds/gothic.png',
             'slimeBg': 'I./assets/images/worlds/slime.png',

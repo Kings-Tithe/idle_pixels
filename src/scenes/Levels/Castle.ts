@@ -2,6 +2,7 @@ import { Level } from './Level';
 import { Bat } from '../../sprites/monsters/Bat';
 import { Skelly } from '../../sprites/monsters/Skelly';
 import { Witch } from '../../sprites/monsters/Witch';
+import { Vampire } from '../../sprites/monsters/Vampire'
 
 export class Castle extends Level {
 
@@ -10,7 +11,7 @@ export class Castle extends Level {
     name = "Castle";
     bg = 'gothicBg';
     monsters = [Bat,Skelly,Witch];
-    boss = null;
+    boss = Vampire;
     bgMusicKey = "gothic";
 
     constructor() {

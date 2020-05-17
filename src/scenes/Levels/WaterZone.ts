@@ -2,6 +2,7 @@ import { Level } from './Level';
 import { JellyFish } from '../../sprites/monsters/JellyFish';
 import { Shark } from '../../sprites/monsters/Shark';
 import { StarFish } from '../../sprites/monsters/StarFish';
+import { Mermaid } from '../../sprites/monsters/Mermaid';
 
 export class WaterZone extends Level {
 
@@ -10,7 +11,7 @@ export class WaterZone extends Level {
     name = "Water Zone";
     bg = 'waterBg';
     monsters = [JellyFish,Shark,StarFish];
-    boss = null;
+    boss = Mermaid;
     bgMusicKey = "ocean";
 
     constructor() {

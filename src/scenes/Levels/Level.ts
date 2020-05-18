@@ -13,6 +13,12 @@ export abstract class Level extends Scene {
 
     //Member Varibles
 
+    /**
+     * Returned from the passive damage setInterval call, we need to make sure
+     * to stop the interval timer before moving on from this level.
+     */
+    passiveInterval: NodeJS.Timeout;
+
     //strings
     /** Name displayed in the level's splash text */
     abstract name: string;
@@ -107,7 +113,7 @@ export abstract class Level extends Scene {
         // generate the first monster for this area
         this.getRandMonster();
         //create a loop to handle passive damage of all non-player heros
-        setInterval(this.passiveDamage.bind(this), 1000);
+        this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //create progress bar
         this.createProgressBar();
         console.log(this.monsterNodes);
@@ -312,6 +318,8 @@ export abstract class Level extends Scene {
         this.bgMusic.stop();
         //set the player to be one level higher
         this.player.level++;
+        // Clear the interval for passive damage to avoid "clusters" of damage calls
+        clearInterval(this.passiveInterval);
         //start the next scene with all passed in values
         this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
     }

@@ -50,6 +50,8 @@ export abstract class Level extends Scene {
     //numbers
     /** Used to keep track of how many monsters have been beaten */
     monsBeaten: number;
+    /** Used to keep track of the tick of the boss timer */
+    bossTime: number;
 
     //players
     /** Holds all the passable data about the player */
@@ -58,6 +60,10 @@ export abstract class Level extends Scene {
     //ui elements
     /** Stores the passed in hud elements and updates them when related values change */
     hud: Hud;
+
+    //NodeJS.Timeout
+    /** Stores the id for the boss timer interval */
+    bossIntervalId : NodeJS.Timeout;
 
 
     /**
@@ -174,8 +180,28 @@ export abstract class Level extends Scene {
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
         this.currentMonster.on("death", this.onBossDeath, this)
-        // //not properly set up right now so onto the next level
-        // this.nextLevel();
+        this.createBossTimer();
+    }
+
+    createBossTimer(){
+        //set the starting time for the boss timer
+        this.bossTime = 10;
+        //set an interval to run every 1000ms or every second
+        this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 1000);
+        console.log("Boss timer created!");
+    }
+
+    incrementTimer(){
+        this.bossTime -= 1;
+        console.log("New Boss timer time is: " + this.bossTime);
+        if(this.bossTime < 0){
+            this.destroyBossTimer();
+        }
+    }
+
+    destroyBossTimer(){
+        console.log("Boss timer destroyed!");
+        clearInterval(this.bossIntervalId);
     }
 
     onBossDeath(){

@@ -43,6 +43,10 @@ export abstract class Level extends Scene {
     progressBar: Phaser.GameObjects.Graphics;
     /** Stores an array of circular nodes representing killable monsters */
     monsterNodes: Phaser.GameObjects.Graphics[];
+    /** Is the graphical representation of the boss timer, a pie chart timer */
+    bossTimerGraphic: Phaser.GameObjects.Graphics;
+    /** Is a backing for the boss timer,*/
+    bossTimerBack: Phaser.GameObjects.Graphics;
 
     //sounds
     bgMusic: Phaser.Sound.BaseSound;
@@ -52,6 +56,8 @@ export abstract class Level extends Scene {
     monsBeaten: number;
     /** Used to keep track of the tick of the boss timer */
     bossTime: number;
+    /** used to store where the boss timer starts */
+    BossTimeMax: number = 10;
 
     //players
     /** Holds all the passable data about the player */
@@ -183,6 +189,11 @@ export abstract class Level extends Scene {
         this.currentMonster = new this.boss(this,this.player.level);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
+        //listener that clears the boss timer before death completes
+        this.currentMonster.on("predeath", () => {
+            this.destroyBossTimer();
+            this.updateProgressBar(this.monsBeaten+1);
+        }, this);
         //listener to handle the death of the current onscreen monster
         this.currentMonster.on("death", this.onBossDeath, this)
         this.createBossTimer();
@@ -190,23 +201,61 @@ export abstract class Level extends Scene {
 
     createBossTimer(){
         //set the starting time for the boss timer
-        this.bossTime = 30;
+        this.bossTime = this.BossTimeMax;
+        //create the white background for the boss timer
+        this.bossTimerBack = new Phaser.GameObjects.Graphics(this);
+        this.bossTimerBack.fillStyle(EasyColor.White, 1);
+        this.bossTimerBack.fillCircle(CENTER.x + 125, CENTER.y - 140, 42)
+        this.bossTimerBack.depth = 5;
+        this.add.existing(this.bossTimerBack);
+        //create pie graghic
+        this.bossTimerGraphic = new Phaser.GameObjects.Graphics(this);
+        this.bossTimerGraphic.fillStyle(EasyColor.Spring, 1);
+        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40,Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(270.01),true);
+        this.bossTimerGraphic.fillPath();
+        this.bossTimerGraphic.depth = 6;
+        this.add.existing(this.bossTimerGraphic);
         //set an interval to run every 1000ms or every second
         this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 1000);
         console.log("Boss timer created!");
     }
 
     incrementTimer(){
+        //decrement the boss timer by one second
         this.bossTime -= 1;
-        console.log("New Boss timer time is: " + this.bossTime);
-        if(this.bossTime < 0){
+        //update the graghic for the boss timer
+        //determines the percentage taken out of the overall time
+        let percentageMissing = (((this.BossTimeMax - this.bossTime) / this.BossTimeMax) * 360) + 270;
+        //used to calculate the color of the graghic
+        let currentColor = EasyColor.percentTransform(EasyColor.Spring,EasyColor.Red,this.bossTime/ this.BossTimeMax);
+        this.bossTimerGraphic.clear();
+        this.bossTimerGraphic.fillStyle(Number(currentColor), 1);
+        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40,Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(percentageMissing),true);
+        this.bossTimerGraphic.fillPath();
+        //check to see if time is up
+        if(this.bossTime <= 0){
             this.destroyBossTimer();
+            this.onBossFail();
         }
     }
 
     destroyBossTimer(){
-        console.log("Boss timer destroyed!");
         clearInterval(this.bossIntervalId);
+        this.bossTimerGraphic.destroy();
+        this.bossTimerBack.destroy();
+    }
+
+    onBossFail(){
+        //this is normally ran internally on monster death but here we have to manually
+        //clear it since onDeath is not actually called
+        this.currentMonster.clearHealthGraphics();
+        //clear the current monster
+        this.currentMonster.destroy();
+        //reset monsters beaten and progress bar
+        this.monsBeaten = 0;
+        this.updateProgressBar(this.monsBeaten);
+        //get another basic monster and start the cycle again
+        this.getRandMonster();
     }
 
     onBossDeath(){
@@ -300,11 +349,20 @@ export abstract class Level extends Scene {
 
     updateProgressBar(monsKilled: number){
         let pos;
-        //clear nodes and redraw them as green
+        //clear nodes and redraw the correct ones green
         for(let i = 0; i < monsKilled && i < 9; i ++){
             this.monsterNodes[i].clear();
             pos = (CENTER.x - 120) + ((415/10) * i);
             this.monsterNodes[i].fillStyle(EasyColor.Spring,1);
+            this.monsterNodes[i].fillCircle(pos,45,17);
+            this.monsterNodes[i].lineStyle(2, 0x000000, 1);
+            this.monsterNodes[i].strokeCircle(pos,45,17);
+        }
+        //clear nodes and redraw the correct ones as red
+        for(let i = monsKilled; i >= monsKilled && i < 9; i++){
+            this.monsterNodes[i].clear();
+            pos = (CENTER.x - 120) + ((415/10) * i);
+            this.monsterNodes[i].fillStyle(EasyColor.Red,1);
             this.monsterNodes[i].fillCircle(pos,45,17);
             this.monsterNodes[i].lineStyle(2, 0x000000, 1);
             this.monsterNodes[i].strokeCircle(pos,45,17);

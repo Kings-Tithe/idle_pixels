@@ -4,6 +4,7 @@
  */
 body {
     background: white;
+    image-rendering: pixelated;
 }
 
 /* Canvas (games display) is centered (regardless of size) and scaled.

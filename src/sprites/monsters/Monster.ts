@@ -48,6 +48,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
     //graghics
     healthContainer: Phaser.GameObjects.Graphics;
     healthBar: Phaser.GameObjects.Graphics;
+    healthBarMask: Phaser.GameObjects.Sprite;
 
     // World that the monster is occupying
     world: Level;
@@ -71,7 +72,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.maxHp = Math.floor(this.maxHp);
         console.log(this);
         //make sure that the monster has at the bare minimum 1 hp
-        if (this.maxHp < 1){ 
+        if (this.maxHp < 1) {
             this.maxHp = 1;
         }
         // This is the monster's current HP (starts off full)
@@ -152,26 +153,35 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.healthContainer.strokeRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
         this.healthContainer.depth = 3;
         this.scene.add.existing(this.healthContainer);
+
+        // Creates a mask to help with displaying the current health
+        this.healthBarMask = new Phaser.GameObjects.Sprite(this.scene, CENTER.x, CENTER.y - 135, 'healthBarMask')
+            .setOrigin(0.5).setAlpha(1);
+        // Make the mask unseen so that the bar shows instead.
+        this.healthBarMask.setVisible(false);
+
         // Colored health bar
         this.healthBar = new Phaser.GameObjects.Graphics(this.scene);
+        this.healthBar.setMask(this.healthBarMask.createBitmapMask());
         this.healthBar.fillStyle(EasyColor.Spring, 1);
         this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
         this.healthBar.depth = 1;
         this.scene.add.existing(this.healthBar);
 
         // Text that displays the current monster's health out of it's original max health
-        this.healthText = new Phaser.GameObjects.Text(this.scene,CENTER.x, CENTER.y - 135, this.hp + "/" +this.maxHp,
-        { fontFamily: "Arial", fontSize: "20px", color: "#000000" });
+        this.healthText = new Phaser.GameObjects.Text(this.scene, CENTER.x, CENTER.y - 135, this.hp + "/" + this.maxHp,
+            { fontFamily: "Arial", fontSize: "20px", color: "#000000" });
         this.healthText.setOrigin(.5, .5);
         this.healthText.depth = 2;
         this.scene.add.existing(this.healthText);
+
     }
 
     /** Plays the hit tween and applies the players click damage */
     onClick() {
         //pick a random angle between -45 and 45
         this.hitAngle = Math.trunc(Math.random() * 45);
-        this.hitAngle = Math.random() < .5 ?  this.hitAngle :  this.hitAngle * -1;
+        this.hitAngle = Math.random() < .5 ? this.hitAngle : this.hitAngle * -1;
         //play tween
         this.hitTween.play();
         //apply damage
@@ -180,10 +190,10 @@ export class Monster extends Phaser.GameObjects.Sprite {
 
     /** Used when damage is done to the monster from any source */
     onDamage(damage: number) {
-        if (this.canDamage){
+        if (this.canDamage) {
             // Deal Damage
             this.hp -= damage;
-            if (this.hp < 1){
+            if (this.hp < 1) {
                 this.hp = 0;
                 this.canDamage = false;
                 this.updateHealthBar;
@@ -198,6 +208,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.healthContainer.destroy();
         this.healthBar.destroy();
         this.healthText.destroy();
+        this.healthBarMask.destroy();
     }
 
     /** Used when the Monster is killed */
@@ -218,30 +229,20 @@ export class Monster extends Phaser.GameObjects.Sprite {
     }
 
     /** Used to update the graphics of the health bar to match the internal values */
-    updateHealthBar(){
+    updateHealthBar() {
         // Update health text
         this.healthText.setText(this.hp + "/" + this.maxHp);
 
         // Health percentage
         let percentage = this.hp / this.maxHp;
-        // Ensures health bar value does not go below 0
-        if (10 - (Math.trunc(percentage * 10)) >= 0 && Math.trunc(percentage * 150) >= 0) {
-            // Clear graghics of old health bar
-            this.healthBar.clear();
 
-            // Calculate fill color of the bar
-            let currentColor = EasyColor.percentTransform(EasyColor.Spring,EasyColor.Red,percentage);
-            this.healthBar.fillStyle(Number(currentColor));
+        let maskPos = CENTER.x - 150 + (percentage * 150);
+        this.healthBarMask.x = maskPos;
 
-            // Make sure the angles don't overlap on the health bar
-            if (percentage < .13){
-                this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 145, Math.trunc(percentage * 150), 20,2);
-            } else {
-                this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, Math.trunc(percentage * 150), 30,15);
-            }
-        } else {
-            this.healthBar.clear();
-        }
+        this.healthBar.clear();
+        let currentColor = EasyColor.percentTransform(EasyColor.Spring, EasyColor.Red, percentage);
+        this.healthBar.fillStyle(Number(currentColor));
+        this.healthBar.fillRoundedRect(CENTER.x - 75, CENTER.y - 150, 150, 30, 15);
     }
-    
+
 }

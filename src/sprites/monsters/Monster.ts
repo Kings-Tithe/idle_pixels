@@ -194,16 +194,22 @@ export class Monster extends Phaser.GameObjects.Sprite {
         }
     }
 
+    clearHealthGraphics(){
+        this.healthContainer.destroy();
+        this.healthBar.destroy();
+        this.healthText.destroy();
+    }
+
     /** Used when the Monster is killed */
     onDeath() {
+        //signals to functions ran before death completes
+        this.emit("predeath");
         // Make the Monster non-clickable when dying
         this.removeInteractive();
         // Play the death animation
         this.anims.play(this.death);
         // Delete the healthContainer, healthBar and healthText
-        this.healthContainer.destroy();
-        this.healthBar.destroy();
-        this.healthText.destroy();
+        this.clearHealthGraphics();
         // Play the death spiral animation, don't continue until its complete
         this.deathTween.play().on('complete', () => {
             // Signal to any listeners that the monster has died

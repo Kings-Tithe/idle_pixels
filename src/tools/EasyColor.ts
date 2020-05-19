@@ -19,6 +19,8 @@ export class EasyColor {
     static Violet = 0xC71585;
     static Magenta = 0xFF00FF;
     static Pink = 0xFF69B4;
+    static White = 0xFFFFFF;
+    static Black = 0x000000;
 
     //light colors
     static light_Red = 0xFA8072;

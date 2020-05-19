@@ -13,12 +13,6 @@ export abstract class Level extends Scene {
 
     //Member Varibles
 
-    /**
-     * Returned from the passive damage setInterval call, we need to make sure
-     * to stop the interval timer before moving on from this level.
-     */
-    passiveInterval: NodeJS.Timeout;
-
     //strings
     /** Name displayed in the level's splash text */
     abstract name: string;
@@ -70,6 +64,12 @@ export abstract class Level extends Scene {
     //NodeJS.Timeout
     /** Stores the id for the boss timer interval */
     bossIntervalId : NodeJS.Timeout;
+    /**
+     * Returned from the passive damage setInterval call, we need to make sure
+     * to stop the interval timer before moving on from this level.
+     */
+    passiveInterval: NodeJS.Timeout;
+
 
 
     /**
@@ -122,7 +122,6 @@ export abstract class Level extends Scene {
         this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //create progress bar
         this.createProgressBar();
-        console.log(this.monsterNodes);
     }
 
     /**
@@ -191,7 +190,7 @@ export abstract class Level extends Scene {
 
     createBossTimer(){
         //set the starting time for the boss timer
-        this.bossTime = 10;
+        this.bossTime = 30;
         //set an interval to run every 1000ms or every second
         this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 1000);
         console.log("Boss timer created!");

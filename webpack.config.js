@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const BrotliPlugin = require('brotli-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -29,7 +30,7 @@ module.exports = {
   },
 
   output: {
-    filename: 'app.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'build')
   },
 
@@ -40,15 +41,20 @@ module.exports = {
 
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
-    https: true
+    https: false
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Idle Pixels',
+      template: 'index.html'
+    }),
     new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, 'index.html'),
-        to: path.resolve(__dirname, 'build')
-      },
+      // {
+      //   from: path.resolve(__dirname, 'index.html'),
+      //   to: path.resolve(__dirname, 'build')
+      // },
       {
         from: path.resolve(__dirname, 'assets', '**', '*'),
         to: path.resolve(__dirname, 'build')
@@ -57,7 +63,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
       'typeof WEBGL_RENDERER': JSON.stringify(true)
-    })
+    }),
   ],
 
   optimization: {

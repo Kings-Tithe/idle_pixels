@@ -30,90 +30,46 @@ export class LoadAssets extends Scene {
          * I = Image
          * S = Spritesheet
          */
-        // this.files = {
-        //     // Images
-        //     // Images: UI
-        //     'credits': 'I./assets/images/ui/credits.png',
-        //     'options': 'I./assets/images/ui/options.png',
-        //     'play': 'I./assets/images/ui/play.png',
-        //     'shop': 'I./assets/images/ui/shop.png',
-        //     'title': 'I./assets/images/ui/title.png',
-        //     'back' : 'I./assets/images/ui/back.png',
-        //     'coin' : 'S./assets/images/ui/coin.png',
-        //     // Images: Free Use
-        //     'close': 'I./assets/images/free-use/CloseButton.png',
-        //     'closePressed': 'I./assets/images/free-use/CloseButtonPressed.png',
-        //     // Images: Heroes
-        //     'hero': 'I./assets/images/heroes/hero.png',
-        //     'wizard': 'I./assets/images/heroes/wizard.png',
-        //     // Images: Monsters
-        //     'bat': 'S./assets/images/monsters/bat.png',
-        //     'blue': 'S./assets/images/monsters/blue.png',
-        //     'green': 'S./assets/images/monsters/green.png',
-        //     'jellyfish': 'S./assets/images/monsters/jellyfish.png',
-        //     'pink': 'S./assets/images/monsters/pink.png',
-        //     'red': 'S./assets/images/monsters/red.png',
-        //     'shark': 'S./assets/images/monsters/shark.png',
-        //     'skelly': 'S./assets/images/monsters/skelly.png',
-        //     'starfish': 'S./assets/images/monsters/starfish.png',
-        //     'witch': 'S./assets/images/monsters/witch.png',
-        //     'mermaid': 'S./assets/images/monsters/boss_mermaid.png',
-        //     'slimeking': 'S./assets/images/monsters/boss_slime.png',
-        //     'vampire': 'S./assets/images/monsters/boss_vampire.png',
-        //     // Images: Worlds
-        //     'gothicBg': 'I./assets/images/worlds/gothic.png',
-        //     'slimeBg': 'I./assets/images/worlds/slime.png',
-        //     'waterBg': 'I./assets/images/worlds/water.png',
-        //     // Sounds
-        //     'punch': 'A./assets/sounds/dull_punch.mp3',
-        //     'gothic': 'A./assets/sounds/Gothic_Music.mp3',
-        //     'ocean': 'A./assets/sounds/Ocean_Music.mp3',
-        //     'slap': 'A./assets/sounds/slap.mp3',
-        //     'slime': 'A./assets/sounds/Slime_Music.mp3',
-        // }
-
-
-        // Load the files using source on the web
         this.files = {
             // Images
             // Images: UI
-            'credits': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/credits.png',
-            'options': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/options.png',
-            'play': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/play.png',
-            'shop': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/shop.png',
-            'title': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/title.png',
-            'back' : 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/ui/back.png',
-            'coin' : 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/ui/coin.png',
+            'credits': 'I./assets/images/ui/credits.png',
+            'options': 'I./assets/images/ui/options.png',
+            'play': 'I./assets/images/ui/play.png',
+            'shop': 'I./assets/images/ui/shop.png',
+            'title': 'I./assets/images/ui/title.png',
+            'back' : 'I./assets/images/ui/back.png',
+            'coin' : 'S./assets/images/ui/coin.png',
             // Images: Free Use
-            'close': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/free-use/CloseButton.png',
-            'closePressed': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/free-use/CloseButtonPressed.png',
+            'close': 'I./assets/images/free-use/CloseButton.png',
+            'closePressed': 'I./assets/images/free-use/CloseButtonPressed.png',
             // Images: Heroes
-            'hero': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/heroes/hero.png',
-            'wizard': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/heroes/wizard.png',
+            'hero': 'I./assets/images/heroes/hero.png',
+            'wizard': 'I./assets/images/heroes/wizard.png',
             // Images: Monsters
-            'bat': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/bat.png',
-            'blue': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/blue.png',
-            'green': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/green.png',
-            'jellyfish': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/jellyfish.png',
-            'pink': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/pink.png',
-            'red': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/red.png',
-            'shark': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/shark.png',
-            'skelly': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/skelly.png',
-            'starfish': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/starfish.png',
-            'witch': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/witch.png',
-            'mermaid': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/boss_mermaid.png',
-            'slimeking': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/boss_slime.png',
-            'vampire': 'Shttp://games.glebe.me:9000/assets/idle_pixels/images/monsters/boss_vampire.png',
+            'bat': 'S./assets/images/monsters/bat.png',
+            'blue': 'S./assets/images/monsters/blue.png',
+            'green': 'S./assets/images/monsters/green.png',
+            'jellyfish': 'S./assets/images/monsters/jellyfish.png',
+            'pink': 'S./assets/images/monsters/pink.png',
+            'red': 'S./assets/images/monsters/red.png',
+            'shark': 'S./assets/images/monsters/shark.png',
+            'skelly': 'S./assets/images/monsters/skelly.png',
+            'starfish': 'S./assets/images/monsters/starfish.png',
+            'witch': 'S./assets/images/monsters/witch.png',
+            'mermaid': 'S./assets/images/monsters/boss_mermaid.png',
+            'slimeking': 'S./assets/images/monsters/boss_slime.png',
+            'vampire': 'S./assets/images/monsters/boss_vampire.png',
             // Images: Worlds
-            'gothicBg': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/worlds/gothic.png',
-            'slimeBg': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/worlds/slime.png',
-            'waterBg': 'Ihttp://games.glebe.me:9000/assets/idle_pixels/images/worlds/water.png',
+            'gothicBg': 'I./assets/images/worlds/gothic.png',
+            'slimeBg': 'I./assets/images/worlds/slime.png',
+            'waterBg': 'I./assets/images/worlds/water.png',
             // Sounds
-            'punch': 'Ahttp://games.glebe.me:9000/assets/idle_pixels/sounds/dull_punch.mp3',
-            'gothic': 'Ahttp://games.glebe.me:9000/assets/idle_pixels/sounds/Gothic_Music.mp3',
-            'ocean': 'Ahttp://games.glebe.me:9000/assets/idle_pixels/sounds/Ocean_Music.mp3',
-            'slap': 'Ahttp://games.glebe.me:9000/assets/idle_pixels/sounds/slap.mp3',
-            'slime': 'Ahttp://games.glebe.me:9000/assets/idle_pixels/sounds/Slime_Music.mp3',
+            'punch': 'A./assets/sounds/dull_punch.mp3',
+            'gothic': 'A./assets/sounds/Gothic_Music.mp3',
+            'ocean': 'A./assets/sounds/Ocean_Music.mp3',
+            'slap': 'A./assets/sounds/slap.mp3',
+            'slime': 'A./assets/sounds/Slime_Music.mp3',
         }
 
     }

@@ -18,10 +18,13 @@ module.exports = {
     ]
   },
 
-  devtool: 'inline-source-map',
+  // Source maps add a huge amount of data to the build, comment this out when
+  // making builds for production. (It is helpful for debugging though, so make
+  // sure not to remove it during testing)
+  // devtool: 'inline-source-map',
 
   resolve: {
-    extensions: [ '.ts', '.tsx', '.js' ]
+    extensions: ['.ts', '.tsx', '.js']
   },
 
   output: {
@@ -29,7 +32,10 @@ module.exports = {
     path: path.resolve(__dirname, 'build')
   },
 
-  mode: 'development',
+  // Changing the mode can help minimize and speed things up for builds as well
+  // as offering warnings regarding production size
+  // mode: 'development',
+  mode: 'production',
 
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
@@ -51,9 +57,15 @@ module.exports = {
       'typeof CANVAS_RENDERER': JSON.stringify(true),
       'typeof WEBGL_RENDERER': JSON.stringify(true)
     }),
+    // Helps shrink size of final build, tells webpack to set an environment
+    // variable to "production". Many libraries check this variable and will
+    // behave more efficiently as a result.
+    new webpack.DefinePlugin({ "process.env": { NODE_ENV: JSON.stringify("production") } }),
   ],
 
   optimization: {
+    // minimizes all our js files and dependencies
+    minimize: true,
     splitChunks: {
       cacheGroups: {
         commons: {

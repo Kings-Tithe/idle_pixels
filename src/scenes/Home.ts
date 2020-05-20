@@ -38,6 +38,10 @@ export class Home extends Phaser.Scene {
     //** Tween that takes playButton from the wizards staff to it's proper place */
     creditsButtonTween: Phaser.Tweens.Tween;
 
+    //Sounds
+    /** The music that plays During this scene */
+    bgMusic: Phaser.Sound.BaseSound;
+
     /**
      * Phaser.Scene method which represents the start of the Scene's behavior.
      * It runs after init() and preload() have completed
@@ -48,6 +52,10 @@ export class Home extends Phaser.Scene {
         this.background.setOrigin(0, 0);
         this.background.scaleX = scaleTo(px(100),this.background.width);
         this.background.scaleY = scaleTo(py(100),this.background.height);
+
+        // setup the scene's background music
+        this.bgMusic = this.sound.add('menumusic');
+        this.bgMusic.play();
 
         // setup the play button
         this.playButton = this.add.sprite(px(50) - 145, py(50) + 110, "play");
@@ -98,6 +106,8 @@ export class Home extends Phaser.Scene {
         this.creditsButton.setInteractive();
         //set on-pointerdown to change to credits scene
         this.creditsButton.on("pointerdown", function () {
+            //stop current instance of menu music
+            this.bgMusic.stop();
             this.scene.start("Credits");
         }, this);
         //set the tween to move from the wizrds staff to it's proper place
@@ -123,6 +133,7 @@ export class Home extends Phaser.Scene {
         //create a black player to pass to the first scene
         let newPlayer = new Player;
         let hud = new Hud(this,);
+        this.bgMusic.stop();
         this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
     }
 

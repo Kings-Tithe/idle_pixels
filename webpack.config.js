@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const BrotliPlugin = require('brotli-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -57,10 +58,12 @@ module.exports = {
       'typeof CANVAS_RENDERER': JSON.stringify(true),
       'typeof WEBGL_RENDERER': JSON.stringify(true)
     }),
-    // Helps shrink size of final build, tells webpack to set an environment
-    // variable to "production". Many libraries check this variable and will
-    // behave more efficiently as a result.
-    new webpack.DefinePlugin({ "process.env": { NODE_ENV: JSON.stringify("production") } }),
+    new BrotliPlugin({
+			asset: '[path].br[query]',
+			test: /\.(js|css|html|svg)$/,
+			threshold: 10240,
+			minRatio: 0.8
+		})
   ],
 
   optimization: {

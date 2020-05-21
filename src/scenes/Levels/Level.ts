@@ -37,6 +37,9 @@ export abstract class Level extends Scene {
     /** image that is used to display the skull icons */
     skullImage: Phaser.GameObjects.Image;
 
+    // text
+    killText: Phaser.GameObjects.Text;
+
     //graphics
     /** Is the outside black container surrounding ProgressBar */
     progressContainer: Phaser.GameObjects.Graphics;
@@ -130,6 +133,8 @@ export abstract class Level extends Scene {
         //create skull icon
         this.createSkull();
         setInterval(this.updateSkull.bind(this), 100);
+        //create kill text
+        this.createKillText();
     }
     
 
@@ -160,6 +165,7 @@ export abstract class Level extends Scene {
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
+        this.updateKillText();
         //if logging is on tell the console the number of currrently beaten monsters
         if (LOGGING){
             console.log("Number of monsters beaten: " + this.monsBeaten);
@@ -408,6 +414,20 @@ export abstract class Level extends Scene {
         clearInterval(this.passiveInterval);
         //start the next scene with all passed in values
         this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
+    }
+
+    createKillText(){
+        this.killText = this.add.text(100, 450, "0", {
+            fontSize: "75px",
+            fontFamily: "Ariel",
+            color: '#000000',
+            fontStyle: "bold"
+        });
+        this.killText.depth = 10;
+    }
+
+    updateKillText(){
+        this.killText.setText(this.player.totalMonsBeaten.toLocaleString());
     }
 
     createSkull(){

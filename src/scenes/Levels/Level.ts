@@ -34,6 +34,8 @@ export abstract class Level extends Scene {
 
     //images
     background: Phaser.GameObjects.Image;
+    /** image that is used to display the skull icons */
+    skullImage: Phaser.GameObjects.Image;
 
     //graphics
     /** Is the outside black container surrounding ProgressBar */
@@ -125,6 +127,9 @@ export abstract class Level extends Scene {
         this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //create progress bar
         this.createProgressBar();
+        //create skull icon
+        this.createSkull();
+        setInterval(this.updateSkull.bind(this), 100);
     }
     
 
@@ -403,6 +408,39 @@ export abstract class Level extends Scene {
         clearInterval(this.passiveInterval);
         //start the next scene with all passed in values
         this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
+    }
+
+    createSkull(){
+        this.skullImage = this.add.image(CENTER.x,CENTER.y,"skull_up0");
+        this.skullImage.depth = 99;
+        this.skullImage.setScale(15);
+    }
+
+    updateSkull(){
+        let CurrentPointer = new Phaser.Math.Vector2(this.game.input.mousePointer.x, this.game.input.mousePointer.y)
+        let CurrentSkull = new Phaser.Math.Vector2(CENTER.x,CENTER.y);
+        let currentRadAngle = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
+        let currentDegAngle = Phaser.Math.RadToDeg(currentRadAngle);
+        console.log(currentDegAngle);
+        //check through and see which texture to go with
+        if (currentDegAngle > 15 && currentDegAngle < 60){
+            this.skullImage.setTexture("skull_right0");
+            console.log('1');
+        } else if (currentDegAngle > 60 && currentDegAngle < 105){
+            this.skullImage.setTexture("skull_down-right0");
+            console.log('2');
+        } else if (currentDegAngle > 105 && currentDegAngle < 150){
+            this.skullImage.setTexture("skull_down0");
+            console.log('3');
+        }// else if (195 < currentDegAngle || currentDegAngle < 240){
+
+        // } else if (240 < currentDegAngle || currentDegAngle < 285){
+
+        // } else if (285 < currentDegAngle || currentDegAngle < 60){
+
+        // } else if (15 < currentDegAngle || currentDegAngle < 60){
+
+        // }
     }
 
 }

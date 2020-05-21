@@ -81,7 +81,7 @@ export class LoadAssets extends Scene {
      * Init is a Phaser Scene method that runs before any of the others. It can
      * be thought of like a sort of follow-up constructor that runs only once
      * the scene is actually being launched (instead of just being added to the
-     * game object) 
+     * game object)
      */
     init() { 
     }

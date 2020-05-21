@@ -2,7 +2,7 @@ import { Loader, GameObjects, Scene } from 'phaser';
 import { DUMMY_FILES } from '../tools/Globals';
 import { px, py } from '../tools/PercentCoords';
 import { Rnd } from '../tools/Rnd';
-import { IDLE_PIXELS_CONFIG } from '../config';
+declare var CONFIG;
 
 /**
  * Loads assets (images, sound, etc) for use by the Phaser Engine. This means
@@ -34,43 +34,43 @@ export class LoadAssets extends Scene {
         this.files = {
             // Images
             // Images: UI
-            'credits': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/credits.png',
-            'options': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/options.png',
-            'play': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/play.png',
-            'shop': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/shop.png',
-            'title': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/title.png',
-            'back' : 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/back.png',
-            'coin' : 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/ui/coin.png',
+            'credits': 'I' + CONFIG.ASSET_PATH + 'images/ui/credits.png',
+            'options': 'I' + CONFIG.ASSET_PATH + 'images/ui/options.png',
+            'play': 'I' + CONFIG.ASSET_PATH + 'images/ui/play.png',
+            'shop': 'I' + CONFIG.ASSET_PATH + 'images/ui/shop.png',
+            'title': 'I' + CONFIG.ASSET_PATH + 'images/ui/title.png',
+            'back' : 'I' + CONFIG.ASSET_PATH + 'images/ui/back.png',
+            'coin' : 'S' + CONFIG.ASSET_PATH + 'images/ui/coin.png',
             // Images: Free Use
-            'close': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/free-use/CloseButton.png',
-            'closePressed': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/free-use/CloseButtonPressed.png',
+            'close': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButton.png',
+            'closePressed': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButtonPressed.png',
             // Images: Heroes
-            'hero': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/heroes/hero.png',
-            'wizard': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/heroes/wizard.png',
+            'hero': 'I' + CONFIG.ASSET_PATH + 'images/heroes/hero.png',
+            'wizard': 'I' + CONFIG.ASSET_PATH + 'images/heroes/wizard.png',
             // Images: Monsters
-            'bat': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/bat.png',
-            'blue': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/blue.png',
-            'green': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/green.png',
-            'jellyfish': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/jellyfish.png',
-            'pink': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/pink.png',
-            'red': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/red.png',
-            'shark': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/shark.png',
-            'skelly': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/skelly.png',
-            'starfish': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/starfish.png',
-            'witch': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/witch.png',
-            'mermaid': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/boss_mermaid.png',
-            'slimeking': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/boss_slime.png',
-            'vampire': 'S' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/monsters/boss_vampire.png',
+            'bat': 'S' + CONFIG.ASSET_PATH + 'images/monsters/bat.png',
+            'blue': 'S' + CONFIG.ASSET_PATH + 'images/monsters/blue.png',
+            'green': 'S' + CONFIG.ASSET_PATH + 'images/monsters/green.png',
+            'jellyfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/jellyfish.png',
+            'pink': 'S' + CONFIG.ASSET_PATH + 'images/monsters/pink.png',
+            'red': 'S' + CONFIG.ASSET_PATH + 'images/monsters/red.png',
+            'shark': 'S' + CONFIG.ASSET_PATH + 'images/monsters/shark.png',
+            'skelly': 'S' + CONFIG.ASSET_PATH + 'images/monsters/skelly.png',
+            'starfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/starfish.png',
+            'witch': 'S' + CONFIG.ASSET_PATH + 'images/monsters/witch.png',
+            'mermaid': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_mermaid.png',
+            'slimeking': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_slime.png',
+            'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
             // Images: Worlds
-            'gothicBg': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/worlds/gothic.png',
-            'slimeBg': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/worlds/slime.png',
-            'waterBg': 'I' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'images/worlds/water.png',
+            'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic.png',
+            'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime.png',
+            'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water.png',
             // Sounds
-            'punch': 'A' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'sounds/dull_punch.mp3',
-            'gothic': 'A' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'sounds/Gothic_Music.mp3',
-            'ocean': 'A' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'sounds/Ocean_Music.mp3',
-            'slap': 'A' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'sounds/slap.mp3',
-            'slime': 'A' + IDLE_PIXELS_CONFIG.ASSETS_DIRECTORY + 'sounds/Slime_Music.mp3',
+            'punch': 'A' + CONFIG.ASSET_PATH + 'sounds/dull_punch.mp3',
+            'gothic': 'A' + CONFIG.ASSET_PATH + 'sounds/Gothic_Music.mp3',
+            'ocean': 'A' + CONFIG.ASSET_PATH + 'sounds/Ocean_Music.mp3',
+            'slap': 'A' + CONFIG.ASSET_PATH + 'sounds/slap.mp3',
+            'slime': 'A' + CONFIG.ASSET_PATH + 'sounds/Slime_Music.mp3',
         }
 
     }

@@ -2,6 +2,7 @@ import { Loader, GameObjects, Scene } from 'phaser';
 import { DUMMY_FILES } from '../tools/Globals';
 import { px, py } from '../tools/PercentCoords';
 import { Rnd } from '../tools/Rnd';
+declare var CONFIG;
 
 /**
  * Loads assets (images, sound, etc) for use by the Phaser Engine. This means
@@ -33,44 +34,44 @@ export class LoadAssets extends Scene {
         this.files = {
             // Images
             // Images: UI
-            'credits': 'I./assets/images/ui/credits.png',
-            'options': 'I./assets/images/ui/options.png',
-            'play': 'I./assets/images/ui/play.png',
-            'shop': 'I./assets/images/ui/shop.png',
-            'title': 'I./assets/images/ui/title.png',
-            'back' : 'I./assets/images/ui/back.png',
-            'coin' : 'S./assets/images/ui/coin.png',
+            'credits': 'I' + CONFIG.ASSET_PATH + 'images/ui/credits.png',
+            'options': 'I' + CONFIG.ASSET_PATH + 'images/ui/options.png',
+            'play': 'I' + CONFIG.ASSET_PATH + 'images/ui/play.png',
+            'shop': 'I' + CONFIG.ASSET_PATH + 'images/ui/shop.png',
+            'title': 'I' + CONFIG.ASSET_PATH + 'images/ui/title.png',
+            'back' : 'I' + CONFIG.ASSET_PATH + 'images/ui/back.png',
+            'coin' : 'S' + CONFIG.ASSET_PATH + 'images/ui/coin.png',
             // Images: Free Use
-            'close': 'I./assets/images/free-use/CloseButton.png',
-            'closePressed': 'I./assets/images/free-use/CloseButtonPressed.png',
+            'close': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButton.png',
+            'closePressed': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButtonPressed.png',
             // Images: Heroes
-            'hero': 'I./assets/images/heroes/hero.png',
-            'wizard': 'I./assets/images/heroes/wizard.png',
+            'hero': 'I' + CONFIG.ASSET_PATH + 'images/heroes/hero.png',
+            'wizard': 'I' + CONFIG.ASSET_PATH + 'images/heroes/wizard.png',
             // Images: Monsters
-            'bat': 'S./assets/images/monsters/bat.png',
-            'blue': 'S./assets/images/monsters/blue.png',
-            'green': 'S./assets/images/monsters/green.png',
-            'jellyfish': 'S./assets/images/monsters/jellyfish.png',
-            'pink': 'S./assets/images/monsters/pink.png',
-            'red': 'S./assets/images/monsters/red.png',
-            'shark': 'S./assets/images/monsters/shark.png',
-            'skelly': 'S./assets/images/monsters/skelly.png',
-            'starfish': 'S./assets/images/monsters/starfish.png',
-            'witch': 'S./assets/images/monsters/witch.png',
-            'mermaid': 'S./assets/images/monsters/boss_mermaid.png',
-            'slimeking': 'S./assets/images/monsters/boss_slime.png',
-            'vampire': 'S./assets/images/monsters/boss_vampire.png',
+            'bat': 'S' + CONFIG.ASSET_PATH + 'images/monsters/bat.png',
+            'blue': 'S' + CONFIG.ASSET_PATH + 'images/monsters/blue.png',
+            'green': 'S' + CONFIG.ASSET_PATH + 'images/monsters/green.png',
+            'jellyfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/jellyfish.png',
+            'pink': 'S' + CONFIG.ASSET_PATH + 'images/monsters/pink.png',
+            'red': 'S' + CONFIG.ASSET_PATH + 'images/monsters/red.png',
+            'shark': 'S' + CONFIG.ASSET_PATH + 'images/monsters/shark.png',
+            'skelly': 'S' + CONFIG.ASSET_PATH + 'images/monsters/skelly.png',
+            'starfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/starfish.png',
+            'witch': 'S' + CONFIG.ASSET_PATH + 'images/monsters/witch.png',
+            'mermaid': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_mermaid.png',
+            'slimeking': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_slime.png',
+            'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
             // Images: Worlds
-            'gothicBg': 'I./assets/images/worlds/gothic.png',
-            'slimeBg': 'I./assets/images/worlds/slime.png',
-            'waterBg': 'I./assets/images/worlds/water.png',
+            'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic.png',
+            'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime.png',
+            'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water.png',
             // Sounds
-            'punch': 'A./assets/sounds/dull_punch.mp3',
-            'gothic': 'A./assets/sounds/Gothic_Music.mp3',
-            'ocean': 'A./assets/sounds/Ocean_Music.mp3',
-            'slap': 'A./assets/sounds/slap.mp3',
-            'slime': 'A./assets/sounds/Slime_Music.mp3',
-            'menumusic': "A./assets/sounds/Menu-Music.mp3",
+            'punch': 'A' + CONFIG.ASSET_PATH + 'sounds/dull_punch.mp3',
+            'gothic': 'A' + CONFIG.ASSET_PATH + 'sounds/Gothic_Music.mp3',
+            'ocean': 'A' + CONFIG.ASSET_PATH + 'sounds/Ocean_Music.mp3',
+            'slap': 'A' + CONFIG.ASSET_PATH + 'sounds/slap.mp3',
+            'slime': 'A' + CONFIG.ASSET_PATH + 'sounds/Slime_Music.mp3',
+            'menumusic': 'A' + CONFIG.ASSET_PATH + 'sounds/Menu-Music.mp3'
         }
 
     }

@@ -2,39 +2,33 @@
 <html lang="en">
 
 <head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
     <meta charset="UTF-8">
-    <title>Idle Pixels</title>
-    <!--Metadata-->
+    
+    <!--Metadata for mobile playing-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta http-equiv="cleartype" content="on">
 
     <!--CSS-->
-    <link rel="stylesheet" href="./assets/styles/main.css" type="text/css" />
-    <link rel="stylesheet" href="./assets/styles/ushop.css" type="text/css" />
+    <link rel="stylesheet" href="./styles/main.css" type="text/css" />
+    <link rel="stylesheet" href="./styles/ushop.css" type="text/css" />
 
-    <!-- <style>
-        html,
-        body,
-        canvas {
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow: hidden !important;
-        }
-    </style> -->
+    <!--Game configuration script-->
+    <script src='idle_pixels_config.js'></script>
+
 </head>
 
 <body>
-    <!--Scripts-->
-    <script src="vendors.app.js"></script>
-    <script src="app.js"></script>
-
-    <!--Display Elements-->
+    <!--container for the phaser game-->
     <div id="game">
+
+        <!--container for the upgrade shop, which is made in html-->
         <div id="upgrade-shop">
             <div id="ushop-content"></div>
         </div>
+
     </div>
 </body>
 

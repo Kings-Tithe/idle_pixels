@@ -18,8 +18,19 @@ export class SoundHandler {
      */
     sounds: {[key: string]: Phaser.Sound.BaseSound[]}
 
+    //numbers
+    globalVolume: number = .5;
+    globalDelay: number = 0;
+    
+    //bools
+    globalLoop: boolean = false;
+
+    //config
+    configs: {[key: string]: object};
+
     constructor(){
         this.sounds = {};
+        this.configs = {};
     }
 
     addSound(key: string, BaseSound: Phaser.Sound.BaseSound){
@@ -34,8 +45,20 @@ export class SoundHandler {
         //choose an index between 0 and the number of item
         //for the passed in key
         let randomNum = Rnd.int(0, this.sounds[key].length - 1);
+        //check if there is a preset config for this sound/sound set
+        let config;
+        if (key in this.configs){
+            config = this.configs[key];
+            console.log("Custom Config Found!");
+        } else {
+            config = {
+                volume: this.globalVolume,
+                loop: this.globalLoop,
+                delay: this.globalDelay
+            }
+        }
         //play the sound at the index of that key
-        this.sounds[key][randomNum].play();
+        this.sounds[key][randomNum].play(config);
     }
 
     checkIfPlaying(key){
@@ -53,6 +76,18 @@ export class SoundHandler {
             if (sound.isPlaying){
                 sound.stop();
             }
+        }
+    }
+
+    setConfig(key: string, volume: number = .5, loop: boolean = false, delay: number = 0, seek: number = 0, rate: number = 1, detune: number = 0, mute: boolean = false){
+        this.configs[key] = {
+            volume: volume,
+            loop: loop,
+            delay: delay,
+            seek: seek,
+            rate: rate,
+            detune: detune,
+            mute: mute
         }
     }
 }

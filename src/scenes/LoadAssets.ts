@@ -136,6 +136,13 @@ export class LoadAssets extends Scene {
                 soundHandler.addSound(key.replace(/[0-9]/g, ''), baseSoundObject);
             }
         }
+
+        //set custom configs for sounds that need them
+        soundHandler.setConfig("menumusic", soundHandler.globalVolume,true);
+        soundHandler.setConfig("slime",soundHandler.globalVolume/3.5,true);
+        soundHandler.setConfig("ocean",soundHandler.globalVolume/3.5,true);
+        soundHandler.setConfig("gothic",soundHandler.globalVolume/3.5,true);
+
     }
 
     /**Creates several visual elements to assist in tracking the current

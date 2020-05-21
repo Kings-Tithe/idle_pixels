@@ -63,8 +63,8 @@ export class LoadAssets extends Scene {
             'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
             // Images: Worlds
             'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic_extended.png',
-            'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime.jpg',
-            'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water.jpg',
+            'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime.png',
+            'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water.png',
             // Sounds
             'punch': 'A' + CONFIG.ASSET_PATH + 'sounds/dull_punch.mp3',
             'gothic': 'A' + CONFIG.ASSET_PATH + 'sounds/Gothic_Music.mp3',

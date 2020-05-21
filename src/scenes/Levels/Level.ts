@@ -147,14 +147,14 @@ export abstract class Level extends Scene {
      * Switches either the monster or the level after a monster dies.
      */
     onMonsterDeath() {
+        //add coins earned and update coin counter
+        this.player.coins += Math.ceil(this.currentMonster.maxHp/4);
+        this.hud.updateCoinCounter(this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
-        //add coins earned and update coin counter
-        this.player.coins += 100;
-        this.hud.updateCoinCounter(this.player.coins);
         //if logging is on tell the console the number of currrently beaten monsters
         if (LOGGING){
             console.log("Number of monsters beaten: " + this.monsBeaten);
@@ -263,11 +263,11 @@ export abstract class Level extends Scene {
         //update the progress bar so it can color the node signaling the boss has
         //been defeated
         this.updateProgressBar(this.monsBeaten);
+        //add coins earned and update coin counter
+        this.player.coins += Math.ceil(this.currentMonster.maxHp/2);
+        this.hud.updateCoinCounter(this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();
-        //add coins earned and update coin counter
-        this.player.coins += 100;
-        this.hud.updateCoinCounter(this.player.coins);
         //if logging is on tell the console the number of currrently beaten monsters
         if (LOGGING){
             console.log("The boss has been beaten! Preparing to move to next level");

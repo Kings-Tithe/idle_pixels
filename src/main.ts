@@ -6,6 +6,7 @@ import { LoadAssets } from './scenes/LoadAssets';
 import { Splash } from './scenes/Splash';
 import { Home } from './scenes/Home';
 import { Credits } from "./scenes/Credits";
+import { SoundHandler } from './SoundHandler';
 
 /**Idle Pixels game configuration, including settings such as render type,
  * logical size, anti-aliasing, and more. */
@@ -40,3 +41,5 @@ const config: Phaser.Types.Core.GameConfig = {
 }
 
 export const IdlePixels = new Phaser.Game(config);
+
+export const soundHandler = new SoundHandler;

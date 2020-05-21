@@ -48,9 +48,6 @@ export class Credits extends Phaser.Scene {
     * the scene is actually being launched (instead of just being added to the
     * game object) */
    init() {
-       // setup the scene's background music
-       this.bgMusic = this.sound.add('menumusic');
-       this.bgMusic.play();
 
        //Actual text to be displayed, speerated by lines to make code more readable
        //no Height limit
@@ -107,7 +104,6 @@ export class Credits extends Phaser.Scene {
        //back to the HomeScreen
        this.creditsButton.setInteractive();
        this.creditsButton.on("pointerdown",function(){
-           this.bgMusic.stop();
            this.scene.start("Home");
        },this);
    }

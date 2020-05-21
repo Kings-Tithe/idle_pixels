@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import { px, py, scaleTo } from "../tools/PercentCoords"
 import { Player } from '../Player';
 import { Hud } from '../Hud';
+import { soundHandler } from '../main';
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -38,10 +39,6 @@ export class Home extends Phaser.Scene {
     //** Tween that takes playButton from the wizards staff to it's proper place */
     creditsButtonTween: Phaser.Tweens.Tween;
 
-    //Sounds
-    /** The music that plays During this scene */
-    bgMusic: Phaser.Sound.BaseSound;
-
     /**
      * Phaser.Scene method which represents the start of the Scene's behavior.
      * It runs after init() and preload() have completed
@@ -53,9 +50,11 @@ export class Home extends Phaser.Scene {
         this.background.scaleX = scaleTo(px(100),this.background.width);
         this.background.scaleY = scaleTo(py(100),this.background.height);
 
-        // setup the scene's background music
-        this.bgMusic = this.sound.add('menumusic');
-        this.bgMusic.play();
+        // start menu music if not already playing
+        if (!soundHandler.checkIfPlaying("menumusic")){
+            soundHandler.play('menumusic');
+        }
+
 
         // setup the play button
         this.playButton = this.add.sprite(px(50) - 145, py(50) + 110, "play");
@@ -107,7 +106,6 @@ export class Home extends Phaser.Scene {
         //set on-pointerdown to change to credits scene
         this.creditsButton.on("pointerdown", function () {
             //stop current instance of menu music
-            this.bgMusic.stop();
             this.scene.start("Credits");
         }, this);
         //set the tween to move from the wizrds staff to it's proper place
@@ -130,10 +128,10 @@ export class Home extends Phaser.Scene {
      * (Currently, saves are not implemented. It just starts a new game.)
      */
     onPlay() {
-        //create a black player to pass to the first scene
+        //create a blank player to pass to the first scene
         let newPlayer = new Player;
         let hud = new Hud(this,);
-        this.bgMusic.stop();
+        soundHandler.stop("menumusic");
         this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
     }
 

@@ -3,6 +3,7 @@ import { Rnd } from '../../tools/Rnd';
 import { Player } from '../../Player';
 import { Level } from '../../scenes/Levels/Level';
 import { EasyColor } from "../../tools/EasyColor";
+import { soundHandler } from '../../main';
 
 export class Monster extends Phaser.GameObjects.Sprite {
 
@@ -182,6 +183,9 @@ export class Monster extends Phaser.GameObjects.Sprite {
         //pick a random angle between -45 and 45
         this.hitAngle = Math.trunc(Math.random() * 45);
         this.hitAngle = Math.random() < .5 ? this.hitAngle : this.hitAngle * -1;
+        //when being clicked or "attacked" by the player play a generic attack sound from
+        //the list of possible attack sound
+        soundHandler.play("attack");
         //play tween
         this.hitTween.play();
         //apply damage
@@ -213,7 +217,7 @@ export class Monster extends Phaser.GameObjects.Sprite {
 
     /** Used when the Monster is killed */
     onDeath() {
-        //signals to functions ran before death completes
+        // Signals to functions ran before death completes
         this.emit("predeath");
         // Make the Monster non-clickable when dying
         this.removeInteractive();

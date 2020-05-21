@@ -2,6 +2,7 @@ import { Loader, GameObjects, Scene } from 'phaser';
 import { DUMMY_FILES } from '../tools/Globals';
 import { px, py } from '../tools/PercentCoords';
 import { Rnd } from '../tools/Rnd';
+import { soundHandler } from "../main"
 
 /**
  * Loads assets (images, sound, etc) for use by the Phaser Engine. This means
@@ -65,10 +66,11 @@ export class LoadAssets extends Scene {
             'slimeBg': 'I./assets/images/worlds/slime.png',
             'waterBg': 'I./assets/images/worlds/water.png',
             // Sounds
-            'punch': 'A./assets/sounds/dull_punch.mp3',
+            'attack0': 'A./assets/sounds/Jab.mp3',
+            'attack1': 'A./assets/sounds/Left Hook.mp3',
+            'attack2': 'A./assets/sounds/Punch_Hd.mp3',
             'gothic': 'A./assets/sounds/Gothic_Music.mp3',
             'ocean': 'A./assets/sounds/Ocean_Music.mp3',
-            'slap': 'A./assets/sounds/slap.mp3',
             'slime': 'A./assets/sounds/Slime_Music.mp3',
             'menumusic': "A./assets/sounds/Menu-Music.mp3",
         }
@@ -107,6 +109,8 @@ export class LoadAssets extends Scene {
                 this.load.image(key, this.files[key].slice(1));
             } else if (this.files[key][0] == 'A') {
                 this.load.audio(key, this.files[key].slice(1));
+                //let baseSoundObject = this.sound.add(key);
+                //soundHandler.addSound(key, baseSoundObject)
             }
         }
         // Tracking loading progress
@@ -121,6 +125,17 @@ export class LoadAssets extends Scene {
     create() {
         // Start the next scene
         this.scene.start('Splash');
+        
+        //load all the sounds into the sound handler
+        for (let key of Object.keys(this.files)) {
+            /**Check for assets of tyoe sound, then load the create and store the sound.
+             * When loading, take a slice that doesn't include the first character.
+             * That first character just tells use the type of asset. */
+            if (this.files[key][0] == 'A') {
+                let baseSoundObject = this.sound.add(key);
+                soundHandler.addSound(key.replace(/[0-9]/g, ''), baseSoundObject);
+            }
+        }
     }
 
     /**Creates several visual elements to assist in tracking the current

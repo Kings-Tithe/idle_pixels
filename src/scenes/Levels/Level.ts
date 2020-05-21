@@ -8,6 +8,7 @@ import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
 import { UShop } from "../../Ushop"
 import { EasyColor } from '../../tools/EasyColor';
+import { soundHandler } from '../../main';
 
 export abstract class Level extends Scene {
 
@@ -47,9 +48,6 @@ export abstract class Level extends Scene {
     bossTimerGraphic: Phaser.GameObjects.Graphics;
     /** Is a backing for the boss timer,*/
     bossTimerBack: Phaser.GameObjects.Graphics;
-
-    //sounds
-    bgMusic: Phaser.Sound.BaseSound;
 
     //numbers
     /** Used to keep track of how many monsters have been beaten */
@@ -116,8 +114,7 @@ export abstract class Level extends Scene {
         this.background.scaleX = scaleTo(px(100),this.background.width);
         this.background.scaleY = scaleTo(py(100),this.background.height);
         // setup the scene's background music
-        this.bgMusic = this.sound.add(this.bgMusicKey);
-        this.bgMusic.play();
+        soundHandler.play(this.bgMusicKey);
         // play the intro splash text
         this.splashText();
         //link all the hud elements to this scene
@@ -399,7 +396,7 @@ export abstract class Level extends Scene {
             console.log(nextLevelKey);
         }
         //stop the current scene's background music
-        this.bgMusic.stop();
+        soundHandler.stop(this.bgMusicKey);
         //set the player to be one level higher
         this.player.level++;
         // Clear the interval for passive damage to avoid "clusters" of damage calls

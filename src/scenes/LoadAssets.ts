@@ -71,6 +71,7 @@ export class LoadAssets extends Scene {
             'ocean': 'A' + CONFIG.ASSET_PATH + 'sounds/Ocean_Music.mp3',
             'slap': 'A' + CONFIG.ASSET_PATH + 'sounds/slap.mp3',
             'slime': 'A' + CONFIG.ASSET_PATH + 'sounds/Slime_Music.mp3',
+            'menumusic': 'A' + CONFIG.ASSET_PATH + 'sounds/Menu-Music.mp3'
         }
 
     }
@@ -81,7 +82,8 @@ export class LoadAssets extends Scene {
      * the scene is actually being launched (instead of just being added to the
      * game object) 
      */
-    init() { }
+    init() { 
+    }
 
     /**
      * Phaser.Scene method which allows for loading of assets with the Phaser

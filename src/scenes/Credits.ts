@@ -39,11 +39,19 @@ export class Credits extends Phaser.Scene {
    /** Button used to return to the home screen */
    creditsButton: Phaser.GameObjects.Image;
 
+   //Sounds
+   /** The music that plays During this scene */
+   bgMusic: Phaser.Sound.BaseSound;
+
    /**Init is a Phaser Scene method that runs before any of the others. It can
     * be thought of like a sort of follow-up constructor that runs only once
     * the scene is actually being launched (instead of just being added to the
     * game object) */
    init() {
+       // setup the scene's background music
+       this.bgMusic = this.sound.add('menumusic');
+       this.bgMusic.play();
+
        //Actual text to be displayed, speerated by lines to make code more readable
        //no Height limit
        //Limit of 55 characters for width to keep formatting
@@ -99,6 +107,7 @@ export class Credits extends Phaser.Scene {
        //back to the HomeScreen
        this.creditsButton.setInteractive();
        this.creditsButton.on("pointerdown",function(){
+           this.bgMusic.stop();
            this.scene.start("Home");
        },this);
    }

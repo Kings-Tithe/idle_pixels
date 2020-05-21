@@ -129,6 +129,7 @@ export abstract class Level extends Scene {
         //create progress bar
         this.createProgressBar();
     }
+    
 
     /**
      * Creates a random monster from the monster list on the screen.

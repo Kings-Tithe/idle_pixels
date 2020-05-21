@@ -411,36 +411,36 @@ export abstract class Level extends Scene {
     }
 
     createSkull(){
-        this.skullImage = this.add.image(CENTER.x,CENTER.y,"skull_up0");
+        this.skullImage = this.add.image(40,500,"skull_up0");
         this.skullImage.depth = 99;
-        this.skullImage.setScale(15);
+        this.skullImage.setScale(6.5);
+        this.skullImage.setOrigin(.5);
     }
 
     updateSkull(){
         let CurrentPointer = new Phaser.Math.Vector2(this.game.input.mousePointer.x, this.game.input.mousePointer.y)
-        let CurrentSkull = new Phaser.Math.Vector2(CENTER.x,CENTER.y);
+        let CurrentSkull = new Phaser.Math.Vector2(40,500);
         let currentRadAngle = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
-        let currentDegAngle = Phaser.Math.RadToDeg(currentRadAngle);
+        let currentDegAngle = Phaser.Math.RadToDeg(currentRadAngle) - 30;
         console.log(currentDegAngle);
         //check through and see which texture to go with
-        if (currentDegAngle > 15 && currentDegAngle < 60){
-            this.skullImage.setTexture("skull_right0");
-            console.log('1');
-        } else if (currentDegAngle > 60 && currentDegAngle < 105){
+        if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0){
             this.skullImage.setTexture("skull_down-right0");
-            console.log('2');
-        } else if (currentDegAngle > 105 && currentDegAngle < 150){
+        } else if (currentDegAngle > 12 && currentDegAngle < 90){
             this.skullImage.setTexture("skull_down0");
-            console.log('3');
-        }// else if (195 < currentDegAngle || currentDegAngle < 240){
-
-        // } else if (240 < currentDegAngle || currentDegAngle < 285){
-
-        // } else if (285 < currentDegAngle || currentDegAngle < 60){
-
-        // } else if (15 < currentDegAngle || currentDegAngle < 60){
-
-        // }
+        } else if (currentDegAngle > 90 && currentDegAngle < 140){
+            this.skullImage.setTexture("skull_down-left0");
+        } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160){
+            this.skullImage.setTexture("skull_left0");
+        } else if (-160 < currentDegAngle && currentDegAngle < -145){
+            this.skullImage.setTexture("skull_up-left0");
+        } else if (-145 < currentDegAngle && currentDegAngle < -103){
+            this.skullImage.setTexture("skull_up0");
+        } else if (-103 < currentDegAngle && currentDegAngle < -46){
+            this.skullImage.setTexture("skull_up-right0");
+        }  else if (-46 < currentDegAngle && currentDegAngle < -25){
+            this.skullImage.setTexture("skull_right0");
+        }
     }
 
 }

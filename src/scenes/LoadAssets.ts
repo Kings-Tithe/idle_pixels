@@ -63,7 +63,7 @@ export class LoadAssets extends Scene {
             'slimeking': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_slime.png',
             'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
             // Images: Worlds
-            'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic.png',
+            'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic_extended.png',
             'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime.png',
             'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water.png',
             // Sounds

@@ -61,6 +61,8 @@ export abstract class Level extends Scene {
     bossTime: number;
     /** used to store where the boss timer starts */
     BossTimeMax: number = 10;
+    /** Used to keep track of the times update skull has been run to sync blinking frames */
+    skullIconFrames: number = 0;
 
     //players
     /** Holds all the passable data about the player */
@@ -73,6 +75,8 @@ export abstract class Level extends Scene {
     //NodeJS.Timeout
     /** Stores the id for the boss timer interval */
     bossIntervalId : NodeJS.Timeout;
+    /** Stores the id for the skull icon timer interval */
+    skullIconId : NodeJS.Timeout;
     /**
      * Returned from the passive damage setInterval call, we need to make sure
      * to stop the interval timer before moving on from this level.
@@ -132,7 +136,7 @@ export abstract class Level extends Scene {
         this.createProgressBar();
         //create skull icon
         this.createSkull();
-        setInterval(this.updateSkull.bind(this), 100);
+        this.skullIconId = setInterval(this.updateSkull.bind(this), 100);
         //create kill text
         this.createKillText();
     }
@@ -412,6 +416,7 @@ export abstract class Level extends Scene {
         this.player.level++;
         // Clear the interval for passive damage to avoid "clusters" of damage calls
         clearInterval(this.passiveInterval);
+        clearInterval(this.skullIconId);
         //start the next scene with all passed in values
         this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
     }
@@ -438,29 +443,55 @@ export abstract class Level extends Scene {
     }
 
     updateSkull(){
+        //increment frame counter
+        if (this.skullIconFrames < 46){
+            this.skullIconFrames++;
+        } else {
+            this.skullIconFrames = 1;
+        }
+
+        //calculate the angle between the cursor and the skull icon
         let CurrentPointer = new Phaser.Math.Vector2(this.game.input.mousePointer.x, this.game.input.mousePointer.y)
         let CurrentSkull = new Phaser.Math.Vector2(40,500);
-        let currentRadAngle = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
-        let currentDegAngle = Phaser.Math.RadToDeg(currentRadAngle) - 30;
-        console.log(currentDegAngle);
-        //check through and see which texture to go with
+        let currentRadAngle: number = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
+        let currentDegAngle: number = Phaser.Math.RadToDeg(currentRadAngle) - 30;
+
+        let textureDirection: string = "";
+        //check through and see which texture direction to go with to go with
         if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0){
-            this.skullImage.setTexture("skull_down-right0");
+            textureDirection = "skull_down-right";
         } else if (currentDegAngle > 12 && currentDegAngle < 90){
-            this.skullImage.setTexture("skull_down0");
+            textureDirection = "skull_down";
         } else if (currentDegAngle > 90 && currentDegAngle < 140){
-            this.skullImage.setTexture("skull_down-left0");
+            textureDirection = "skull_down-left";
         } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160){
-            this.skullImage.setTexture("skull_left0");
+            textureDirection = "skull_left";
         } else if (-160 < currentDegAngle && currentDegAngle < -145){
-            this.skullImage.setTexture("skull_up-left0");
+            textureDirection = "skull_up-left";
         } else if (-145 < currentDegAngle && currentDegAngle < -103){
-            this.skullImage.setTexture("skull_up0");
+            textureDirection = "skull_up";
         } else if (-103 < currentDegAngle && currentDegAngle < -46){
-            this.skullImage.setTexture("skull_up-right0");
+            textureDirection = "skull_up-right";
         }  else if (-46 < currentDegAngle && currentDegAngle < -25){
-            this.skullImage.setTexture("skull_right0");
+            textureDirection = "skull_right";
         }
+
+        let blinkFrame: number;
+        //determine blink frames
+        
+        if (this.skullIconFrames > 5){
+            blinkFrame = 0;
+        } else if(this.skullIconFrames == 1 || this.skullIconFrames == 5){
+            blinkFrame = 1;
+        } else if (this.skullIconFrames == 2 || this.skullIconFrames == 4) {
+            blinkFrame = 2
+        } else if (this.skullIconFrames == 3){
+            blinkFrame = 3;
+        }
+        console.log(this.skullIconFrames, textureDirection + blinkFrame)
+        //finally put them all together and change the texture
+        this.skullImage.setTexture(textureDirection + blinkFrame)
+        
     }
 
 }

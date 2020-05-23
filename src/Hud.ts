@@ -56,18 +56,17 @@ export class Hud {
      */
     constructor(scene: Scene) {
         //create golden coin counter
-        this.coinText = new Phaser.GameObjects.Text(scene, 85, 530, "0", {
-            fontSize: "100px",
+        this.coinText = new Phaser.GameObjects.Text(scene, 96, 510, "0", {
+            fontSize: "50px",
             fontFamily: "Ariel",
             color: '#ffed70',
-            align: "right",
             fontStyle: "bold"
         });
-        this.coinText.setStroke("#a69a47", 8);
+        this.coinText.setStroke("#a69a47", 5);
         this.coinText.ignoreDestroy = true;
         //add spinning coin
-        this.spinningCoin = new Phaser.GameObjects.Sprite(scene, -5, 540, "coin", 0);
-        this.spinningCoin.setScale(3, 3);
+        this.spinningCoin = new Phaser.GameObjects.Sprite(scene, 10, 510, "coin", 0);
+        this.spinningCoin.setScale(2);
         this.spinningCoin.setOrigin(0, 0);
         this.spinningCoin.ignoreDestroy = true;
 
@@ -202,7 +201,7 @@ export class Hud {
 
     createKillText(scene){
         this.killText = new Phaser.GameObjects.Text(scene, 100, 450, "0", {
-            fontSize: "75px",
+            fontSize: "50px",
             fontFamily: "Ariel",
             color: '#000000',
             fontStyle: "bold"
@@ -216,9 +215,9 @@ export class Hud {
     }
 
     createSkull(scene){
-        this.skullImage = scene.add.image(40,500,"skull_up0");
+        this.skullImage = scene.add.image(40,487,"skull_up0");
         this.skullImage.depth = 99;
-        this.skullImage.setScale(6.5);
+        this.skullImage.setScale(5);
         this.skullImage.setOrigin(.5);
         this.skullImage.ignoreDestroy = true;
     }

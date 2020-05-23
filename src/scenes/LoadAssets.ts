@@ -103,6 +103,7 @@ export class LoadAssets extends Scene {
             'attack0': 'A' + CONFIG.ASSET_PATH + 'sounds/Jab.mp3',
             'attack1': 'A' + CONFIG.ASSET_PATH + 'sounds/Left Hook.mp3',
             'attack2': 'A' + CONFIG.ASSET_PATH + 'sounds/Punch_Hd.mp3',
+            'bossalarm': 'A' + CONFIG.ASSET_PATH + 'sounds/Punch_Hd.mp3',
             'gothic': 'A' + CONFIG.ASSET_PATH + 'sounds/Gothic_Music.mp3',
             'ocean': 'A' + CONFIG.ASSET_PATH + 'sounds/Ocean_Music.mp3',
             'slime': 'A' + CONFIG.ASSET_PATH + 'sounds/Slime_Music.mp3',

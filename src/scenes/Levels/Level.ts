@@ -46,8 +46,8 @@ export abstract class Level extends Scene {
     monsBeaten: number;
     /** Used to keep track of the tick of the boss timer */
     bossTime: number;
-    /** used to store where the boss timer starts */
-    BossTimeMax: number = 10;
+    /** used to store where the boss timer starts, done in 1/10 second intervals so 1 = 100ms */
+    BossTimeMax: number = 50;
 
     //players
     /** Holds all the passable data about the player */
@@ -208,7 +208,7 @@ export abstract class Level extends Scene {
         this.bossTimerGraphic.depth = 6;
         this.add.existing(this.bossTimerGraphic);
         //set an interval to run every 1000ms or every second
-        this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 1000);
+        this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 100);
         console.log("Boss timer created!");
     }
 

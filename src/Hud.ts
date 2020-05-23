@@ -80,19 +80,21 @@ export class Hud {
 
     /** used to link all elements to a new scene when entering the new scene */
     link(scene: Scene) {
-        scene.add.existing(this.coinText)
+        this.ushop.link(scene);
         scene.add.existing(this.spinningCoin);
+        scene.add.existing(this.coinText);
+        scene.add.existing(this.skullImage);
+        scene.add.existing(this.killText);
         scene.add.existing(this.progressContainer);
         scene.add.existing(this.progressBackground);
         scene.add.existing(this.progressBar);
-        scene.add.existing(this.killText);
-        scene.add.existing(this.skullImage);
         for(let i = 0; i < 10; i ++){
             scene.add.existing(this.monsterNodes[i]); 
         }
         this.spinningCoin.play("coinSpin");
-        this.ushop.link(scene);
     }
+
+    // Spinning Coin functions --------------------
 
     createSpinningCoin(scene){
         //add spinning coin
@@ -111,6 +113,8 @@ export class Hud {
         this.coinSpinAnim = anim ? anim : null;
     }
 
+    // Coin Text functions --------------------
+
     createCoinCounter(scene){
         //create golden coin counter
         this.coinText = new Phaser.GameObjects.Text(scene, this.spinningCoin.x + 70, this.spinningCoin.y - 2, "0", {
@@ -127,6 +131,86 @@ export class Hud {
     updateCoinCounter(coins: number) {
         this.coinText.setText(coins.toLocaleString());
     }
+
+    // Skull image functions --------------------
+
+    createSkull(scene){
+        this.skullImage = scene.add.image(40,this.spinningCoin.y - 30,"skull_up0");
+        this.skullImage.depth = 99;
+        this.skullImage.setScale(5);
+        this.skullImage.setOrigin(.5);
+        this.skullImage.ignoreDestroy = true;
+    }
+
+    updateSkull(scene){
+        //increment frame counter
+        if (this.skullIconFrames < 46){
+            this.skullIconFrames++;
+        } else {
+            this.skullIconFrames = 1;
+        }
+
+        //calculate the angle between the cursor and the skull icon
+        let CurrentPointer = new Phaser.Math.Vector2(scene.input.activePointer.x, scene.input.activePointer.y)
+        let CurrentSkull = new Phaser.Math.Vector2(40,500);
+        let currentRadAngle: number = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
+        let currentDegAngle: number = Phaser.Math.RadToDeg(currentRadAngle) - 30;
+
+        let textureDirection: string = "";
+        //check through and see which texture direction to go with to go with
+        if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0){
+            textureDirection = "skull_down-right";
+        } else if (currentDegAngle > 12 && currentDegAngle < 90){
+            textureDirection = "skull_down";
+        } else if (currentDegAngle > 90 && currentDegAngle < 140){
+            textureDirection = "skull_down-left";
+        } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160){
+            textureDirection = "skull_left";
+        } else if (-160 < currentDegAngle && currentDegAngle < -145){
+            textureDirection = "skull_up-left";
+        } else if (-145 < currentDegAngle && currentDegAngle < -103){
+            textureDirection = "skull_up";
+        } else if (-103 < currentDegAngle && currentDegAngle < -46){
+            textureDirection = "skull_up-right";
+        }  else if (-46 < currentDegAngle && currentDegAngle < -25){
+            textureDirection = "skull_right";
+        }
+
+        let blinkFrame: number;
+        //determine blink frames
+        
+        if (this.skullIconFrames > 5){
+            blinkFrame = 0;
+        } else if(this.skullIconFrames == 1 || this.skullIconFrames == 5){
+            blinkFrame = 1;
+        } else if (this.skullIconFrames == 2 || this.skullIconFrames == 4) {
+            blinkFrame = 2
+        } else if (this.skullIconFrames == 3){
+            blinkFrame = 3;
+        }
+        //finally put them all together and change the texture
+        this.skullImage.setTexture(textureDirection + blinkFrame)
+        
+    }
+
+    // Kill Text functions --------------------
+
+    createKillText(scene){
+        this.killText = new Phaser.GameObjects.Text(scene, this.coinText.x + 3, this.skullImage.y - 35, "0", {
+            fontSize: "50px",
+            fontFamily: "Ariel",
+            color: '#000000',
+            fontStyle: "bold"
+        });
+        this.killText.depth = 100;
+        this.killText.ignoreDestroy = true;
+    }
+
+    updateKillText(monsKilled){
+        this.killText.setText(monsKilled.toLocaleString());
+    }
+
+    // Progress Bar functions --------------------
 
     createProgressBar(scene){
         //create top bar for graphical representation of monster kills
@@ -214,80 +298,6 @@ export class Hud {
         //draw to new node point
         this.progressBar.fillStyle(EasyColor.Green,1);
         this.progressBar.fillRoundedRect(15, 35, (50 + ((GAME_WIDTH - 30)/10) * (monsKilled)), 30, 15);
-    }
-
-    createKillText(scene){
-        this.killText = new Phaser.GameObjects.Text(scene, this.coinText.x + 3, this.skullImage.y - 35, "0", {
-            fontSize: "50px",
-            fontFamily: "Ariel",
-            color: '#000000',
-            fontStyle: "bold"
-        });
-        this.killText.depth = 100;
-        this.killText.ignoreDestroy = true;
-    }
-
-    updateKillText(monsKilled){
-        this.killText.setText(monsKilled.toLocaleString());
-    }
-
-    createSkull(scene){
-        this.skullImage = scene.add.image(40,this.spinningCoin.y - 30,"skull_up0");
-        this.skullImage.depth = 99;
-        this.skullImage.setScale(5);
-        this.skullImage.setOrigin(.5);
-        this.skullImage.ignoreDestroy = true;
-    }
-
-    updateSkull(scene){
-        //increment frame counter
-        if (this.skullIconFrames < 46){
-            this.skullIconFrames++;
-        } else {
-            this.skullIconFrames = 1;
-        }
-
-        //calculate the angle between the cursor and the skull icon
-        let CurrentPointer = new Phaser.Math.Vector2(scene.input.activePointer.x, scene.input.activePointer.y)
-        let CurrentSkull = new Phaser.Math.Vector2(40,500);
-        let currentRadAngle: number = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
-        let currentDegAngle: number = Phaser.Math.RadToDeg(currentRadAngle) - 30;
-
-        let textureDirection: string = "";
-        //check through and see which texture direction to go with to go with
-        if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0){
-            textureDirection = "skull_down-right";
-        } else if (currentDegAngle > 12 && currentDegAngle < 90){
-            textureDirection = "skull_down";
-        } else if (currentDegAngle > 90 && currentDegAngle < 140){
-            textureDirection = "skull_down-left";
-        } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160){
-            textureDirection = "skull_left";
-        } else if (-160 < currentDegAngle && currentDegAngle < -145){
-            textureDirection = "skull_up-left";
-        } else if (-145 < currentDegAngle && currentDegAngle < -103){
-            textureDirection = "skull_up";
-        } else if (-103 < currentDegAngle && currentDegAngle < -46){
-            textureDirection = "skull_up-right";
-        }  else if (-46 < currentDegAngle && currentDegAngle < -25){
-            textureDirection = "skull_right";
-        }
-
-        let blinkFrame: number;
-        //determine blink frames
-        
-        if (this.skullIconFrames > 5){
-            blinkFrame = 0;
-        } else if(this.skullIconFrames == 1 || this.skullIconFrames == 5){
-            blinkFrame = 1;
-        } else if (this.skullIconFrames == 2 || this.skullIconFrames == 4) {
-            blinkFrame = 2
-        } else if (this.skullIconFrames == 3){
-            blinkFrame = 3;
-        }
-        //finally put them all together and change the texture
-        this.skullImage.setTexture(textureDirection + blinkFrame)
-        
     }
 
 }

@@ -79,9 +79,10 @@ export class SoundHandler {
         }
     }
 
-    setConfig(key: string, volume: number = .5, loop: boolean = false, delay: number = 0, seek: number = 0, rate: number = 1, detune: number = 0, mute: boolean = false){
+    setConfig(key: string, volumeMultiple: number = 1 ,loop: boolean = false, delay: number = 0, seek: number = 0, rate: number = 1, detune: number = 0, mute: boolean = false){
         this.configs[key] = {
-            volume: volume,
+            volumeMultiple: volumeMultiple,
+            volume: this.globalVolume * volumeMultiple,
             loop: loop,
             delay: delay,
             seek: seek,

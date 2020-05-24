@@ -134,6 +134,7 @@ export abstract class Level extends Scene {
         this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //create progress bar
         this.createProgressBar();
+        
     }
 
 

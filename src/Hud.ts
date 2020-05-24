@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
+import { ScrollablePanel } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 
 /** 
  * class used to store and handle the Hud elements on screen
@@ -298,6 +299,23 @@ export class Hud {
         //draw to new node point
         this.progressBar.fillStyle(EasyColor.Green,1);
         this.progressBar.fillRoundedRect(15, 35, (50 + ((GAME_WIDTH - 30)/10) * (monsKilled)), 30, 15);
+    }
+
+    shopToggle(scene: Scene) {
+        let rectangle = new Phaser.GameObjects.Rectangle(scene, 0, 0, 500, 500, 0xFFFFFF, 1);
+        scene.add.existing(rectangle);
+        let panel = new ScrollablePanel(scene,
+            {
+                scrollMode: 'vertical',
+                panel: {
+                    child: rectangle,
+                    mask: {
+                        padding: 0,
+                        updateMode: 0
+                    }
+                }
+            });
+        scene.add.existing(panel);
     }
 
 }

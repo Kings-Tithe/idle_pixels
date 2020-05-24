@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 import { px, py, scaleTo } from '../../tools/PercentCoords';
 import { Rnd } from '../../tools/Rnd';
 import { Monster } from '../../sprites/monsters/Monster';
-import { LOGGING, CENTER } from '../../tools/Globals';
+import { LOGGING, CENTER, VERTICAL } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
@@ -59,7 +59,7 @@ export abstract class Level extends Scene {
 
     //NodeJS.Timeout
     /** Stores the id for the boss timer interval */
-    bossIntervalId : NodeJS.Timeout;
+    bossIntervalId: NodeJS.Timeout;
     /**
      * Returned from the passive damage setInterval call, we need to make sure
      * to stop the interval timer before moving on from this level.
@@ -87,7 +87,7 @@ export abstract class Level extends Scene {
      */
     init(data) {
         //if logging is on, log the start of this scene
-        if (LOGGING){console.log("Scene Started: " + this.name)};
+        if (LOGGING) { console.log("Scene Started: " + this.name) };
         //grab the passed in data
         this.player = data.player;
         this.hud = data.hud;
@@ -101,10 +101,19 @@ export abstract class Level extends Scene {
      */
     create() {
         // setup the scene's background image
-        this.background = this.add.image(0, 0, this.bg);
-        this.background.setOrigin(0, 0);
-        this.background.scaleX = scaleTo(px(100),this.background.width);
-        this.background.scaleY = scaleTo(py(100),this.background.height);
+        this.background = this.add.image(px(50), py(50), this.bg);
+        this.background.setOrigin(0.5, 0.5);
+        if (VERTICAL) {
+            // Set the scale for the height if the height is bigger (background
+            // will go partially off-screen, intentionally!)
+            this.background.scaleX = scaleTo(py(100), this.background.height);
+            this.background.scaleY = scaleTo(py(100), this.background.height);
+        } else {
+            // Set the scale for the width if the width is bigger (background
+            // will go partially off-screen, intentionally!)
+            this.background.scaleX = scaleTo(px(100), this.background.width);
+            this.background.scaleY = scaleTo(px(100), this.background.width);
+        }
         // setup the scene's background music
         soundHandler.play(this.bgMusicKey);
         // play the intro splash text
@@ -118,17 +127,17 @@ export abstract class Level extends Scene {
         //make sure to reset the progress bar at the start of the level
         this.hud.updateProgressBar(this.monsBeaten);
     }
-    
+
 
     /**
      * Creates a random monster from the monster list on the screen.
      */
     getRandMonster() {
         //decide what kind of monster to create
-        let monIndex: number = Rnd.int(0,this.monsters.length - 1);
+        let monIndex: number = Rnd.int(0, this.monsters.length - 1);
         let MonsterClass: (typeof Monster) = this.monsters[monIndex];
         //now create an instance of that monster class
-        this.currentMonster = new MonsterClass(this,this.player.level);
+        this.currentMonster = new MonsterClass(this, this.player.level);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
@@ -149,19 +158,19 @@ export abstract class Level extends Scene {
         this.player.totalMonsBeaten++;
         this.hud.updateKillText(this.player.totalMonsBeaten);
         //if logging is on tell the console the number of currrently beaten monsters
-        if (LOGGING){
+        if (LOGGING) {
             console.log("Number of monsters beaten: " + this.monsBeaten);
         }
         //update the progress bars graghic
         this.hud.updateProgressBar(this.monsBeaten);
         //check if the correct number of monsters are beaten to spawn a boss
-        if (this.monsBeaten < 9){
+        if (this.monsBeaten < 9) {
             //generate a random boss from the monsters list
             this.getRandMonster();
         } else {
             //time to spawn the boss
             this.spawnBoss();
-            if (LOGGING){console.log("Spawning the boss: ", this.currentMonster)};
+            if (LOGGING) { console.log("Spawning the boss: ", this.currentMonster) };
         }
     }
 
@@ -170,14 +179,14 @@ export abstract class Level extends Scene {
      * the passive heros damage, at the current version the wizard is the
      * only passive hero
      */
-    passiveDamage(this){
+    passiveDamage(this) {
         this.currentMonster.onDamage(this.player.damageSources["wizard"]);
     }
 
     /** Spawns the boss created for the level and sets up the elements related to him */
-    spawnBoss(){
+    spawnBoss() {
         //now create an instance of that monster class
-        this.currentMonster = new this.boss(this,this.player.level);
+        this.currentMonster = new this.boss(this, this.player.level);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
         //listener that clears the boss timer before death completes
@@ -191,7 +200,7 @@ export abstract class Level extends Scene {
         this.createBossTimer();
     }
 
-    createBossTimer(){
+    createBossTimer() {
         //set the starting time for the boss timer
         this.bossTime = this.BossTimeMax;
         //create the white background for the boss timer
@@ -203,7 +212,7 @@ export abstract class Level extends Scene {
         //create pie graghic
         this.bossTimerGraphic = new Phaser.GameObjects.Graphics(this);
         this.bossTimerGraphic.fillStyle(EasyColor.Spring, 1);
-        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40,Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(270.01),true);
+        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40, Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(270.01), true);
         this.bossTimerGraphic.fillPath();
         this.bossTimerGraphic.depth = 6;
         this.add.existing(this.bossTimerGraphic);
@@ -212,32 +221,32 @@ export abstract class Level extends Scene {
         console.log("Boss timer created!");
     }
 
-    incrementTimer(){
+    incrementTimer() {
         //decrement the boss timer by one second
         this.bossTime -= 1;
         //update the graghic for the boss timer
         //determines the percentage taken out of the overall time
         let percentageMissing = (((this.BossTimeMax - this.bossTime) / this.BossTimeMax) * 360) + 270;
         //used to calculate the color of the graghic
-        let currentColor = EasyColor.percentTransform(EasyColor.Spring,EasyColor.Red,this.bossTime/ this.BossTimeMax);
+        let currentColor = EasyColor.percentTransform(EasyColor.Spring, EasyColor.Red, this.bossTime / this.BossTimeMax);
         this.bossTimerGraphic.clear();
         this.bossTimerGraphic.fillStyle(Number(currentColor), 1);
-        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40,Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(percentageMissing),true);
+        this.bossTimerGraphic.slice(CENTER.x + 125, CENTER.y - 140, 40, Phaser.Math.DegToRad(270), Phaser.Math.DegToRad(percentageMissing), true);
         this.bossTimerGraphic.fillPath();
         //check to see if time is up
-        if(this.bossTime <= 0){
+        if (this.bossTime <= 0) {
             this.destroyBossTimer();
             this.onBossFail();
         }
     }
 
-    destroyBossTimer(){
+    destroyBossTimer() {
         clearInterval(this.bossIntervalId);
         this.bossTimerGraphic.destroy();
         this.bossTimerBack.destroy();
     }
 
-    onBossFail(){
+    onBossFail() {
         //this is normally ran internally on monster death but here we have to manually
         //clear it since onDeath is not actually called
         this.currentMonster.clearHealthGraphics();
@@ -250,7 +259,7 @@ export abstract class Level extends Scene {
         this.getRandMonster();
     }
 
-    onBossDeath(){
+    onBossDeath() {
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
@@ -260,7 +269,7 @@ export abstract class Level extends Scene {
         //delete the current on screen monster
         this.currentMonster.destroy();
         //if logging is on tell the console the number of currrently beaten monsters
-        if (LOGGING){
+        if (LOGGING) {
             console.log("The boss has been beaten! Preparing to move to next level");
         }
         //move onto the next level
@@ -271,14 +280,14 @@ export abstract class Level extends Scene {
      * creates and runs the animation for the opening splash text of the level 
      * all elements are self contained and auto deleted after this function is over
     */
-    splashText(){
+    splashText() {
         let splashText: Phaser.GameObjects.Text = this.add.text(
-            CENTER.x, 
+            CENTER.x,
             CENTER.y - 180,
             "Welcome to " + this.name + "!",
             {
-            font: "50px Arial", 
-            fill: "#5bf2fc" 
+                font: "50px Arial",
+                fill: "#5bf2fc"
             });
         splashText.setOrigin(.5, .5)
         splashText.setScale(0);
@@ -300,7 +309,7 @@ export abstract class Level extends Scene {
         let nextLevelKey: string = this.currentKey;
         //choose the key for a random level not matching the level we are currently in so 
         //long as there is more then one level loaded currently
-        while(nextLevelKey == this.currentKey && Keys.length > 1){
+        while (nextLevelKey == this.currentKey && Keys.length > 1) {
             //try to find a new key not matching the one for the current level
             nextLevelKey = Keys[Rnd.int(0, Keys.length - 1)];
             console.log(nextLevelKey);
@@ -312,7 +321,7 @@ export abstract class Level extends Scene {
         // Clear the interval for passive damage to avoid "clusters" of damage calls
         clearInterval(this.passiveInterval);
         //start the next scene with all passed in values
-        this.scene.start(nextLevelKey, {player: this.player, hud: this.hud});
+        this.scene.start(nextLevelKey, { player: this.player, hud: this.hud });
     }
 
 }

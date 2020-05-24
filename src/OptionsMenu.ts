@@ -62,16 +62,12 @@ export class OptionsMenu {
         scene.add.existing(this.volumeFill);
         //create volume ball
         this.volumeBall = new Phaser.GameObjects.Image(scene, CENTER.x, 85, "volumeball");
-        // this.volumeBall.fillStyle(EasyColor.White,1);
-        // this.volumeBall.fillCircle(CENTER.x,85,15);
-        // this.volumeBall.lineStyle(2.5, 0x000000, 1);
-        // this.volumeBall.strokeCircle(CENTER.x,85,15);
-        this.volumeBall.setScale(1);
-        //this.volumeBall.setInteractive();
-        //scene.input.setDraggable(this.volumeBall);
-        //this.volumeBall.on("drag", this.dragVolumeBall.bind(this, scene));
+        this.volumeBall.setScale(0);
+        this.volumeBall.setInteractive();
+        scene.input.setDraggable(this.volumeBall);
+        this.volumeBall.on("drag", this.dragVolumeBall.bind(this, scene));
         this.volumeBall.depth = 5;
-        //this.volumeBall.ignoreDestroy = true;
+        this.volumeBall.ignoreDestroy = true;
         scene.add.existing(this.volumeBall)
         console.log(this.volumeBall);
     }
@@ -82,7 +78,7 @@ export class OptionsMenu {
             this.background.setScale(0);
             this.backButton.setScale(0);
             this.volumeOutline.setScale(0);
-            //this.volumeBall.setScale(0)
+            this.volumeBall.setScale(0)
             this.volumeFill.setScale(0);
             this.open = false;
         } else {
@@ -91,7 +87,7 @@ export class OptionsMenu {
             this.background.setScale(scaleX, scaleY);
             this.backButton.setScale(2.5);
             this.volumeOutline.setScale(1);
-            //this.volumeBall.setScale(1);
+            this.volumeBall.setScale(1);
             this.volumeFill.setScale(1);
             this.open = true;
         }
@@ -103,8 +99,10 @@ export class OptionsMenu {
         //redraw the ball
         this.volumeBall.x = newX;
         //redraw the bar's fill
-        // let percent = ((newX - 45) / GAME_WIDTH - 90) * 100;
-        // this.volumeFill.fillStyle(EasyColor.percentTransform(EasyColor.light_Blue,EasyColor.dark_Blue,percent), 1);
-        // this.volumeFill.fillRoundedRect(45, 80, newX, 15, 15);
+        let percent = ((newX - 45) / (GAME_WIDTH - 90)) * 100;
+        console.log(newX - 45,"/", GAME_WIDTH-90, "* 100", percent);
+        this.volumeFill.clear();
+        this.volumeFill.fillStyle(EasyColor.percentTransform(EasyColor.light_Azure,EasyColor.dark_Blue,percent), 1);
+        this.volumeFill.fillRoundedRect(45, 80, newX - 30, 15, 15);
     }
 }

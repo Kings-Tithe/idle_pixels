@@ -28,8 +28,6 @@ export class Hud {
     //images
     /** Stores the sprite for the little spinning coin next to the coin text */
     spinningCoin: Phaser.GameObjects.Sprite;
-    /** Button that allows for the opening of the ushop */
-    shopButton: Phaser.GameObjects.Sprite;
     /** image that is used to display the skull icons */
     skullImage: Phaser.GameObjects.Image;
 

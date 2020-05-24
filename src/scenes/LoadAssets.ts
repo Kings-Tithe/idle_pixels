@@ -174,9 +174,9 @@ export class LoadAssets extends Scene {
 
         //set custom configs for sounds that need them
         soundHandler.setConfig("menumusic", soundHandler.globalVolume,true);
-        soundHandler.setConfig("slime",soundHandler.globalVolume/3.5,true);
-        soundHandler.setConfig("ocean",soundHandler.globalVolume/3.5,true);
-        soundHandler.setConfig("gothic",soundHandler.globalVolume/3.5,true);
+        soundHandler.setConfig("slime",.15,true);
+        soundHandler.setConfig("ocean",.15,true);
+        soundHandler.setConfig("gothic",.15,true);
 
     }
 

@@ -28,7 +28,8 @@
   "homepage": "https://github.com/jeremyglebe/idle_pixels#readme",
   "dependencies": {
     "jquery": "^3.5.0",
-    "phaser": "^3.22.0"
+    "phaser": "^3.22.0",
+    "phaser3-rex-plugins": "^1.1.15"
   },
   "devDependencies": {
     "brotli-webpack-plugin": "^1.1.0",

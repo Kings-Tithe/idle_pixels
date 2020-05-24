@@ -1,4 +1,4 @@
-import Slider from 'phaser3-rex-plugins/plugins/slider.js'
+import Slider from 'phaser3-rex-plugins/plugins/slider.js';
 
 export class optionsMenu {
 

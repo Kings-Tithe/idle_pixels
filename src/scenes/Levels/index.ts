@@ -10,6 +10,7 @@
 import { SlimeRanch } from './SlimeRanch';
 import { Castle } from './Castle';
 import { WaterZone } from './WaterZone';
+import { Graveyard } from './Graveyard';
 
 /**
  * Add all keys and levels to our map of levels. This map is useful for random
@@ -19,6 +20,7 @@ export var LevelMap: { [key: string]: Class } = {};
 LevelMap[SlimeRanch.key] = SlimeRanch;
 LevelMap[Castle.key] = Castle;
 LevelMap[WaterZone.key] = WaterZone;
+LevelMap[Graveyard.key] = Graveyard;
 
 /**
  * Automatically adds all level keys to a list of keys.
@@ -33,3 +35,4 @@ export var Keys: string[] = Object.keys(LevelMap);
 export { SlimeRanch } from './SlimeRanch';
 export { Castle } from './Castle';
 export { WaterZone } from './WaterZone';
+export { Graveyard } from './Graveyard';

@@ -1,3 +1,5 @@
+### The graveyard level and zombie boot boss was made by my nephew and this branch is primarily for him to play with it. Do not merge. ~Jeremy
+
 # Idle Pixels
 
 Idle Pixels is a idle game where you click monsters to destroy them. Collect gold and become the hero of the land! This project was originally built as part of a small 36 hour game jam with a couple of friends. We have become rather fond of it and continue to add updates when we can.

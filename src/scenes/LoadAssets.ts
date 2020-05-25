@@ -62,10 +62,12 @@ export class LoadAssets extends Scene {
             'mermaid': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_mermaid.png',
             'slimeking': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_slime.png',
             'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
+            'zombie': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_zombie.png',
             // Images: Worlds
             'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic_extended.png',
             'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime_extended.png',
             'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water_extended.png',
+            'graveBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/graveyard.png',
             // Sounds
             'attack0': 'A' + CONFIG.ASSET_PATH + 'sounds/Jab.mp3',
             'attack1': 'A' + CONFIG.ASSET_PATH + 'sounds/Left Hook.mp3',

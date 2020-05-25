@@ -1,4 +1,4 @@
-### The graveyard level and zombie boot boss was made by my nephew and this branch is primarily for him to play with it. Do not merge. ~Jeremy
+### The graveyard level and enemies was made by my nephews and this branch is primarily for them to play with it. Do not merge. ~Jeremy
 
 # Idle Pixels
 

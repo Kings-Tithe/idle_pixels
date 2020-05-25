@@ -3,6 +3,7 @@ import { px, py, scaleTo } from "../tools/PercentCoords"
 import { Player } from '../Player';
 import { Hud } from '../Hud';
 import { soundHandler } from '../main';
+import { OptionsMenu } from '../OptionsMenu';
 
 /**
  * Works as a title screen once all the assets are loaded
@@ -26,18 +27,22 @@ export class Home extends Phaser.Scene {
     background: Phaser.GameObjects.Image;
     /** stores the image for the play button and has attached on-pointerdown functionality */
     playButton: Phaser.GameObjects.Image;
-    //** Stores the image for the options button and has attached on-pointerdown functionality */
+    /** Stores the image for the options button and has attached on-pointerdown functionality */
     optionsButton: Phaser.GameObjects.Image;
-    //** Stores the image for the credits button and has attached on-pointerdown functionality */
+    /** Stores the image for the credits button and has attached on-pointerdown functionality */
     creditsButton: Phaser.GameObjects.Image;
 
     //Tweens
-    //** Tween that takes playButton from the wizards staff to it's proper place */
+    /** Tween that takes playButton from the wizards staff to it's proper place */
     playButtonTween: Phaser.Tweens.Tween;
-    //** Tween that takes optionsButton from the wizards staff to it's proper place */
+    /** Tween that takes optionsButton from the wizards staff to it's proper place */
     optionsButtonTween: Phaser.Tweens.Tween;
-    //** Tween that takes playButton from the wizards staff to it's proper place */
+    /** Tween that takes playButton from the wizards staff to it's proper place */
     creditsButtonTween: Phaser.Tweens.Tween;
+
+    //options menu
+    /** Stores the options menu screen */
+    optionsMenu: OptionsMenu;
 
     /**
      * Phaser.Scene method which represents the start of the Scene's behavior.
@@ -81,10 +86,10 @@ export class Home extends Phaser.Scene {
         this.optionsButton.setScale(0);
         this.optionsButton.setOrigin(0.5, 0.5);
         this.optionsButton.setInteractive();
+        //set up the options menu
+        this.optionsMenu = new OptionsMenu(this);
         //set on-pointerdown to change to Options scene
-        this.optionsButton.on("pointerdown", function () {
-            //this.scene.start("Options");
-        }, this);
+        this.optionsButton.on("pointerdown",this.optionsMenu.toggletest.bind(this.optionsMenu));
         //set tween to move the button from the wizrds staff to it's proper place
         this.optionsButtonTween = this.tweens.add({
             targets: this.optionsButton,

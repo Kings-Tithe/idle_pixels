@@ -41,7 +41,41 @@ export class LoadAssets extends Scene {
             'shop': 'I' + CONFIG.ASSET_PATH + 'images/ui/shop.png',
             'title': 'I' + CONFIG.ASSET_PATH + 'images/ui/title.png',
             'back' : 'I' + CONFIG.ASSET_PATH + 'images/ui/back.png',
+            'optionsbg' : 'I' + CONFIG.ASSET_PATH + 'images/ui/options_menu_bg.png',
             'coin' : 'S' + CONFIG.ASSET_PATH + 'images/ui/coin.png',
+            // Images: UI Skull
+            'skull_down0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down0.png',
+            'skull_down1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down1.png',
+            'skull_down2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down2.png',
+            'skull_down3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down3.png',
+            'skull_down-left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left0.png',
+            'skull_down-left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left1.png',
+            'skull_down-left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left2.png',
+            'skull_down-left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left3.png',
+            'skull_down-right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right0.png',
+            'skull_down-right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right1.png',
+            'skull_down-right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right2.png',
+            'skull_down-right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right3.png',
+            'skull_left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left0.png',
+            'skull_left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left1.png',
+            'skull_left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left2.png',
+            'skull_left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left3.png',
+            'skull_right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right0.png',
+            'skull_right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right1.png',
+            'skull_right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right2.png',
+            'skull_right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right3.png',
+            'skull_up0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up0.png',
+            'skull_up1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up1.png',
+            'skull_up2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up2.png',
+            'skull_up3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up3.png',
+            'skull_up-left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left0.png',
+            'skull_up-left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left1.png',
+            'skull_up-left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left2.png',
+            'skull_up-left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left3.png',
+            'skull_up-right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right0.png',
+            'skull_up-right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right1.png',
+            'skull_up-right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right2.png',
+            'skull_up-right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right3.png',
             // Images: Free Use
             'close': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButton.png',
             'closePressed': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButtonPressed.png',
@@ -140,9 +174,9 @@ export class LoadAssets extends Scene {
 
         //set custom configs for sounds that need them
         soundHandler.setConfig("menumusic", soundHandler.globalVolume,true);
-        soundHandler.setConfig("slime",soundHandler.globalVolume/3.5,true);
-        soundHandler.setConfig("ocean",soundHandler.globalVolume/3.5,true);
-        soundHandler.setConfig("gothic",soundHandler.globalVolume/3.5,true);
+        soundHandler.setConfig("slime",.15,true);
+        soundHandler.setConfig("ocean",.15,true);
+        soundHandler.setConfig("gothic",.15,true);
 
     }
 

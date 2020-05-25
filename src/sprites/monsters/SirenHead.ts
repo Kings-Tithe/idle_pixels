@@ -10,7 +10,7 @@ export class SirenHead extends Monster {
 
     constructor(scene, level) {
         //construct monster using monster parent class
-        super(scene, level, 'sirenhead', 99, 158);
+        super(scene, level, 'sirenhead', 12, 30);
     }
 
 }

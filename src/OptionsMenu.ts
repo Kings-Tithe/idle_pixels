@@ -47,12 +47,25 @@ export class OptionsMenu {
         this.createLogsListVisuals(scene);
     }
 
+    link(scene){
+        scene.add.existing(this.background);
+        scene.add.existing(this.backButton);
+        scene.add.existing(this.volumeOutline);
+        scene.add.existing(this.volumeBall);
+        scene.add.existing(this.volumeFill);
+        scene.add.existing(this.masterVolumeLabel);
+        scene.add.existing(this.LoggingLabel);
+            for (let i = 0; i < this.logsTextList.length; i++){
+                scene.add.existing(this.logsTextList[i]);
+            }
+    }
+
     createBackground(scene){
         //create the background for the options menu
         this.background = new Phaser.GameObjects.Sprite(scene,25,25,'optionsbg');
         this.background.setScale(0);
         this.background.setOrigin(0);
-        this.background.depth = 1;
+        this.background.depth = 9;
         this.background.setInteractive();
         this.background.ignoreDestroy = true;
         scene.add.existing(this.background);
@@ -63,7 +76,8 @@ export class OptionsMenu {
         this.backButton = new Phaser.GameObjects.Sprite(scene,35,40,'back');
         this.backButton.setScale(0);
         this.backButton.setOrigin(0);
-        this.backButton.depth = 1;
+        this.backButton.depth = 10;
+        this.backButton.ignoreDestroy = true;
         scene.add.existing(this.backButton);
         //set it so when the button sprite is clicked on it toggles the window
         this.backButton.setInteractive();
@@ -76,7 +90,7 @@ export class OptionsMenu {
         this.volumeOutline.lineStyle(3, 0x000000, 1);
         this.volumeOutline.strokeRoundedRect(45, 80, GAME_WIDTH - 90, 15, 15);
         this.volumeOutline.setScale(0);
-        this.volumeOutline.depth = 3;
+        this.volumeOutline.depth = 12;
         this.volumeOutline.ignoreDestroy = true;
         scene.add.existing(this.volumeOutline);
     }
@@ -87,7 +101,7 @@ export class OptionsMenu {
          this.volumeFill.fillStyle(EasyColor.percentTransform(EasyColor.light_Blue,EasyColor.dark_Blue,50), 1);
          this.volumeFill.fillRoundedRect(45, 80, CENTER.x-45, 15, 15);
          this.volumeFill.setScale(0);
-         this.volumeFill.depth = 2;
+         this.volumeFill.depth = 11;
          this.volumeFill.ignoreDestroy = true;
          scene.add.existing(this.volumeFill);
     }
@@ -99,7 +113,7 @@ export class OptionsMenu {
         this.volumeBall.setInteractive();
         scene.input.setDraggable(this.volumeBall);
         this.volumeBall.on("drag", this.dragVolumeBall.bind(this, scene));
-        this.volumeBall.depth = 5;
+        this.volumeBall.depth = 13;
         this.volumeBall.ignoreDestroy = true;
         scene.add.existing(this.volumeBall)
     }
@@ -112,7 +126,8 @@ export class OptionsMenu {
             color: EasyColor.Black.toString(),
             fontStyle: "bold"
         })
-        this.masterVolumeLabel.depth = 2;
+        this.masterVolumeLabel.depth = 10;
+        this.masterVolumeLabel.ignoreDestroy = true;
         this.masterVolumeLabel.setOrigin(.5,.5);
         this.masterVolumeLabel.setScale(0);
         scene.add.existing(this.masterVolumeLabel);
@@ -123,7 +138,8 @@ export class OptionsMenu {
             color: EasyColor.Black.toString(),
             fontStyle: "bold"
         })
-        this.LoggingLabel.depth = 2;
+        this.LoggingLabel.depth = 10;
+        this.LoggingLabel.ignoreDestroy = true;
         this.LoggingLabel.setOrigin(.5,.5);
         this.LoggingLabel.setScale(0);
         scene.add.existing(this.LoggingLabel);
@@ -178,20 +194,22 @@ export class OptionsMenu {
             let newY = 150 + (((GAME_HEIGHT - 185)/columnsNum) * i/2 );
             //we can assume if the for loop has not broken there is a first item
             this.logsTextList[i] = new Phaser.GameObjects.Text(scene,column01X, newY, this.logs[i], textConfig)
-            this.logsTextList[i].depth = 2;
+            this.logsTextList[i].depth = 10;
             this.logsTextList[i].setOrigin(0);
             this.logsTextList[i].setScale(0);
             this.logsTextList[i].setInteractive();
             this.logsTextList[i].on('pointerdown', this.logPointerDown.bind(this, this.logsTextList[i]));
+            this.logsTextList[i].ignoreDestroy = true;
             scene.add.existing(this.logsTextList[i]);
             //we must check to make sure there is a second in this set
             if (this.logs.length > i + 1){
                 this.logsTextList[i + 1] = new Phaser.GameObjects.Text(scene,column02X, newY, this.logs[i + 1], textConfig)
-                this.logsTextList[i + 1].depth = 2;
+                this.logsTextList[i + 1].depth = 10;
                 this.logsTextList[i + 1].setOrigin(0);
                 this.logsTextList[i + 1].setScale(0);
                 this.logsTextList[i + 1].setInteractive();
                 this.logsTextList[i + 1].on('pointerdown', this.logPointerDown.bind(this, this.logsTextList[i + 1]));
+                this.logsTextList[i + 1].ignoreDestroy = true;
                 scene.add.existing(this.logsTextList[i + 1]);
             }
         }

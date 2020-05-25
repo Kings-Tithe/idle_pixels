@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 import { px, py, scaleTo } from '../../tools/PercentCoords';
 import { Rnd } from '../../tools/Rnd';
 import { Monster } from '../../sprites/monsters/Monster';
-import { CENTER, VERTICAL } from '../../tools/Globals';
+import { CENTER, VERTICAL, GAME_HEIGHT, GAME_WIDTH  } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
@@ -35,6 +35,7 @@ export abstract class Level extends Scene {
 
     //images
     background: Phaser.GameObjects.Image;
+    optionsButton: Phaser.GameObjects.Sprite;
 
     //graphics
     /** Is the graphical representation of the boss timer, a pie chart timer */
@@ -131,6 +132,8 @@ export abstract class Level extends Scene {
         //make sure to reset the progress bar at the start of the level
         this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         this.hud.updateProgressBar(this.monsBeaten);
+        //update level counter
+        this.hud.updateLevelCounter(this.player.level);
     }
 
 

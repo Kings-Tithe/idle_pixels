@@ -1,5 +1,4 @@
 import { Scene } from 'phaser';
-import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
 import { ShopMenu } from './ShopMenu';

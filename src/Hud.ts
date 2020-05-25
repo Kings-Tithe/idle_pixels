@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
+import { OptionsMenu } from './OptionsMenu';
 import { ShopMenu } from './ShopMenu';
 
 /** 
@@ -21,8 +22,10 @@ export class Hud {
     //text
     /** Stores the phaser text object for the coin counter */
     coinText: Phaser.GameObjects.Text;
-    // text
+    /** text for the amount of monster killed across all levels */
     killText: Phaser.GameObjects.Text;
+    /** Text to tell what level you are on */
+    levelCounter: Phaser.GameObjects.Text;
 
     //images
     /** Stores the sprite for the little spinning coin next to the coin text */
@@ -60,12 +63,14 @@ export class Hud {
          * coin counter is based on spinning coin
          * skull image is based on spinning coin
          * kill text is based on skull image and coin counter
+         * level Counter is based on skull image
          * progress is self contained and only based on the global game size so it goes last
          */
         this.createSpinningCoin(scene);
         this.createCoinCounter(scene);
         this.createSkull(scene);
         this.createKillText(scene);
+        this.createLevelCounter(scene);
         this.createProgressBar(scene);
 
         //set intervals
@@ -84,8 +89,9 @@ export class Hud {
         scene.add.existing(this.progressContainer);
         scene.add.existing(this.progressBackground);
         scene.add.existing(this.progressBar);
-        for (let i = 0; i < 10; i++) {
-            scene.add.existing(this.monsterNodes[i]);
+        scene.add.existing(this.levelCounter)
+        for(let i = 0; i < 10; i ++){
+            scene.add.existing(this.monsterNodes[i]); 
         }
         this.spinningCoin.play("coinSpin");
         // Link the shop menu to the new level
@@ -133,9 +139,9 @@ export class Hud {
 
     // Skull image functions --------------------
 
-    createSkull(scene) {
-        this.skullImage = scene.add.image(40, this.spinningCoin.y - 30, "skull_up0");
-        this.skullImage.depth = 99;
+    createSkull(scene){
+        this.skullImage = scene.add.image(40,this.spinningCoin.y - 30,"skull_up0");
+        this.skullImage.depth = 3;
         this.skullImage.setScale(5);
         this.skullImage.setOrigin(.5);
         this.skullImage.ignoreDestroy = true;
@@ -201,7 +207,7 @@ export class Hud {
             color: '#000000',
             fontStyle: "bold"
         });
-        this.killText.depth = 100;
+        this.killText.depth = 3;
         this.killText.ignoreDestroy = true;
     }
 
@@ -217,19 +223,19 @@ export class Hud {
         this.progressContainer = new Phaser.GameObjects.Graphics(scene);
         this.progressContainer.lineStyle(3, 0x000000, 1);
         this.progressContainer.strokeRoundedRect(15, 35, GAME_WIDTH - 30, 30, 15);
-        this.progressContainer.depth = 3;
+        this.progressContainer.depth = 5;
         this.progressContainer.ignoreDestroy = true;
         // Fills the container and acts as a background
         this.progressBackground = new Phaser.GameObjects.Graphics(scene);
         this.progressBackground.fillStyle(EasyColor.dark_Red, 1);
         this.progressBackground.fillRoundedRect(15, 35, GAME_WIDTH - 30, 30, 15);
-        this.progressBackground.depth = 1;
+        this.progressBackground.depth = 3;
         this.progressBackground.ignoreDestroy = true;
         // the actually progression bar it's self
         this.progressBar = new Phaser.GameObjects.Graphics(scene);
         this.progressBar.fillStyle(EasyColor.Green, 1);
         this.progressBar.fillRoundedRect(15, 35, GAME_WIDTH - 30, 30, 15);
-        this.progressBar.depth = 2;
+        this.progressBar.depth = 4;
         this.progressBar.ignoreDestroy = true;
 
         this.monsterNodes = [];
@@ -240,8 +246,8 @@ export class Hud {
             this.monsterNodes[i].fillStyle(EasyColor.Red, 1);
             this.monsterNodes[i].fillCircle(pos, 50, 22);
             this.monsterNodes[i].lineStyle(2.5, 0x000000, 1);
-            this.monsterNodes[i].strokeCircle(pos, 50, 22);
-            this.monsterNodes[i].depth = 4;
+            this.monsterNodes[i].strokeCircle(pos,50,22);
+            this.monsterNodes[i].depth = 6;
             this.monsterNodes[i].ignoreDestroy = true;
         }
         //10th node representing the boss monster
@@ -250,8 +256,8 @@ export class Hud {
         this.monsterNodes[9].fillStyle(EasyColor.Red, 1);
         this.monsterNodes[9].fillCircle(pos, 50, 20);
         this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
-        this.monsterNodes[9].strokeCircle(pos, 50, 25);
-        this.monsterNodes[9].depth = 4;
+        this.monsterNodes[9].strokeCircle(pos,50,25);
+        this.monsterNodes[9].depth = 6;
         this.monsterNodes[9].ignoreDestroy = true;
     }
 
@@ -295,8 +301,30 @@ export class Hud {
         this.progressBar.clear();
 
         //draw to new node point
-        this.progressBar.fillStyle(EasyColor.Green, 1);
-        this.progressBar.fillRoundedRect(15, 35, (50 + ((GAME_WIDTH - 30) / 10) * (monsKilled)), 30, 15);
+        this.progressBar.fillStyle(EasyColor.Green,1);
+        if (monsKilled < 10){
+            this.progressBar.fillRoundedRect(15, 35, (50 + ((GAME_WIDTH - 30)/10) * (monsKilled)), 30, 15);
+        } else {
+            this.progressBar.fillRoundedRect(15, 35, GAME_WIDTH - 30, 30, 15);
+        }
+    }
+
+    // Level Counter Functions
+    createLevelCounter(scene){
+        //create golden coin counter
+        this.levelCounter = new Phaser.GameObjects.Text(scene, this.skullImage.x - 30, this.skullImage.y - 95, "Level: 0", {
+            fontSize: "50px",
+            fontFamily: "Ariel",
+            color: '#00FF7F',
+            fontStyle: "bold"
+        });
+        this.levelCounter.setStroke("#006400", 2);
+        this.levelCounter.ignoreDestroy = true;
+    }
+
+    /** sets the graphical text coinCounter to match internal values */
+    updateLevelCounter(level: number) {
+        this.levelCounter.setText("Level " + level.toLocaleString());
     }
 
 }

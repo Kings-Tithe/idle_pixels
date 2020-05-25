@@ -2,12 +2,13 @@ import { Scene } from 'phaser';
 import { px, py, scaleTo } from '../../tools/PercentCoords';
 import { Rnd } from '../../tools/Rnd';
 import { Monster } from '../../sprites/monsters/Monster';
-import { LOGGING, CENTER, VERTICAL } from '../../tools/Globals';
+import { CENTER, VERTICAL, GAME_HEIGHT, GAME_WIDTH  } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
 import { EasyColor } from '../../tools/EasyColor';
 import { soundHandler } from '../../main';
+import { OptionsMenu } from '../../OptionsMenu';
 
 export abstract class Level extends Scene {
 
@@ -33,6 +34,7 @@ export abstract class Level extends Scene {
 
     //images
     background: Phaser.GameObjects.Image;
+    optionsButton: Phaser.GameObjects.Sprite;
 
     //graphics
     /** Is the graphical representation of the boss timer, a pie chart timer */
@@ -55,6 +57,8 @@ export abstract class Level extends Scene {
     //ui elements
     /** Stores the passed in hud elements and updates them when related values change */
     hud: Hud;
+    /** Stores the passed in options menu element */
+    optionsMenu: OptionsMenu;
 
     //NodeJS.Timeout
     /** Stores the id for the boss timer interval */
@@ -85,13 +89,14 @@ export abstract class Level extends Scene {
      *   data transferred between levels.
      */
     init(data) {
-        //if logging is on, log the start of this scene
-        if (LOGGING) { console.log("Scene Started: " + this.name) };
         //grab the passed in data
         this.player = data.player;
         this.hud = data.hud;
+        this.optionsMenu = data.optionsMenu;
         //set the number of monsters beaten to 0 as a baseline
         this.monsBeaten = 0;
+        //if logging is on for scene change, log the start of this scene
+        this.optionsMenu.ifPostCode("00","\nScene Started: " + this.name);
     }
 
     /**
@@ -124,7 +129,10 @@ export abstract class Level extends Scene {
         //create a loop to handle passive damage of all non-player heros
         this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //make sure to reset the progress bar at the start of the level
+        this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         this.hud.updateProgressBar(this.monsBeaten);
+        //update level counter
+        this.hud.updateLevelCounter(this.player.level);
     }
 
 
@@ -137,6 +145,7 @@ export abstract class Level extends Scene {
         let MonsterClass: (typeof Monster) = this.monsters[monIndex];
         //now create an instance of that monster class
         this.currentMonster = new MonsterClass(this, this.player.level);
+        this.optionsMenu.ifPostCode('01',this.currentMonster);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
         //listener to handle the death of the current onscreen monster
@@ -150,26 +159,24 @@ export abstract class Level extends Scene {
         //add coins earned and update coin counter
         this.player.coins += Math.ceil(this.currentMonster.maxHp/4);
         this.hud.updateCoinCounter(this.player.coins);
+        this.optionsMenu.ifPostCode("06","\nCoin Counter updated: " + this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
         this.hud.updateKillText(this.player.totalMonsBeaten);
-        //if logging is on tell the console the number of currrently beaten monsters
-        if (LOGGING) {
-            console.log("Number of monsters beaten: " + this.monsBeaten);
-        }
+        this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         //update the progress bars graghic
         this.hud.updateProgressBar(this.monsBeaten);
+        this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         //check if the correct number of monsters are beaten to spawn a boss
         if (this.monsBeaten < 9) {
             //generate a random boss from the monsters list
             this.getRandMonster();
         } else {
             //time to spawn the boss
-            this.spawnBoss();
-            if (LOGGING) { console.log("Spawning the boss: ", this.currentMonster) };
+            this.spawnBoss();        
         }
     }
 
@@ -180,12 +187,17 @@ export abstract class Level extends Scene {
      */
     passiveDamage(this) {
         this.currentMonster.onDamage(this.player.damageSources["wizard"]);
+        //only post if there is actually damage being done
+        if(this.player.damageSources["wizard"] > 0){
+            this.optionsMenu.ifPostCode("05","damage dealt to monster: " + this.player.damageSources["wizard"]);
+        }
     }
 
     /** Spawns the boss created for the level and sets up the elements related to him */
     spawnBoss() {
         //now create an instance of that monster class
         this.currentMonster = new this.boss(this, this.player.level);
+        this.optionsMenu.ifPostCode("02",this.currentMonster);
         this.add.existing(this.currentMonster);
         this.add.existing(this.currentMonster.healthContainer);
         //listener that clears the boss timer before death completes
@@ -193,6 +205,7 @@ export abstract class Level extends Scene {
             this.destroyBossTimer();
             this.hud.updateProgressBar(this.monsBeaten + 1);
             this.hud.updateKillText(this.player.totalMonsBeaten + 1);
+            this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         }, this);
         //listener to handle the death of the current onscreen monster
         this.currentMonster.on("death", this.onBossDeath, this)
@@ -217,7 +230,6 @@ export abstract class Level extends Scene {
         this.add.existing(this.bossTimerGraphic);
         //set an interval to run every 1000ms or every second
         this.bossIntervalId = setInterval(this.incrementTimer.bind(this), 100);
-        console.log("Boss timer created!");
     }
 
     incrementTimer() {
@@ -246,6 +258,7 @@ export abstract class Level extends Scene {
     }
 
     onBossFail() {
+        this.optionsMenu.ifPostCode("04","\nYou failed to kill the boss in time, resetting to start of level");
         //this is normally ran internally on monster death but here we have to manually
         //clear it since onDeath is not actually called
         this.currentMonster.clearHealthGraphics();
@@ -254,23 +267,23 @@ export abstract class Level extends Scene {
         //reset monsters beaten and progress bar
         this.monsBeaten = 0;
         this.hud.updateProgressBar(this.monsBeaten);
+        this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         //get another basic monster and start the cycle again
         this.getRandMonster();
     }
 
     onBossDeath() {
+        this.optionsMenu.ifPostCode("03","\nBoss Beaten Preparing to move to the next level");
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
+        this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         //add coins earned and update coin counter
         this.player.coins += Math.ceil(this.currentMonster.maxHp/2);
         this.hud.updateCoinCounter(this.player.coins);
+        this.optionsMenu.ifPostCode("06","\nCoin Counter updated: " + this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();
-        //if logging is on tell the console the number of currrently beaten monsters
-        if (LOGGING) {
-            console.log("The boss has been beaten! Preparing to move to next level");
-        }
         //move onto the next level
         this.nextLevel();
     }
@@ -311,7 +324,6 @@ export abstract class Level extends Scene {
         while (nextLevelKey == this.currentKey && Keys.length > 1) {
             //try to find a new key not matching the one for the current level
             nextLevelKey = Keys[Rnd.int(0, Keys.length - 1)];
-            console.log(nextLevelKey);
         }
         //stop the current scene's background music
         soundHandler.stop(this.bgMusicKey);
@@ -320,7 +332,7 @@ export abstract class Level extends Scene {
         // Clear the interval for passive damage to avoid "clusters" of damage calls
         clearInterval(this.passiveInterval);
         //start the next scene with all passed in values
-        this.scene.start(nextLevelKey, { player: this.player, hud: this.hud });
+        this.scene.start(nextLevelKey, { player: this.player, hud: this.hud, optionsMenu: this.optionsMenu});
     }
 
 }

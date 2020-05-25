@@ -6,14 +6,6 @@
 export var LEVELS = [];
 
 /**
- * LOGGING marks whether we should print out some informational logs to
- * the console. We should still keep logging to a minimum even with
- * this set. Temporary debugging statements are okay, but if the
- * console is flooded then none of the logs help.
- */
-export var LOGGING: boolean = true;
-
-/**
  * DUMMY_FILES marks whether we should load in additional dummy files. 
  * This is helpful when testing progress-dependent UI elements, such as
  * loading bars.

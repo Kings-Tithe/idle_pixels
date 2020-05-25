@@ -89,7 +89,7 @@ export class Home extends Phaser.Scene {
         //set up the options menu
         this.optionsMenu = new OptionsMenu(this);
         //set on-pointerdown to change to Options scene
-        this.optionsButton.on("pointerdown",this.optionsMenu.toggletest.bind(this.optionsMenu));
+        this.optionsButton.on("pointerdown",this.optionsMenu.toggle.bind(this.optionsMenu));
         //set tween to move the button from the wizrds staff to it's proper place
         this.optionsButtonTween = this.tweens.add({
             targets: this.optionsButton,
@@ -137,8 +137,6 @@ export class Home extends Phaser.Scene {
         let newPlayer = new Player;
         let hud = new Hud(this,);
         soundHandler.stop("menumusic");
-        this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
+        this.scene.start("SlimeRanch", {player: newPlayer, hud: hud, optionsMenu: this.optionsMenu});
     }
-
-
 }

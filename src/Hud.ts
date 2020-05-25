@@ -3,6 +3,7 @@ import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
 import { ScrollablePanel } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
+import { OptionsMenu } from './OptionsMenu';
 
 /** 
  * class used to store and handle the Hud elements on screen

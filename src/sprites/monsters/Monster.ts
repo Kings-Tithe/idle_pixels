@@ -1,4 +1,4 @@
-import { CENTER, LOGGING } from '../../tools/Globals';
+import { CENTER, } from '../../tools/Globals';
 import { Rnd } from '../../tools/Rnd';
 import { Player } from '../../Player';
 import { Level } from '../../scenes/Levels/Level';
@@ -71,7 +71,6 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.maxHp += this.hpBonus * this.level;
         this.maxHp += .15 * this.level * this.maxHp;
         this.maxHp = Math.floor(this.maxHp);
-        console.log(this);
         //make sure that the monster has at the bare minimum 1 hp
         if (this.maxHp < 1) {
             this.maxHp = 1;
@@ -190,10 +189,12 @@ export class Monster extends Phaser.GameObjects.Sprite {
         this.hitTween.play();
         //apply damage
         this.onDamage(this.world.player.damageSources["hero"]);
+        this.world.optionsMenu.ifPostCode("05","damage dealt to monster: " + this.world.player.damageSources["hero"]);
     }
 
     /** Used when damage is done to the monster from any source */
     onDamage(damage: number) {
+        this.emit("damaged");
         if (this.canDamage) {
             // Deal Damage
             this.hp -= damage;

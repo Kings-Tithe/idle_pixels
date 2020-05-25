@@ -26,7 +26,8 @@ export class ShopMenu {
     }
 
     private createToggleButton() {
-        this.toggleButton = new Phaser.GameObjects.Sprite(this.scene, 300, 300, 'shop');
+        this.toggleButton = new Phaser.GameObjects.Sprite(this.scene, px(100) - 40, py(100) - 40, 'shop')
+            .setScale(2).setOrigin(0.5);
         this.toggleButton.ignoreDestroy = true;
     }
 

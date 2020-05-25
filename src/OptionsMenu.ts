@@ -1,16 +1,11 @@
-import Slider from 'phaser3-rex-plugins/plugins/slider.js';
 import { CENTER, GAME_WIDTH, GAME_HEIGHT } from './tools/Globals';
 import { scaleTo } from './tools/PercentCoords';
 import { EasyColor } from './tools/EasyColor';
+import { soundHandler } from './main';
 
 export class OptionsMenu {
 
     //member Varibles
-
-    internalData = {
-        volume: .5,
-        logging: false,
-    }
 
     //images
     /** Background image for the window it's self */
@@ -23,6 +18,12 @@ export class OptionsMenu {
     volumeFill: Phaser.GameObjects.Graphics;
     /** Is a small ball that can be dragged to change the game volume */
     volumeBall: Phaser.GameObjects.Image;
+
+    //text
+    /** Marks the bar for the volume control */
+    masterVolumeLabel: Phaser.GameObjects.Text;
+    /** marks the section in the menu for logging controls */
+    LoggingLabel: Phaser.GameObjects.Text;
 
     //bool
     open: boolean = false;
@@ -70,6 +71,28 @@ export class OptionsMenu {
         this.volumeBall.ignoreDestroy = true;
         scene.add.existing(this.volumeBall)
         console.log(this.volumeBall);
+        //create Master Volume Label
+        this.masterVolumeLabel = new Phaser.GameObjects.Text(scene,CENTER.x, 50, "Master Volume",{
+            fontSize: "30px",
+            fontFamily: "Ariel",
+            color: EasyColor.Black.toString(),
+            fontStyle: "bold"
+        })
+        this.masterVolumeLabel.depth = 2;
+        this.masterVolumeLabel.setOrigin(.5,.5);
+        this.masterVolumeLabel.setScale(0);
+        scene.add.existing(this.masterVolumeLabel);
+        //create Logging Label
+        this.LoggingLabel = new Phaser.GameObjects.Text(scene,CENTER.x, 120, "Debugging - Logging",{
+            fontSize: "30px",
+            fontFamily: "Ariel",
+            color: EasyColor.Black.toString(),
+            fontStyle: "bold"
+        })
+        this.LoggingLabel.depth = 2;
+        this.LoggingLabel.setOrigin(.5,.5);
+        this.LoggingLabel.setScale(0);
+        scene.add.existing(this.LoggingLabel);
     }
 
     toggletest(){
@@ -80,6 +103,8 @@ export class OptionsMenu {
             this.volumeOutline.setScale(0);
             this.volumeBall.setScale(0)
             this.volumeFill.setScale(0);
+            this.masterVolumeLabel.setScale(0);
+            this.LoggingLabel.setScale(0);
             this.open = false;
         } else {
             let scaleX = scaleTo(GAME_WIDTH - 50, 1280)
@@ -89,6 +114,8 @@ export class OptionsMenu {
             this.volumeOutline.setScale(1);
             this.volumeBall.setScale(1);
             this.volumeFill.setScale(1);
+            this.masterVolumeLabel.setScale(1);
+            this.LoggingLabel.setScale(1);
             this.open = true;
         }
     }
@@ -96,13 +123,19 @@ export class OptionsMenu {
     dragVolumeBall(scene){
         //get a new x value and check to make sure it is dosen't go out of bounds
         let newX = scene.input.activePointer.x;
+        if (newX < 45){
+            newX = 45;
+        } else if (newX > GAME_WIDTH - 45){
+            newX = GAME_WIDTH - 45;
+        }
         //redraw the ball
         this.volumeBall.x = newX;
         //redraw the bar's fill
-        let percent = ((newX - 45) / (GAME_WIDTH - 90)) * 100;
-        console.log(newX - 45,"/", GAME_WIDTH-90, "* 100", percent);
+        let percent = ((newX - 45) / (GAME_WIDTH - 90));
         this.volumeFill.clear();
-        this.volumeFill.fillStyle(EasyColor.percentTransform(EasyColor.light_Azure,EasyColor.dark_Blue,percent), 1);
+        this.volumeFill.fillStyle(EasyColor.percentTransform(EasyColor.light_Azure,EasyColor.dark_Blue,percent * 100), 1);
         this.volumeFill.fillRoundedRect(45, 80, newX - 30, 15, 15);
+        //calculate valume bars current value
+        soundHandler.changeGlobalVolume(percent);
     }
 }

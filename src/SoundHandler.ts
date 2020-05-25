@@ -1,9 +1,20 @@
 /** 
- * Acts as an interface/handler overtop that manages and interacts
+ * Acts as an handler overtop that manages and interacts
  * with Phaser to globally handle all music and sounds for the game
  * this allows you to keep better track of what is playing, global
  * volume and to handle sounds over scenes.
  */
+
+interface typeConfig {
+    volumeMultiple: number,
+    volume: number,
+    loop:   boolean,
+    delay:  number,
+    seek:   number,
+    rate:   number,
+    detune: number,
+    mute:   boolean
+}
 
 import { Rnd } from "./tools/Rnd";
 
@@ -26,7 +37,7 @@ export class SoundHandler {
     globalLoop: boolean = false;
 
     //config
-    configs: {[key: string]: object};
+    configs: {[key: string]: typeConfig};
 
     constructor(){
         this.sounds = {};
@@ -46,10 +57,17 @@ export class SoundHandler {
         //for the passed in key
         let randomNum = Rnd.int(0, this.sounds[key].length - 1);
         //check if there is a preset config for this sound/sound set
-        let config;
+        let config = {};
         if (key in this.configs){
-            config = this.configs[key];
-            console.log("Custom Config Found!");
+            config = {
+            volume: this.globalVolume * this.configs[key]["volumeMultiple"],
+            loop: this.configs[key]["loop"],
+            delay: this.configs[key]["delay"],
+            seek: this.configs[key]["seek"],
+            rate: this.configs[key]["rate"],
+            detune: this.configs[key]["detune"],
+            mute: this.configs[key][".mute"]
+            }
         } else {
             config = {
                 volume: this.globalVolume,
@@ -89,6 +107,23 @@ export class SoundHandler {
             rate: rate,
             detune: detune,
             mute: mute
+        }
+    }
+
+    changeGlobalVolume(newVolume: number){
+        //change the internal global volume
+        this.globalVolume = newVolume;
+        //restart any sounds currently playing
+        for(let key of Object.keys(this.sounds)){
+            for(let i = 0; i < this.sounds[key].length; i++){
+                if(this.sounds[key][i].isPlaying){
+                    if (key in this.configs){
+                        this.sounds[key][i]["volume"] = this.globalVolume * this.configs[key].volumeMultiple;
+                    } else {
+                        this.sounds[key][i]["volume"] = this.globalVolume;
+                    }
+                }
+            }
         }
     }
 }

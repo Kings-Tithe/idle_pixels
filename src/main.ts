@@ -37,6 +37,10 @@ const config: Phaser.Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         width: GAME_WIDTH,
         height: GAME_HEIGHT
+    },
+    // Use HTML elements in phaser?
+    dom: {
+        createContainer: true
     }
 }
 

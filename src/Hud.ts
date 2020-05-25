@@ -1,9 +1,8 @@
 import { Scene } from 'phaser';
-import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
-import { ScrollablePanel } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
 import { OptionsMenu } from './OptionsMenu';
+import { ShopMenu } from './ShopMenu';
 
 /** 
  * class used to store and handle the Hud elements on screen
@@ -38,18 +37,18 @@ export class Hud {
     //animations
     coinSpinAnim: Phaser.Animations.Animation;
 
-    //upgrade Shop
-    ushop: UShop;
+    // Shop menu
+    shop: ShopMenu;
 
     //graghics
-     /** Is the outside black container surrounding ProgressBar */
-     progressContainer: Phaser.GameObjects.Graphics;
-     /** Rendered within the container and used as a backgrounf for the progress bar */
-     progressBackground: Phaser.GameObjects.Graphics;
-     /** Shows the progression thru the level based on monster kills */
-     progressBar: Phaser.GameObjects.Graphics;
-     /** Stores an array of circular nodes representing killable monsters */
-     monsterNodes: Phaser.GameObjects.Graphics[];
+    /** Is the outside black container surrounding ProgressBar */
+    progressContainer: Phaser.GameObjects.Graphics;
+    /** Rendered within the container and used as a backgrounf for the progress bar */
+    progressBackground: Phaser.GameObjects.Graphics;
+    /** Shows the progression thru the level based on monster kills */
+    progressBar: Phaser.GameObjects.Graphics;
+    /** Stores an array of circular nodes representing killable monsters */
+    monsterNodes: Phaser.GameObjects.Graphics[];
 
     /** 
      * inital creation of elements before they are passed for the first time
@@ -57,10 +56,6 @@ export class Hud {
      * on screen, before being passed to the first level
      */
     constructor(scene: Scene) {
-        //create the Upgrade Shop menu
-        this.ushop = new UShop;
-        this.ushop.creationLink(scene);
-        this.ushop.createUpgradeShop();
         /**
          * create all the other hud elements, order is important here as some
          * base their position directly on other elements, connections listed below
@@ -79,12 +74,14 @@ export class Hud {
         this.createProgressBar(scene);
 
         //set intervals
-        setInterval(this.updateSkull.bind(this,scene), 100);
+        setInterval(this.updateSkull.bind(this, scene), 100);
+
+        // Creates the shop menu
+        this.shop = new ShopMenu(scene);
     }
 
     /** used to link all elements to a new scene when entering the new scene */
     link(scene: Scene) {
-        this.ushop.link(scene);
         scene.add.existing(this.spinningCoin);
         scene.add.existing(this.coinText);
         scene.add.existing(this.skullImage);
@@ -97,11 +94,13 @@ export class Hud {
             scene.add.existing(this.monsterNodes[i]); 
         }
         this.spinningCoin.play("coinSpin");
+        // Link the shop menu to the new level
+        this.shop.link(scene);
     }
 
     // Spinning Coin functions --------------------
 
-    createSpinningCoin(scene){
+    createSpinningCoin(scene) {
         //add spinning coin
         this.spinningCoin = new Phaser.GameObjects.Sprite(scene, 10, GAME_HEIGHT - 65, "coin", 0);
         this.spinningCoin.setScale(2);
@@ -116,11 +115,12 @@ export class Hud {
             repeat: -1
         });
         this.coinSpinAnim = anim ? anim : null;
+
     }
 
     // Coin Text functions --------------------
 
-    createCoinCounter(scene){
+    createCoinCounter(scene) {
         //create golden coin counter
         this.coinText = new Phaser.GameObjects.Text(scene, this.spinningCoin.x + 70, this.spinningCoin.y - 2, "0", {
             fontSize: "50px",
@@ -147,9 +147,9 @@ export class Hud {
         this.skullImage.ignoreDestroy = true;
     }
 
-    updateSkull(scene){
+    updateSkull(scene) {
         //increment frame counter
-        if (this.skullIconFrames < 46){
+        if (this.skullIconFrames < 46) {
             this.skullIconFrames++;
         } else {
             this.skullIconFrames = 1;
@@ -157,50 +157,50 @@ export class Hud {
 
         //calculate the angle between the cursor and the skull icon
         let CurrentPointer = new Phaser.Math.Vector2(scene.input.activePointer.x, scene.input.activePointer.y)
-        let CurrentSkull = new Phaser.Math.Vector2(40,500);
-        let currentRadAngle: number = Phaser.Math.Angle.BetweenPoints(CurrentSkull,CurrentPointer);
+        let CurrentSkull = new Phaser.Math.Vector2(40, 500);
+        let currentRadAngle: number = Phaser.Math.Angle.BetweenPoints(CurrentSkull, CurrentPointer);
         let currentDegAngle: number = Phaser.Math.RadToDeg(currentRadAngle) - 30;
 
         let textureDirection: string = "";
         //check through and see which texture direction to go with to go with
-        if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0){
+        if (currentDegAngle > 0 && currentDegAngle < 12 || -25 < currentDegAngle && currentDegAngle < -0) {
             textureDirection = "skull_down-right";
-        } else if (currentDegAngle > 12 && currentDegAngle < 90){
+        } else if (currentDegAngle > 12 && currentDegAngle < 90) {
             textureDirection = "skull_down";
-        } else if (currentDegAngle > 90 && currentDegAngle < 140){
+        } else if (currentDegAngle > 90 && currentDegAngle < 140) {
             textureDirection = "skull_down-left";
-        } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160){
+        } else if (140 < currentDegAngle && currentDegAngle < 150 || -210 < currentDegAngle && currentDegAngle < -160) {
             textureDirection = "skull_left";
-        } else if (-160 < currentDegAngle && currentDegAngle < -145){
+        } else if (-160 < currentDegAngle && currentDegAngle < -145) {
             textureDirection = "skull_up-left";
-        } else if (-145 < currentDegAngle && currentDegAngle < -103){
+        } else if (-145 < currentDegAngle && currentDegAngle < -103) {
             textureDirection = "skull_up";
-        } else if (-103 < currentDegAngle && currentDegAngle < -46){
+        } else if (-103 < currentDegAngle && currentDegAngle < -46) {
             textureDirection = "skull_up-right";
-        }  else if (-46 < currentDegAngle && currentDegAngle < -25){
+        } else if (-46 < currentDegAngle && currentDegAngle < -25) {
             textureDirection = "skull_right";
         }
 
         let blinkFrame: number;
         //determine blink frames
-        
-        if (this.skullIconFrames > 5){
+
+        if (this.skullIconFrames > 5) {
             blinkFrame = 0;
-        } else if(this.skullIconFrames == 1 || this.skullIconFrames == 5){
+        } else if (this.skullIconFrames == 1 || this.skullIconFrames == 5) {
             blinkFrame = 1;
         } else if (this.skullIconFrames == 2 || this.skullIconFrames == 4) {
             blinkFrame = 2
-        } else if (this.skullIconFrames == 3){
+        } else if (this.skullIconFrames == 3) {
             blinkFrame = 3;
         }
         //finally put them all together and change the texture
         this.skullImage.setTexture(textureDirection + blinkFrame)
-        
+
     }
 
     // Kill Text functions --------------------
 
-    createKillText(scene){
+    createKillText(scene) {
         this.killText = new Phaser.GameObjects.Text(scene, this.coinText.x + 3, this.skullImage.y - 35, "0", {
             fontSize: "50px",
             fontFamily: "Ariel",
@@ -211,13 +211,13 @@ export class Hud {
         this.killText.ignoreDestroy = true;
     }
 
-    updateKillText(monsKilled){
+    updateKillText(monsKilled) {
         this.killText.setText(monsKilled.toLocaleString());
     }
 
     // Progress Bar functions --------------------
 
-    createProgressBar(scene){
+    createProgressBar(scene) {
         //create top bar for graphical representation of monster kills
         // Progress bar container, black line that surrounds the progress bar
         this.progressContainer = new Phaser.GameObjects.Graphics(scene);
@@ -240,61 +240,61 @@ export class Hud {
 
         this.monsterNodes = [];
         //an array of 9 nodes representing 9 killable basic eneimes
-        for(let i = 0; i < 9; i ++){
-            let pos = 50 + (((GAME_WIDTH - 30)/10) * i);
+        for (let i = 0; i < 9; i++) {
+            let pos = 50 + (((GAME_WIDTH - 30) / 10) * i);
             this.monsterNodes.push(new Phaser.GameObjects.Graphics(scene));
-            this.monsterNodes[i].fillStyle(EasyColor.Red,1);
-            this.monsterNodes[i].fillCircle(pos,50,22);
+            this.monsterNodes[i].fillStyle(EasyColor.Red, 1);
+            this.monsterNodes[i].fillCircle(pos, 50, 22);
             this.monsterNodes[i].lineStyle(2.5, 0x000000, 1);
             this.monsterNodes[i].strokeCircle(pos,50,22);
             this.monsterNodes[i].depth = 6;
             this.monsterNodes[i].ignoreDestroy = true;
         }
         //10th node representing the boss monster
-        let pos = 50 + (((GAME_WIDTH - 30)/10) * 9);
+        let pos = 50 + (((GAME_WIDTH - 30) / 10) * 9);
         this.monsterNodes.push(new Phaser.GameObjects.Graphics(scene));
-        this.monsterNodes[9].fillStyle(EasyColor.Red,1);
-        this.monsterNodes[9].fillCircle(pos,50,20);
+        this.monsterNodes[9].fillStyle(EasyColor.Red, 1);
+        this.monsterNodes[9].fillCircle(pos, 50, 20);
         this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
         this.monsterNodes[9].strokeCircle(pos,50,25);
         this.monsterNodes[9].depth = 6;
         this.monsterNodes[9].ignoreDestroy = true;
     }
 
-    updateProgressBar(monsKilled: number){
+    updateProgressBar(monsKilled: number) {
         let pos;
         //clear nodes and redraw the correct ones green
-        for(let i = 0; i < monsKilled && i < 9; i ++){
+        for (let i = 0; i < monsKilled && i < 9; i++) {
             this.monsterNodes[i].clear();
-            pos = 50 + (((GAME_WIDTH - 30)/10) * i);
-            this.monsterNodes[i].fillStyle(EasyColor.Spring,1);
-            this.monsterNodes[i].fillCircle(pos,50,22);
+            pos = 50 + (((GAME_WIDTH - 30) / 10) * i);
+            this.monsterNodes[i].fillStyle(EasyColor.Spring, 1);
+            this.monsterNodes[i].fillCircle(pos, 50, 22);
             this.monsterNodes[i].lineStyle(2.5, 0x000000, 1);
-            this.monsterNodes[i].strokeCircle(pos,50,22);
+            this.monsterNodes[i].strokeCircle(pos, 50, 22);
         }
         //clear nodes and redraw the correct ones as red
-        for(let i = monsKilled; i >= monsKilled && i < 9; i++){
+        for (let i = monsKilled; i >= monsKilled && i < 9; i++) {
             this.monsterNodes[i].clear();
-            pos = 50 + (((GAME_WIDTH - 30)/10) * i);;
-            this.monsterNodes[i].fillStyle(EasyColor.Red,1);
-            this.monsterNodes[i].fillCircle(pos,50,22);
+            pos = 50 + (((GAME_WIDTH - 30) / 10) * i);;
+            this.monsterNodes[i].fillStyle(EasyColor.Red, 1);
+            this.monsterNodes[i].fillCircle(pos, 50, 22);
             this.monsterNodes[i].lineStyle(2.5, 0x000000, 1);
-            this.monsterNodes[i].strokeCircle(pos,50,22);
+            this.monsterNodes[i].strokeCircle(pos, 50, 22);
         }
         //handle boss node
-        if(monsKilled > 9){
+        if (monsKilled > 9) {
             //10th node representing the boss monster
-            pos = 50 + (((GAME_WIDTH - 30)/10) * 9);;
-            this.monsterNodes[9].fillStyle(EasyColor.Spring,1);
-            this.monsterNodes[9].fillCircle(pos,50,25);
+            pos = 50 + (((GAME_WIDTH - 30) / 10) * 9);;
+            this.monsterNodes[9].fillStyle(EasyColor.Spring, 1);
+            this.monsterNodes[9].fillCircle(pos, 50, 25);
             this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
-            this.monsterNodes[9].strokeCircle(pos,50,25);
+            this.monsterNodes[9].strokeCircle(pos, 50, 25);
         } else {
-            pos = 50 + (((GAME_WIDTH - 30)/10) * 9);;
-            this.monsterNodes[9].fillStyle(EasyColor.Red,1);
-            this.monsterNodes[9].fillCircle(pos,50,25);
+            pos = 50 + (((GAME_WIDTH - 30) / 10) * 9);;
+            this.monsterNodes[9].fillStyle(EasyColor.Red, 1);
+            this.monsterNodes[9].fillCircle(pos, 50, 25);
             this.monsterNodes[9].lineStyle(2.5, 0x000000, 1);
-            this.monsterNodes[9].strokeCircle(pos,50,25);
+            this.monsterNodes[9].strokeCircle(pos, 50, 25);
         }
 
         //clear main progress bar
@@ -325,24 +325,6 @@ export class Hud {
     /** sets the graphical text coinCounter to match internal values */
     updateLevelCounter(level: number) {
         this.levelCounter.setText("Level " + level.toLocaleString());
-    }
-
-
-    shopToggle(scene: Scene) {
-        let rectangle = new Phaser.GameObjects.Rectangle(scene, 0, 0, 500, 500, 0xFFFFFF, 1);
-        scene.add.existing(rectangle);
-        let panel = new ScrollablePanel(scene,
-            {
-                scrollMode: 'vertical',
-                panel: {
-                    child: rectangle,
-                    mask: {
-                        padding: 0,
-                        updateMode: 0
-                    }
-                }
-            });
-        scene.add.existing(panel);
     }
 
 }

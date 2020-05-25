@@ -12,9 +12,9 @@ export class Player {
     /** Keeps track of the number of monster's killed across all scenes */
     totalMonsBeaten: number;
     /** Keeps track of the player's level */
-    level:number
+    level:number;
 
-    constructor(coins: number = 0, totalMonsBeaten: number = 0, level: number = 0, damageSources:{[key: string]: number} = null) {
+    constructor(coins: number = 0, totalMonsBeaten: number = 0, level: number = 1, damageSources:{[key: string]: number} = null) {
         this.coins = coins;
         this.totalMonsBeaten = totalMonsBeaten;
         this.level = level;

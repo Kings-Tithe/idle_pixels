@@ -52,15 +52,28 @@ export class Credits extends Phaser.Scene {
        //Actual text to be displayed, speerated by lines to make code more readable
        //no Height limit
        //Limit of 55 characters for width to keep formatting
-       this.creditString += "From the team at Idle Pixels\n\n"
-       this.creditString += "Gracie Glebe\n"
-       this.creditString += "Zachary Kingcade\n"
-       this.creditString += "Jeremy Glebe\n\n\n"
-       this.creditString += "A Special Thanks to the following free assets artists\n"
-       this.creditString += "Images\n"
-       this.creditString += "something something\n"
-       this.creditString += "Audio\n"
-       this.creditString += "Something Somthing\n"
+       //First line acts as a great guide
+       this.creditString += "The following great people worked on Idle Pixels:\n\n"
+       this.creditString += "Art assets, frame animations, ui design, Artist:\n"
+       this.creditString += "Gracie Glebe\n\n"
+       this.creditString += "Interface implementation, typescript conversions,\n"
+       this.creditString += "core gameplay, Project lead:\n"
+       this.creditString += "Zachary Kingcade\n\n"
+       this.creditString += "State management and class structures, Build Scripts\n"
+       this.creditString += "Former project lead:\n"
+       this.creditString += "Jeremy Glebe\n\n"
+       this.creditString += "Music and sound design, Audio Advisor:\n"
+       this.creditString += "Kaleb Brown\n\n\n"
+       this.creditString += "A Special Thanks to the following free assets artists\n\n"
+       this.creditString += "Audio from AudioBible.com:\n"
+       this.creditString += "Punch HD Sound by Mark DiAngelo\n"
+       this.creditString += "Jab Sound by Mike Koenig\n"
+       this.creditString += "Left Hook Sound by Mike Koenig\n\n\n"
+       this.creditString += "And you for checking out our game!\n"
+       
+       
+
+
 
        //set the font size and spacing of the text in pixels
        //(soon to be in relative size)

@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 import { UShop } from './Ushop';
 import { GAME_HEIGHT, GAME_WIDTH, CENTER } from './tools/Globals';
 import { EasyColor } from './tools/EasyColor';
-import { ScrollablePanel } from 'phaser3-rex-plugins/templates/ui/ui-components.js';
+import { ShopMenu } from './ShopMenu';
 
 /** 
  * class used to store and handle the Hud elements on screen
@@ -31,6 +31,7 @@ export class Hud {
 
     //upgrade Shop
     ushop: UShop;
+    shop: ShopMenu;
 
     /** 
      * inital creation of elements before they are passed for the first time
@@ -61,10 +62,13 @@ export class Hud {
             repeat: -1
         });
         this.coinSpinAnim = anim ? anim : null;
-        //add the ushop
+        // //add the ushop
         this.ushop = new UShop;
         this.ushop.creationLink(scene);
         this.ushop.createUpgradeShop();
+
+        // Creates a shop in the new level
+        this.shop = new ShopMenu(scene);
     }
 
     /** used to link all elements to a new scene when entering the new scene */
@@ -73,28 +77,13 @@ export class Hud {
         scene.add.existing(this.spinningCoin);
         this.spinningCoin.play("coinSpin");
         this.ushop.link(scene);
+
+        this.shop.link(scene);
     }
 
     /** sets the graphical text coinCounter to match internal values */
     updateCoinCounter(coins: number) {
         this.coinText.setText(coins.toLocaleString());
-    }
-
-    shopToggle(scene: Scene) {
-        let rectangle = new Phaser.GameObjects.Rectangle(scene, 0, 0, 500, 500, 0xFFFFFF, 1);
-        scene.add.existing(rectangle);
-        let panel = new ScrollablePanel(scene,
-            {
-                scrollMode: 'vertical',
-                panel: {
-                    child: rectangle,
-                    mask: {
-                        padding: 0,
-                        updateMode: 0
-                    }
-                }
-            });
-        scene.add.existing(panel);
     }
 
 }

@@ -7,8 +7,9 @@ export class UShop {
     upgrades = {};
     player: Player;
     hud: Hud;
+    shop: Element;
 
-    constructor(){
+    constructor() {
         this.upgrades = {
             hero: {
                 lvl: 1,
@@ -27,7 +28,7 @@ export class UShop {
      * allows ushop to know what scene it is being initally constructed in
      * must be constructed within a scene or things get kinda fucky
      */
-    creationLink(level){
+    creationLink(level) {
         this.level = level;
     }
 
@@ -35,18 +36,19 @@ export class UShop {
      * Allows the linking to a new scene, the primary purpose of which is
      * to link to a new payer character
      */
-    link(level){
+    link(level) {
         this.player = level.player;
         this.hud = level.hud;
         this.level = level;
     }
 
-    createUpgradeShop(){
+    createUpgradeShop() {
+
         // Get the shop panel
-        let shop = document.getElementById('upgrade-shop');
+        this.shop = document.getElementById('upgrade-shop');
         // Get the shop content panel
         let shopContent = document.getElementById('ushop-content');
-    
+
         // Creates the close button for the shop
         let btnDiv = document.createElement('div');
         btnDiv.className = 'close';
@@ -62,11 +64,11 @@ export class UShop {
         // Add the close button to HTML
         btnDiv.appendChild(btnImg);
         btnDiv.appendChild(button);
-        shop.appendChild(btnDiv);
+        this.shop.appendChild(btnDiv);
 
         // Add the button for opening the upgrade shop
         let openButton = document.createElement("button");
-        openButton.onclick =  this.toggleUpgradeShop;
+        openButton.onclick = this.toggleUpgradeShop;
         openButton.style.position = "absolute";
         openButton.style.right = "50px";
         openButton.style.bottom = "50px";
@@ -81,11 +83,11 @@ export class UShop {
         openButton.style.outline = "0";
         document.body.appendChild(openButton);
 
-    
+
         // Creates the upgrade list for the shop
         let list = document.createElement('ul');
         shopContent.appendChild(list);
-    
+
         // Create example items for the shop
         list.appendChild(this.addUpgradeShopItem({
             key: "hero",
@@ -102,14 +104,14 @@ export class UShop {
             image: "./assets/images/heroes/wizard.png"
         }));
     }
-    
+
     toggleUpgradeShop() {
         /** @type {HTMLElement} */
         let el = document.getElementById("upgrade-shop");
         el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
         window.scrollTo(0, 0);
     }
-    
+
     addUpgradeShopItem(upgrade) {
         // Create the elements
         let item = document.createElement('li');
@@ -118,7 +120,7 @@ export class UShop {
         let description = document.createElement('p');
         let image = document.createElement('img');
         let button = document.createElement('button');
-    
+
         // Configure HTML elements
         title.innerHTML = upgrade.title + ' Lvl [' + this.upgrades[upgrade.key].lvl + ']';
         description.innerHTML = upgrade.description;
@@ -127,7 +129,7 @@ export class UShop {
         button.textContent = this.upgrades[upgrade.key].cost + 'g';
         let that = this;
         let hud = this.hud;
-        button.onclick = function() {
+        button.onclick = function () {
             // Get current cost (to be updated at various times)
             if (that.player.coins >= that.upgrades[button.id].cost) {
                 // Update coins
@@ -146,14 +148,14 @@ export class UShop {
         }
 
 
-    
+
         // Add the elements to HTML
         item.appendChild(image)
         text.appendChild(title);
         text.appendChild(description);
         item.appendChild(text);
         item.appendChild(button);
-    
+
         return item;
     }
 }

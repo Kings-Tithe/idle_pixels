@@ -7,20 +7,6 @@ body {
     image-rendering: pixelated;
 }
 
-/* Canvas (games display) is centered (regardless of size) and scaled.
- * The square game will remain square on rectangular screens.
- */
-/* canvas {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    max-height: 100vh;
-    max-width: 100%;
-    -ms-transform: translateY(-50%) translateX(-50%);
-    transform: translateY(-50%) translateX(-50%);
-} */
-
 /* The only rule with the game object is that is should not be taller
  * than the viewport
  */

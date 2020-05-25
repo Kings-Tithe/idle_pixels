@@ -29,8 +29,7 @@ export class Hud {
     //animations
     coinSpinAnim: Phaser.Animations.Animation;
 
-    //upgrade Shop
-    ushop: UShop;
+    // Shop menu
     shop: ShopMenu;
 
     /** 
@@ -62,12 +61,8 @@ export class Hud {
             repeat: -1
         });
         this.coinSpinAnim = anim ? anim : null;
-        // //add the ushop
-        this.ushop = new UShop;
-        this.ushop.creationLink(scene);
-        this.ushop.createUpgradeShop();
 
-        // Creates a shop in the new level
+        // Creates the shop menu
         this.shop = new ShopMenu(scene);
     }
 
@@ -76,8 +71,7 @@ export class Hud {
         scene.add.existing(this.coinText)
         scene.add.existing(this.spinningCoin);
         this.spinningCoin.play("coinSpin");
-        this.ushop.link(scene);
-
+        // Link the shop menu to the new level
         this.shop.link(scene);
     }
 

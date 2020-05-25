@@ -1,5 +1,6 @@
 import { Keys, LevelMap } from './Levels';
 import { EasyColor } from "../tools/EasyColor";
+import { CENTER } from '../tools/Globals';
 
 /**
  * Handles initial startup of game. Loads absolutely basic resources such as
@@ -37,6 +38,12 @@ export class Boot extends Phaser.Scene {
             .fillStyle(EasyColor.dark_Violet, 1)
             .fillRoundedRect(0, 0, 150, 30, 15)
             .generateTexture('healthBarMask', 150, 30);
+        let volumeBall = new Phaser.GameObjects.Graphics(this)
+            .fillStyle(EasyColor.White,1)
+            .fillCircle(15,15,15)
+            .lineStyle(2.5, 0x000000, 1)
+            .strokeCircle(15,15,15)
+            .generateTexture("volumeball",30,30);
     }
 
     /**

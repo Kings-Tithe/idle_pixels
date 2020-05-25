@@ -3,6 +3,7 @@ import { px, py, scaleTo } from "../tools/PercentCoords"
 import { Player } from '../Player';
 import { Hud } from '../Hud';
 import { soundHandler } from '../main';
+import { ShopMenu } from '../ShopMenu';
 import { OptionsMenu } from '../OptionsMenu';
 
 /**
@@ -52,11 +53,11 @@ export class Home extends Phaser.Scene {
         // setup the scene's background
         this.background = this.add.image(0, 0, "title");
         this.background.setOrigin(0, 0);
-        this.background.scaleX = scaleTo(px(100),this.background.width);
-        this.background.scaleY = scaleTo(py(100),this.background.height);
+        this.background.scaleX = scaleTo(px(100), this.background.width);
+        this.background.scaleY = scaleTo(py(100), this.background.height);
 
         // start menu music if not already playing
-        if (!soundHandler.checkIfPlaying("menumusic")){
+        if (!soundHandler.checkIfPlaying("menumusic")) {
             soundHandler.play('menumusic');
         }
 
@@ -71,8 +72,8 @@ export class Home extends Phaser.Scene {
             targets: this.playButton,
             x: px(50),
             y: py(40),
-            scaleX: scaleTo(190,this.playButton.width),
-            scaleY: scaleTo(65,this.playButton.height),
+            scaleX: scaleTo(190, this.playButton.width),
+            scaleY: scaleTo(65, this.playButton.height),
             duration: 500,
             paused: false,
             yoyo: false,
@@ -95,8 +96,8 @@ export class Home extends Phaser.Scene {
             targets: this.optionsButton,
             x: px(50),
             y: py(40) + 90,
-            scaleX: scaleTo(190,this.optionsButton.width),
-            scaleY: scaleTo(65,this.optionsButton.height),
+            scaleX: scaleTo(190, this.optionsButton.width),
+            scaleY: scaleTo(65, this.optionsButton.height),
             duration: 500,
             paused: false,
             yoyo: false,
@@ -118,13 +119,14 @@ export class Home extends Phaser.Scene {
             targets: this.creditsButton,
             x: px(50),
             y: py(40) + 180,
-            scaleX: scaleTo(190,this.creditsButton.width),
-            scaleY: scaleTo(65,this.creditsButton.height),
+            scaleX: scaleTo(190, this.creditsButton.width),
+            scaleY: scaleTo(65, this.creditsButton.height),
             duration: 500,
             paused: false,
             yoyo: false,
             repeat: false,
         });
+
     }
 
     /**
@@ -135,9 +137,9 @@ export class Home extends Phaser.Scene {
     onPlay() {
         //create a blank player to pass to the first scene
         let newPlayer = new Player;
-        let hud = new Hud(this,);
+        let hud = new Hud(this);
         soundHandler.stop("menumusic");
-        this.scene.start("SlimeRanch", {player: newPlayer, hud: hud});
+        this.scene.start("SlimeRanch", { player: newPlayer, hud: hud });
     }
 
 

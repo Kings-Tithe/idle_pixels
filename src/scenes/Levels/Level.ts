@@ -6,7 +6,6 @@ import { LOGGING, CENTER, VERTICAL } from '../../tools/Globals';
 import { Player } from '../../Player';
 import { Keys, LevelMap } from "./index"
 import { Hud } from '../../Hud';
-import { UShop } from "../../Ushop"
 import { EasyColor } from '../../tools/EasyColor';
 import { soundHandler } from '../../main';
 

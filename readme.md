@@ -43,6 +43,8 @@ This will open a live testing server where changes you make to the project insta
 
 * **Gracie Glebe** - *Art assets, frame animations, ui design. Artist.* - [no public profiles](https://github.com/jeremyglebe/idle_pixels)
 
+* **Kaleb Brown** - *Music and Sound design, Audio Advisor. Artist.* - [Kaleb Brown](https://github.com/TheLonelyWriterK)
+
 See also the list of [contributors](https://github.com/jeremyglebe/idle_pixels/graphs/contributors) who participated in this project.
 
 ## Acknowledgments

@@ -41,6 +41,12 @@ const config: Phaser.Types.Core.GameConfig = {
     // Use HTML elements in phaser?
     dom: {
         createContainer: true
+    },
+    // Framerate, for optimization
+    fps: {
+        target: 30,
+        min: 30,
+        forceSetTimeOut: true
     }
 }
 

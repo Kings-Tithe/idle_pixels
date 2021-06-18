@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "devlan": "webpack-dev-server --open --config webpack.dev.js --host 0.0.0.0 --disable-host-check --useLocalIp",
     "build": "webpack --config webpack.prod.js",
-    "itch": "butler push build jeremyglebe/idle-pixels:game"
+    "itch": "yarn build && butler push build jeremyglebe/idle-pixels:game"
   },
   "repository": {
     "type": "git",

@@ -34,8 +34,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Idle Pixels',
             template: 'index.html',
-            // chunksSortMode: 'manual',
-            // chunks: ['vendors', 'app']
         }),
         new CopyWebpackPlugin([
             {

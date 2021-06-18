@@ -123,16 +123,16 @@ export abstract class Level extends Scene {
         // play the intro splash text
         this.splashText();
         //link all the hud elements to this scene
-        this.hud.link(this);
+        if(this.hud) this.hud.link(this);
         // generate the first monster for this area
         this.getRandMonster();
         //create a loop to handle passive damage of all non-player heros
         this.passiveInterval = setInterval(this.passiveDamage.bind(this), 1000);
         //make sure to reset the progress bar at the start of the level
         this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
-        this.hud.updateProgressBar(this.monsBeaten);
+        if(this.hud) this.hud.updateProgressBar(this.monsBeaten);
         //update level counter
-        this.hud.updateLevelCounter(this.player.level);
+        if(this.hud) this.hud.updateLevelCounter(this.player.level);
     }
 
 
@@ -158,17 +158,17 @@ export abstract class Level extends Scene {
     onMonsterDeath() {
         //add coins earned and update coin counter
         this.player.coins += Math.ceil(this.currentMonster.maxHp/4);
-        this.hud.updateCoinCounter(this.player.coins);
+        if(this.hud) this.hud.updateCoinCounter(this.player.coins);
         this.optionsMenu.ifPostCode("06","\nCoin Counter updated: " + this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();
         //increment the amount of monsters beaten
         this.monsBeaten++;
         this.player.totalMonsBeaten++;
-        this.hud.updateKillText(this.player.totalMonsBeaten);
+        if(this.hud) this.hud.updateKillText(this.player.totalMonsBeaten);
         this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         //update the progress bars graghic
-        this.hud.updateProgressBar(this.monsBeaten);
+        if(this.hud) this.hud.updateProgressBar(this.monsBeaten);
         this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         //check if the correct number of monsters are beaten to spawn a boss
         if (this.monsBeaten < 9) {
@@ -203,8 +203,8 @@ export abstract class Level extends Scene {
         //listener that clears the boss timer before death completes
         this.currentMonster.on("predeath", () => {
             this.destroyBossTimer();
-            this.hud.updateProgressBar(this.monsBeaten + 1);
-            this.hud.updateKillText(this.player.totalMonsBeaten + 1);
+            if(this.hud) this.hud.updateProgressBar(this.monsBeaten + 1);
+            if(this.hud) this.hud.updateKillText(this.player.totalMonsBeaten + 1);
             this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         }, this);
         //listener to handle the death of the current onscreen monster
@@ -266,7 +266,7 @@ export abstract class Level extends Scene {
         this.currentMonster.destroy();
         //reset monsters beaten and progress bar
         this.monsBeaten = 0;
-        this.hud.updateProgressBar(this.monsBeaten);
+        if(this.hud) this.hud.updateProgressBar(this.monsBeaten);
         this.optionsMenu.ifPostCode("08","\nprogress bar updated. Monsters beaten this level: " + this.monsBeaten);
         //get another basic monster and start the cycle again
         this.getRandMonster();
@@ -280,7 +280,7 @@ export abstract class Level extends Scene {
         this.optionsMenu.ifPostCode("07", "\nkill text updated, total monsters killed: " + this.player.totalMonsBeaten);
         //add coins earned and update coin counter
         this.player.coins += Math.ceil(this.currentMonster.maxHp/2);
-        this.hud.updateCoinCounter(this.player.coins);
+        if(this.hud) this.hud.updateCoinCounter(this.player.coins);
         this.optionsMenu.ifPostCode("06","\nCoin Counter updated: " + this.player.coins);
         //delete the current on screen monster
         this.currentMonster.destroy();

@@ -1,7 +1,5 @@
 import { px, py } from './tools/PercentCoords';
 import { Level } from './scenes/Levels/Level';
-import { Player } from './Player';
-declare var CONFIG;
 
 export interface Price {
     base: number,
@@ -103,7 +101,7 @@ export class ShopMenu {
         button.onclick = this.toggleShopScreen.bind(this);
         button.style.width = "96px";
         button.style.height = "96px";
-        button.style.backgroundImage = "url('" + CONFIG.ASSET_PATH + "images/ui/shop.png')";
+        button.style.backgroundImage = "url('./assets/images/ui/shop.png')";
         button.style.backgroundSize = "contain"
         button.style.backgroundRepeat = "no-repeat"
         button.style.backgroundColor = "rgba(0,0,0,0)";

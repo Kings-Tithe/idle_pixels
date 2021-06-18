@@ -14,6 +14,13 @@ export class Boot extends Phaser.Scene {
         super('Boot');
     }
 
+    preload(){
+        // Small assets to load that are used on the loading screen...
+        // Means we can't track the progress of loading these, but if we don't
+        // load many it shouldn't matter.
+        this.load.image('hero', './assets/images/heroes/hero.png');
+    }
+
     /**
      * Phaser.Scene method which represents the start of the Scene's behavior.
      * It runs after init() and preload() have completed

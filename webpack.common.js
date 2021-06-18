@@ -39,12 +39,6 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, 'idle_pixels_config.js'),
-                to: path.resolve(__dirname, 'build')
-            }
-        ]),
-        new CopyWebpackPlugin([
-            {
                 from: path.resolve(__dirname, 'assets', '**', '*'),
                 to: path.resolve(__dirname, 'build')
             }

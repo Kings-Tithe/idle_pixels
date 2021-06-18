@@ -7,6 +7,7 @@ defs
 # Environment files
 .vscode
 .gitpod.yml
+.DS_STORE
 
 # Dependencies and other modules
 node_modules

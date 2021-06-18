@@ -3,7 +3,6 @@ import { GAME_WIDTH, GAME_HEIGHT } from './tools/Globals';
 // Scenes
 import { Boot } from './scenes/Boot';
 import { LoadAssets } from './scenes/LoadAssets';
-import { Splash } from './scenes/Splash';
 import { Home } from './scenes/Home';
 import { Credits } from "./scenes/Credits";
 import { SoundHandler } from './SoundHandler';
@@ -18,7 +17,6 @@ const config: Phaser.Types.Core.GameConfig = {
     scene: [
         Boot,
         LoadAssets,
-        Splash,
         Home,
         Credits
     ],

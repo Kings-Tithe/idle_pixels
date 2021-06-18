@@ -1,9 +1,6 @@
-import { Loader, GameObjects, Scene } from 'phaser';
-import { DUMMY_FILES } from '../tools/Globals';
+import { GameObjects, Scene } from 'phaser';
 import { px, py } from '../tools/PercentCoords';
-import { Rnd } from '../tools/Rnd';
 import { soundHandler } from "../main"
-declare var CONFIG;
 
 /**
  * Loads assets (images, sound, etc) for use by the Phaser Engine. This means
@@ -11,114 +8,9 @@ declare var CONFIG;
  */
 export class LoadAssets extends Scene {
 
-    /**List of all asset files which need to be loaded */
-    private files: { [key: string]: string };
-    /** Box which underlies the loading bar */
-    private progressBox: GameObjects.Graphics;
-    /** Loading bar which tracks loading progress */
-    private progressBar: GameObjects.Graphics;
-    /** Text to inform player which graphic is being loaded */
-    private assetText: GameObjects.Text;
-    /** Percentage text tracking loading progress */
-    private percentText: GameObjects.Text;
-
     /**Creates instance of Scene */
     constructor() {
         super('LoadAssets');
-        /**
-         * List of all asset files which need to be loaded. Each line starts
-         * with an asset type identifying code, then the path to the asset.
-         * A = Audio
-         * I = Image
-         * S = Spritesheet
-         */
-        this.files = {
-            // Images
-            // Images: UI
-            'credits': 'I' + CONFIG.ASSET_PATH + 'images/ui/credits.png',
-            'options': 'I' + CONFIG.ASSET_PATH + 'images/ui/options.png',
-            'play': 'I' + CONFIG.ASSET_PATH + 'images/ui/play.png',
-            'shop': 'I' + CONFIG.ASSET_PATH + 'images/ui/shop.png',
-            'title': 'I' + CONFIG.ASSET_PATH + 'images/ui/title.png',
-            'back' : 'I' + CONFIG.ASSET_PATH + 'images/ui/back.png',
-            'optionsbg' : 'I' + CONFIG.ASSET_PATH + 'images/ui/options_menu_bg.png',
-            'coin' : 'S' + CONFIG.ASSET_PATH + 'images/ui/coin.png',
-            // Images: UI Skull
-            'skull_down0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down0.png',
-            'skull_down1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down1.png',
-            'skull_down2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down2.png',
-            'skull_down3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down/skull_down3.png',
-            'skull_down-left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left0.png',
-            'skull_down-left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left1.png',
-            'skull_down-left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left2.png',
-            'skull_down-left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-left/skull_down-left3.png',
-            'skull_down-right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right0.png',
-            'skull_down-right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right1.png',
-            'skull_down-right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right2.png',
-            'skull_down-right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/down-right/skull_down-right3.png',
-            'skull_left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left0.png',
-            'skull_left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left1.png',
-            'skull_left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left2.png',
-            'skull_left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/left/skull_left3.png',
-            'skull_right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right0.png',
-            'skull_right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right1.png',
-            'skull_right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right2.png',
-            'skull_right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/right/skull_right3.png',
-            'skull_up0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up0.png',
-            'skull_up1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up1.png',
-            'skull_up2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up2.png',
-            'skull_up3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up/skull_up3.png',
-            'skull_up-left0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left0.png',
-            'skull_up-left1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left1.png',
-            'skull_up-left2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left2.png',
-            'skull_up-left3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-left/skull_up-left3.png',
-            'skull_up-right0' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right0.png',
-            'skull_up-right1' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right1.png',
-            'skull_up-right2' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right2.png',
-            'skull_up-right3' : 'I' + CONFIG.ASSET_PATH + 'images/ui/skull/up-right/skull_up-right3.png',
-            // Images: Free Use
-            'close': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButton.png',
-            'closePressed': 'I' + CONFIG.ASSET_PATH + 'images/free-use/CloseButtonPressed.png',
-            // Images: Heroes
-            'hero': 'I' + CONFIG.ASSET_PATH + 'images/heroes/hero.png',
-            'wizard': 'I' + CONFIG.ASSET_PATH + 'images/heroes/wizard.png',
-            // Images: Monsters
-            'bat': 'S' + CONFIG.ASSET_PATH + 'images/monsters/bat.png',
-            'blue': 'S' + CONFIG.ASSET_PATH + 'images/monsters/blue.png',
-            'green': 'S' + CONFIG.ASSET_PATH + 'images/monsters/green.png',
-            'jellyfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/jellyfish.png',
-            'pink': 'S' + CONFIG.ASSET_PATH + 'images/monsters/pink.png',
-            'red': 'S' + CONFIG.ASSET_PATH + 'images/monsters/red.png',
-            'shark': 'S' + CONFIG.ASSET_PATH + 'images/monsters/shark.png',
-            'skelly': 'S' + CONFIG.ASSET_PATH + 'images/monsters/skelly.png',
-            'starfish': 'S' + CONFIG.ASSET_PATH + 'images/monsters/starfish.png',
-            'witch': 'S' + CONFIG.ASSET_PATH + 'images/monsters/witch.png',
-            'mermaid': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_mermaid.png',
-            'slimeking': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_slime.png',
-            'vampire': 'S' + CONFIG.ASSET_PATH + 'images/monsters/boss_vampire.png',
-            // Images: Worlds
-            'gothicBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/gothic_extended.png',
-            'slimeBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/slime_extended.png',
-            'waterBg': 'I' + CONFIG.ASSET_PATH + 'images/worlds/water_extended.png',
-            // Sounds
-            'attack0': 'A' + CONFIG.ASSET_PATH + 'sounds/Jab.mp3',
-            'attack1': 'A' + CONFIG.ASSET_PATH + 'sounds/Left Hook.mp3',
-            'attack2': 'A' + CONFIG.ASSET_PATH + 'sounds/Punch_Hd.mp3',
-            'gothic': 'A' + CONFIG.ASSET_PATH + 'sounds/Gothic_Music.mp3',
-            'ocean': 'A' + CONFIG.ASSET_PATH + 'sounds/Ocean_Music.mp3',
-            'slime': 'A' + CONFIG.ASSET_PATH + 'sounds/Slime_Music.mp3',
-            'menumusic': 'A' + CONFIG.ASSET_PATH + 'sounds/Menu-Music.mp3',
-        }
-
-    }
-
-    /**
-     * Init is a Phaser Scene method that runs before any of the others. It can
-     * be thought of like a sort of follow-up constructor that runs only once
-     * the scene is actually being launched (instead of just being added to the
-     * game object)
-     */
-    init() { 
     }
 
     /**
@@ -126,31 +18,101 @@ export class LoadAssets extends Scene {
      * loader. Runs after init() and before create()
      */
     preload() {
-        // Add dummy assets to test progress bar
-        if (DUMMY_FILES) for (let i = 0; i < 1000; i++)
-            this.files[i.toString()] = this.files[Object.keys(this.files)[Rnd.int(0, 9)]];
+        let logo: GameObjects.Sprite = this.add.sprite(px(50), py(50) - 50, 'hero')
+            .setOrigin(0.5, 0.5)
+            .setScale(10)
+            .setAlpha(1);
+        // Fade in and out 2 times
+        this.add.tween({
+            targets: [logo],
+            alpha: 0,
+            duration: 500,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1,
+        });
+        // Create loading bars and callbacks based on loading progress
+        this.trackProgess();
 
-        // Create visual trackers to display script loading progress
-        this.createProgressTrackers();
+        // Config for loading spritesheets
+        const ssconf = { frameWidth: 32, frameHeight: 32 };
 
-        // Loop through every key in the file list
-        for (let key of Object.keys(this.files)) {
-            /**Check the type of asset, then load the asset. When loading, take
-             * a slice that doesn't include the first character. That first
-             * character just tells use the type of asset. */
-            if (this.files[key][0] == 'S') {
-                this.load.spritesheet(key, this.files[key].slice(1), { frameWidth: 32, frameHeight: 32 });
-            } else if (this.files[key][0] == 'I') {
-                this.load.image(key, this.files[key].slice(1));
-            } else if (this.files[key][0] == 'A') {
-                this.load.audio(key, this.files[key].slice(1));
-                //let baseSoundObject = this.sound.add(key);
-                //soundHandler.addSound(key, baseSoundObject)
-            }
-        }
-        // Tracking loading progress
-        this.load.on('progress', this.onProgress, this);
-        this.load.on('fileprogress', this.onFileProgress, this);
+        // Images: UI
+        this.load.image('kings-tithe', './assets/images/kings-tithe-shark.png');
+        this.load.image('credits', './assets/images/ui/credits.png');
+        this.load.image('options', './assets/images/ui/options.png');
+        this.load.image('play', './assets/images/ui/play.png');
+        this.load.image('shop', './assets/images/ui/shop.png');
+        this.load.image('title', './assets/images/ui/title.png');
+        this.load.image('back', './assets/images/ui/back.png');
+        this.load.image('optionsbg', './assets/images/ui/options_menu_bg.png');
+        this.load.spritesheet('coin', './assets/images/ui/coin.png', ssconf);
+        // Images: UI Skull
+        this.load.image('skull_down0', './assets/images/ui/skull/down/skull_down0.png');
+        this.load.image('skull_down1', './assets/images/ui/skull/down/skull_down1.png');
+        this.load.image('skull_down2', './assets/images/ui/skull/down/skull_down2.png');
+        this.load.image('skull_down3', './assets/images/ui/skull/down/skull_down3.png');
+        this.load.image('skull_down-left0', './assets/images/ui/skull/down-left/skull_down-left0.png');
+        this.load.image('skull_down-left1', './assets/images/ui/skull/down-left/skull_down-left1.png');
+        this.load.image('skull_down-left2', './assets/images/ui/skull/down-left/skull_down-left2.png');
+        this.load.image('skull_down-left3', './assets/images/ui/skull/down-left/skull_down-left3.png');
+        this.load.image('skull_down-right0', './assets/images/ui/skull/down-right/skull_down-right0.png');
+        this.load.image('skull_down-right1', './assets/images/ui/skull/down-right/skull_down-right1.png');
+        this.load.image('skull_down-right2', './assets/images/ui/skull/down-right/skull_down-right2.png');
+        this.load.image('skull_down-right3', './assets/images/ui/skull/down-right/skull_down-right3.png');
+        this.load.image('skull_left0', './assets/images/ui/skull/left/skull_left0.png');
+        this.load.image('skull_left1', './assets/images/ui/skull/left/skull_left1.png');
+        this.load.image('skull_left2', './assets/images/ui/skull/left/skull_left2.png');
+        this.load.image('skull_left3', './assets/images/ui/skull/left/skull_left3.png');
+        this.load.image('skull_right0', './assets/images/ui/skull/right/skull_right0.png');
+        this.load.image('skull_right1', './assets/images/ui/skull/right/skull_right1.png');
+        this.load.image('skull_right2', './assets/images/ui/skull/right/skull_right2.png');
+        this.load.image('skull_right3', './assets/images/ui/skull/right/skull_right3.png');
+        this.load.image('skull_up0', './assets/images/ui/skull/up/skull_up0.png');
+        this.load.image('skull_up1', './assets/images/ui/skull/up/skull_up1.png');
+        this.load.image('skull_up2', './assets/images/ui/skull/up/skull_up2.png');
+        this.load.image('skull_up3', './assets/images/ui/skull/up/skull_up3.png');
+        this.load.image('skull_up-left0', './assets/images/ui/skull/up-left/skull_up-left0.png');
+        this.load.image('skull_up-left1', './assets/images/ui/skull/up-left/skull_up-left1.png');
+        this.load.image('skull_up-left2', './assets/images/ui/skull/up-left/skull_up-left2.png');
+        this.load.image('skull_up-left3', './assets/images/ui/skull/up-left/skull_up-left3.png');
+        this.load.image('skull_up-right0', './assets/images/ui/skull/up-right/skull_up-right0.png');
+        this.load.image('skull_up-right1', './assets/images/ui/skull/up-right/skull_up-right1.png');
+        this.load.image('skull_up-right2', './assets/images/ui/skull/up-right/skull_up-right2.png');
+        this.load.image('skull_up-right3', './assets/images/ui/skull/up-right/skull_up-right3.png');
+        // Images: Free Use
+        this.load.image('close', './assets/images/free-use/CloseButton.png');
+        this.load.image('closePressed', './assets/images/free-use/CloseButtonPressed.png');
+        // Images: Heroes
+        // this.load.image('hero', './assets/images/heroes/hero.png'); // Loaded in Boot
+        this.load.image('wizard', './assets/images/heroes/wizard.png');
+        // Images: Monsters
+        this.load.spritesheet('bat', './assets/images/monsters/bat.png', ssconf);
+        this.load.spritesheet('blue', './assets/images/monsters/blue.png', ssconf);
+        this.load.spritesheet('green', './assets/images/monsters/green.png', ssconf);
+        this.load.spritesheet('jellyfish', './assets/images/monsters/jellyfish.png', ssconf);
+        this.load.spritesheet('pink', './assets/images/monsters/pink.png', ssconf);
+        this.load.spritesheet('red', './assets/images/monsters/red.png', ssconf);
+        this.load.spritesheet('shark', './assets/images/monsters/shark.png', ssconf);
+        this.load.spritesheet('skelly', './assets/images/monsters/skelly.png', ssconf);
+        this.load.spritesheet('starfish', './assets/images/monsters/starfish.png', ssconf);
+        this.load.spritesheet('witch', './assets/images/monsters/witch.png', ssconf);
+        this.load.spritesheet('mermaid', './assets/images/monsters/boss_mermaid.png', ssconf);
+        this.load.spritesheet('slimeking', './assets/images/monsters/boss_slime.png', ssconf);
+        this.load.spritesheet('vampire', './assets/images/monsters/boss_vampire.png', ssconf);
+        // Images: Worlds
+        this.load.image('gothicBg', './assets/images/worlds/gothic_extended.png');
+        this.load.image('slimeBg', './assets/images/worlds/slime_extended.png');
+        this.load.image('waterBg', './assets/images/worlds/water_extended.png');
+
+        // Loading sounds
+        this.load.audio('attack0', './assets/sounds/Jab.mp3');
+        this.load.audio('attack1', './assets/sounds/Left Hook.mp3');
+        this.load.audio('attack2', './assets/sounds/Punch_Hd.mp3');
+        this.load.audio('gothic', './assets/sounds/Gothic_Music.mp3');
+        this.load.audio('ocean', './assets/sounds/Ocean_Music.mp3');
+        this.load.audio('slime', './assets/sounds/Slime_Music.mp3');
+        this.load.audio('menumusic', './assets/sounds/Menu-Music.mp3');
     }
 
     /**
@@ -158,81 +120,65 @@ export class LoadAssets extends Scene {
      * It runs after init() and preload() have completed
      */
     create() {
+        // Adding sounds to the sound manager
+        this.addSound('attack0', 'attack');
+        this.addSound('attack1', 'attack');
+        this.addSound('attack2', 'attack');
+        this.addSound('gothic', 'gothic');
+        this.addSound('ocean', 'ocean');
+        this.addSound('slime', 'slime');
+        this.addSound('menumusic', 'menumusic');
+        // Set custom configs for sounds that need them
+        soundHandler.setConfig("menumusic", soundHandler.globalVolume, true);
+        soundHandler.setConfig("slime", .15, true);
+        soundHandler.setConfig("ocean", .15, true);
+        soundHandler.setConfig("gothic", .15, true);
         // Start the next scene
-        this.scene.start('Splash');
-        
-        //load all the sounds into the sound handler
-        for (let key of Object.keys(this.files)) {
-            /**Check for assets of tyoe sound, then load the create and store the sound.
-             * When loading, take a slice that doesn't include the first character.
-             * That first character just tells use the type of asset. */
-            if (this.files[key][0] == 'A') {
-                let baseSoundObject = this.sound.add(key);
-                soundHandler.addSound(key.replace(/[0-9]/g, ''), baseSoundObject);
-            }
-        }
-
-        //set custom configs for sounds that need them
-        soundHandler.setConfig("menumusic", soundHandler.globalVolume,true);
-        soundHandler.setConfig("slime",.15,true);
-        soundHandler.setConfig("ocean",.15,true);
-        soundHandler.setConfig("gothic",.15,true);
-
+        this.scene.start('Home');
     }
 
-    /**Creates several visual elements to assist in tracking the current
-     * progress of scripts being loaded. */
-    createProgressTrackers() {
-        // Progess bars to track loading
-        this.progressBox = this.add.graphics();
-        this.progressBar = this.add.graphics();
-        // Draw progress bar background
-        this.progressBox.fillStyle(0x222222, 0.8);
-        this.progressBox.fillRect(px(25), py(50) - 20, px(50), 50);
-        // Create loading texts
-        let loadingText = this.add.text(px(50), py(50) - 50,
+    addSound(cacheKey: string, handlerKey: string): void {
+        let sound = this.sound.add(cacheKey);
+        soundHandler.addSound(handlerKey, sound);
+    }
+
+    /**
+     * Create loading bars and callbacks based on loading progress
+     */
+    trackProgess(): void {
+        this.add.rectangle(px(50), py(75), px(50), 50, 0x222222, 0.8);
+        let bar: Phaser.GameObjects.Rectangle = this.add.rectangle(px(50), py(75), (px(50) - 20), 30, 0x777777, 1);
+        // Create text that just says "loading assets"
+        let loadingText = this.add.text(px(50), py(75) - 50,
             'Loading Assets...',
             {
                 font: '20px monospace',
                 fill: '#ffffff'
             });
         loadingText.setOrigin(0.5, 0.5);
-        this.percentText = this.add.text(px(50), py(50),
+        // Create the text that tracks progress percentage
+        let percent = this.add.text(px(50), py(75),
             '0%',
             {
                 font: '18px monospace',
                 fill: '#ffffff'
             });
-        this.percentText.setOrigin(0.5, 0.5);
-        this.assetText = this.add.text(px(50), py(50) + 50,
+        percent.setOrigin(0.5, 0.5);
+        // Create text that displays the currently loading file
+        let asset = this.add.text(px(50), py(75) + 50,
             '',
             {
                 font: '18px monospace',
                 fill: '#ffffff'
             });
-        this.assetText.setOrigin(0.5, 0.5);
+        asset.setOrigin(0.5, 0.5);
+        // Tracking loading progress
+        this.load.on('progress', (p) => {
+            percent.setText((p * 100).toFixed(2) + '%');
+            bar.setScale(p, 1);
+        });
+        this.load.on('fileprogress', (file) => {
+            asset.setText(file.src);
+        });
     }
-
-    /**
-     * Event handler for loader event 'progress'.
-     * Gets the current asset loading progress and updates the
-     * visual trackers.
-     */
-    onProgress(value: number) {
-        this.progressBar.clear();
-        this.progressBar.fillStyle(0x777777, 1);
-        this.progressBar.fillRect(px(25) + 10, py(50) - 15,
-            (px(50) - 20) * value, 30);
-        this.percentText.setText((value * 100).toFixed(2) + '%');
-    }
-
-    /**
-     * Event handler for loader event 'fileprogress'.
-     * Gets the current asset being loaded and updates the
-     * visual trackers.
-     */
-    onFileProgress(file: Loader.File) {
-        this.assetText.setText(file.src);
-    }
-
 }

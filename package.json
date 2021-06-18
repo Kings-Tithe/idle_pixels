@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "devlan": "webpack-dev-server --open --config webpack.dev.js --host 0.0.0.0 --disable-host-check --useLocalIp",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {

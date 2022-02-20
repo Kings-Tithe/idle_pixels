@@ -139,6 +139,6 @@ export class Home extends Phaser.Scene {
         let newPlayer = new Player;
         let hud = new Hud(this);
         soundHandler.stop("menumusic");
-        this.scene.start("SlimeRanch", {player: newPlayer, hud: null, optionsMenu: this.optionsMenu});
+        this.scene.start("SlimeRanch", {player: newPlayer, hud: hud, optionsMenu: this.optionsMenu});
     }
 }
